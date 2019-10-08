@@ -1,0 +1,81 @@
+/*//@font-face {*/
+/*//	font-family: 'iconfont';  !* project id 1172127 *!*/
+/*//	src: url('//at.alicdn.com/t/font_1172127_b3mohtbi9ke.eot');*/
+/*//	src: url('//at.alicdn.com/t/font_1172127_b3mohtbi9ke.eot?#iefix') format('embedded-opentype'),*/
+/*//	url('//at.alicdn.com/t/font_1172127_b3mohtbi9ke.woff2') format('woff2'),*/
+/*//	url('//at.alicdn.com/t/font_1172127_b3mohtbi9ke.woff') format('woff'),*/
+/*//	url('//at.alicdn.com/t/font_1172127_b3mohtbi9ke.ttf') format('truetype'),*/
+/*//	url('//at.alicdn.com/t/font_1172127_b3mohtbi9ke.svg#iconfont') format('svg');*/
+/*//}*/
+/*//.iconfont{*/
+/*//	font-family:"iconfont" !important;*/
+/*//	font-size:16px;font-style:normal;*/
+/*//	-webkit-font-smoothing: antialiased;*/
+/*//	-webkit-text-stroke-width: 0.2px;*/
+/*//	-moz-osx-font-smoothing: grayscale;}*/
+
+/*// 思源黑体-超粗*/
+@font-face {
+	font-family: 'webfontBlack2';
+	src: url-loader('SourceHanSansCN-Blod.eot'); /* IE9 Compat Modes */      /*这里以及下面的src后面的地址填的都是自己本地的相对地址*/
+	src: url-loader('SourceHanSansCN-Blod.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+	url-loader('SourceHanSansCN-Blod.woff') format('woff'), /* Modern Browsers */
+	url-loader('SourceHanSansCN-Blod.ttf')  format('truetype'); /* Legacy iOS */
+	/*src: url('../font/SourceHanSansCN-Blod.eot'), !* IE9 *!*/
+	/*url('../font/SourceHanSansCN-Blod.woff') format('woff'); !* chrome、firefox *!*/
+	/*//url('../font/SourceHanSansCN-Blod.ttf') format('truetype'); !* chrome、firefox、opera、Safari, Android, iOS 4.2+*!*/
+}
+.web-font-Black2{
+	font-family:'webfontBlack2' !important;
+	font-size:16px;font-style:normal;
+	-webkit-font-smoothing: antialiased;
+	/*//-webkit-text-stroke-width: 0.2px;*/
+	-moz-osx-font-smoothing: grayscale;
+}
+@font-face {
+	font-family: 'webfontBlack3';
+	src: url-loader('./SourceHanSansCN-Regular.eot'); /* IE9 Compat Modes */      /*这里以及下面的src后面的地址填的都是自己本地的相对地址*/
+	src: url-loader('./SourceHanSansCN-Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+	url-loader('./SourceHanSansCN-Regular.woff') format('woff'), /* Modern Browsers */
+	url-loader('./SourceHanSansCN-Regular.ttf')  format('truetype'); /* Legacy iOS */
+	/*src: url('../font/SourceHanSansCN-Blod.eot'), !* IE9 *!*/
+	/*url('../font/SourceHanSansCN-Blod.woff') format('woff'); !* chrome、firefox *!*/
+	/*//url('../font/SourceHanSansCN-Blod.ttf') format('truetype'); !* chrome、firefox、opera、Safari, Android, iOS 4.2+*!*/
+}
+.web-font-Black3{
+	font-family:'webfontBlack3' !important;
+	font-size:16px;font-style:normal;
+	-webkit-font-smoothing: antialiased;
+	/*//-webkit-text-stroke-width: 0.2px;*/
+	-moz-osx-font-smoothing: grayscale;
+}
+/*/ 思源黑体-粗**/
+/*@font-face {font-family: 'webfontBlack';*/
+	/*src: url('//at.alicdn.com/t/webfont_twqp9ej6lbl.eot'); !* IE9*!*/
+	/*src: url('//at.alicdn.com/t/webfont_twqp9ej6lbl.eot?#iefix') format('embedded-opentype'), !* IE6-IE8 *!*/
+	/*url('//at.alicdn.com/t/webfont_twqp9ej6lbl.woff') format('woff'), !* chrome、firefox *!*/
+	/*url('//at.alicdn.com/t/webfont_twqp9ej6lbl.ttf') format('truetype'), !* chrome、firefox、opera、Safari, Android, iOS 4.2+*!*/
+	/*url('//at.alicdn.com/t/webfont_twqp9ej6lbl.svg#思源黑体-粗') format('svg'); !* iOS 4.1- *!*/
+/*}*/
+/*.web-font-Black{*/
+	/*font-family:"webfontBlack",sans-serif !important;*/
+	/*font-size:16px;font-style:normal;*/
+	/*-webkit-font-smoothing: antialiased;*/
+	/*//-webkit-text-stroke-width: 0.2px;*/
+	/*-moz-osx-font-smoothing: grayscale;*/
+/*}*/
+/*!/ 思源黑体-常规*!*/
+/*@font-face {font-family: 'webfontDemiLight';*/
+	/*src: url('//at.alicdn.com/t/webfont_qlxub22q4t.eot'); !* IE9*!*/
+	/*src: url('//at.alicdn.com/t/webfont_qlxub22q4t.eot?#iefix') format('embedded-opentype'), !* IE6-IE8 *!*/
+	/*url('//at.alicdn.com/t/webfont_qlxub22q4t.woff') format('woff'), !* chrome、firefox *!*/
+	/*url('//at.alicdn.com/t/webfont_qlxub22q4t.ttf') format('truetype'), !* chrome、firefox、opera、Safari, Android, iOS 4.2+*!*/
+	/*url('//at.alicdn.com/t/webfont_qlxub22q4t.svg#NotoSansHans-DemiLight') format('svg'); !* iOS 4.1- *!*/
+/*}*/
+/*.web-font-light{*/
+	/*font-family:"webfontDemiLight",sans-serif !important;*/
+	/*font-size:16px;font-style:normal;*/
+	/*-webkit-font-smoothing: antialiased;*/
+	/*//-webkit-text-stroke-width: 0.2px;*/
+	/*-moz-osx-font-smoothing: grayscale;*/
+/*}*/

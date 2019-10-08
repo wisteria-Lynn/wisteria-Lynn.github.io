@@ -1,0 +1,5 @@
+{
+	"描述": "页面标题json",
+	"/index/save":"保存",
+	"/login/regist":"注册"
+}
