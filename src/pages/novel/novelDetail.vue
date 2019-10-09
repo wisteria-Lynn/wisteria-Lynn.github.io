@@ -41,7 +41,6 @@
 		}
 		.novelTxt{
 			text-indent:1.5em;
-			width:90%;
 			margin:auto;
 			p{
 				margin:20px;
@@ -52,6 +51,14 @@
 		.panel {
 			width:100%;
 			margin:20px 0;
+		}
+		.novelTxt{
+			width:100%;
+		}
+	}
+	@media (min-width: 982px) {
+		.novelTxt{
+			width:80%;
 		}
 	}
 </style>
