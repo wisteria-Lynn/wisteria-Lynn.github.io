@@ -7,3 +7,7 @@ export const dateFilter = p => {
 	if (p === '') return ''
 	return new Date(+new Date(p) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
 }
+
+export const enterTxt = (str) =>{
+	return str.replace(/\n/g,"<br/>")
+}

@@ -3,6 +3,7 @@
 	<div class="login">
 		<div class="loginBack">
 			<div class="formWrap">
+				<h3 class="t-center">流莹离的个人博客登陆</h3>
 				<!--表单-->
 				<el-form
 					:model="loginForm"
@@ -15,8 +16,8 @@
 					<el-form-item>
 						<div class="form-foot t-right">
 							<span v-show="!(loginType === 1)" @click="changeLoginType(1)">正常登录</span>
-							<span v-show="!(loginType === 2)" @click="changeLoginType(2)">拼图登录</span>
-							<span v-show="!(loginType === 3)" @click="changeLoginType(3)">滑块登录</span>
+							<span v-show="!(loginType === 2) && !isMobileBrowser()" @click="changeLoginType(2)">拼图登录</span>
+							<span v-show="!(loginType === 3) && !isMobileBrowser()" @click="changeLoginType(3)">滑块登录</span>
 						</div>
 					</el-form-item>
 					<el-form-item label="账号" prop="username">
@@ -158,7 +159,7 @@
 								this.$router.push({'path': this.$route.query.redirect ? this.$route.query.redirect : '/'})
 							} else {
 								// 登录失败
-								this.layer.msg(codeText(res.code))
+								this.layer.msg(codeText(res.code,res.message))
 								if (this.loginType === 3) {
 									// 滑块登录失败 滑块复位
 									this.$refs['slideBtn'].style.left = 0 + 'px'
@@ -181,9 +182,11 @@
 									this.isValiteSuccess = false
 								}
 							}
-						}))
+						})).catch((res)=>{
+							this.layer.msg(codeText(res.code,res.message))
+						})
 					} else {
-						console.log('error submit!!')
+						this.layer.msg('登陆失败')
 						return false
 					}
 				})
@@ -457,8 +460,8 @@
 		position: absolute;
 		width: 100%;
 		height: 100%;
-		background: url('../../assets/img/login/login_back3.jpg') no-repeat center;
-		background-size: 100% 100%;
+		/*background: url('../../assets/img/login/login_back3.jpg') no-repeat center;*/
+		/*background-size: 100% 100%;*/
 
 		input {
 			color: #fff;
@@ -478,22 +481,26 @@
 			position: absolute;
 			width: 100%;
 			height: 100%;
-			background: rgba(40, 57, 101, .4);
-			background-size: 100%;
+			/*background: rgba(40, 57, 101, .4);*/
+			/*background-size: 100%;*/
 
 			.formWrap {
 				position: absolute;
 				/*animation: formWrapWidth 3s 1 forwards;*/
 				/*animation: formWrapWidth 2s 1 forwards;*/
 				top: 50%;
-				left: 70%;
+				left: 50%;
 				width: 350px;
 				transform: translate(-50%, -50%);
 				background: #fff;
 				padding: 50px 50px 0 50px;
-				background: rgba(30, 57, 99, 0.8);
+				background:rgba(11, 35, 99, 0.8);
 				box-shadow: 0 12px 15px 0 rgba(0, 0, 0, .24), 0 17px 50px 0 rgba(0, 0, 0, .19);
 
+				h3{
+					margin:15px auto 30px auto;
+					color:#ccc;
+				}
 				.slide-wrap {
 					/*position:relative;*/
 					width: 250px;
@@ -651,6 +658,13 @@
 			100% {
 				opacity: .8;
 			}
+		}
+	}
+</style>
+<style scoped lang="less">
+	@media (max-width:768px){
+		.formWrap{
+			width:calc(95% - 100px) !important;
 		}
 	}
 </style>

@@ -5,15 +5,15 @@ import { post, get } from './api'
 // 登录
 // export const saveUserInfo = p => post('/api/saveUserInfo', p)
 
-export const city = p => get('/nodeApi/getCity', p)
-// export const login = p => post('/nodeApi/login', p)
-export const login = p => {
-	return new Promise((resolve, reject) => {
-		resolve({
-			code:0
-		})
-	})
-}
+export const city = p => post('/nodeApi/getCity', p)
+export const login = p => post('/nodeApi/login', p)
+// export const login = p => {
+// 	return new Promise((resolve, reject) => {
+// 		resolve({
+// 			code:0
+// 		})
+// 	})
+// }
 
 //天气
 export const getWeather = p => get('/nodeApi/weather',p)

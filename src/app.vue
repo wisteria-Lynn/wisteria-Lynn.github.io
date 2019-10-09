@@ -4,6 +4,11 @@
     </div>
 </template>
 <style lang="less" type="text/less">
+	#app{
+		min-width:375px;
+		width: 100%;
+		height: 100%;
+	}
   /*<!--公共css样式可以此处导入-->*/
 	@import "./assets/css/layout.css";
     @import "./assets/less/layout.less";
