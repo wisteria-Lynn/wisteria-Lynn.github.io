@@ -43,6 +43,7 @@
 				html:'',
 				num:0,
 				sideData:[],
+				novelArc:'',
 				isSlideMenu:false,
 				isSlideMenuBlock: false,
 			}
@@ -76,7 +77,7 @@
 					this.layer.msg('已经是第1章啦！')
 					return false
 				}
-				if(str === 'down' && this.num === novelArc.novel.length-1){
+				if(str === 'down' && this.num === this.novelArc.novel.length-1){
 					this.layer.msg('已经是最后一章啦！')
 					return false
 				}
@@ -88,26 +89,25 @@
 			}
 		},
 		created(){
-			let novelArc
 			switch (Number(getQueryString('id'))) {
 				case 1001:
-					novelArc = require('../../../static/js/novel/novel-1001')
+					this.novelArc = require('../../../static/js/novel/novel-1001')
 					break;
 				case 1002:
-					novelArc = require('../../../static/js/novel/novel-1002')
+					this.novelArc = require('../../../static/js/novel/novel-1002')
 					break;
 				case 1003:
-					novelArc = require('../../../static/js/novel/novel-1003')
+					this.novelArc = require('../../../static/js/novel/novel-1003')
 					break;
 				case 1004:
-					novelArc = require('../../../static/js/novel/novel-1004')
+					this.novelArc = require('../../../static/js/novel/novel-1004')
 					break;
 			}
-			this.sideData = novelArc.novel
+			this.sideData = this.novelArc.novel
 			this.num = Number(this.$route.query.num)
 			this.novelTitle = this.$route.query.novelTitle
-			let txt= novelArc.novel[this.num].txt.split('\n')
-			this.title = novelArc.novel[this.num].title
+			let txt= this.novelArc.novel[this.num].txt.split('\n')
+			this.title = this.novelArc.novel[this.num].title
 			this.html = ''
 			for(let i = 0;i<txt.length;i++){
 				this.html+=`<p style="margin:20px 0;font-size:16px;">${txt[i]}</p>`
