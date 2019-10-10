@@ -89,7 +89,7 @@
 			}
 		},
 		created(){
-			switch (Number(getQueryString('id'))) {
+			switch (Number(this.$route.query.id)) {
 				case 1001:
 					this.novelArc = require('../../../static/js/novel/novel-1001')
 					break;
