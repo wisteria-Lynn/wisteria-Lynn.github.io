@@ -146,6 +146,15 @@ const routes = [
 					// requireAuth: true
 				},
 				component: resolve => require(['../pages/novel/novelDetail.vue'], resolve),
+			},
+			{
+				path: 'addNovel',
+				name: 'addNovel',
+				meta: {
+					title: '添加',
+					// requireAuth: true
+				},
+				component: resolve => require(['../pages/novel/addNovel.vue'], resolve),
 			}
 		]
 	},

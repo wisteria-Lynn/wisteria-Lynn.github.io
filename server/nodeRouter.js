@@ -43,7 +43,13 @@ Router.get('/getBlogRemarkList',(req, res, next) => {
 	nodeApi.getBlogRemarkList(req, res, next)
 })
 Router.get('/getReadFile',(req, res, next) => {
-	read.readFileByLine('D:\\Lynn\\myproject\\wisteria-Lynn.github.io\\static\\js\\novel\\novel-1001\\年少许.txt',(data)=>{
+	let path = req.query.path
+	let number = Number(req.query.selectValue)
+	let createPath = 'D:\\Lynn\\myproject\\wisteria-Lynn.github.io\\static\\js\\novel\\novel-' + number + '.js'
+	let novelListPath = 'D:\\Lynn\\myproject\\wisteria-Lynn.github.io\\static\\js\\novel\\novel-list.js'
+	let name = req.query.name
+	let descr = req.query.descr
+	read.readFileByLine(path,(data)=>{
 		let arr = []
 		let obj = {
 			title:'',
@@ -65,9 +71,31 @@ Router.get('/getReadFile',(req, res, next) => {
 				obj.txt.push(data[i])
 			}
 		}
-		read.createdFile('D:\\Lynn\\myproject\\wisteria-Lynn.github.io\\static\\js\\novel\\novel-1006.js','export const novel = '+JSON.stringify(arr),(msg)=>{
-			res.json({
-				message:msg
+		read.createdFile(createPath,'export const novel = '+JSON.stringify(arr),(msg)=>{
+			let flag = -1
+			let novelList = require('../static/js/novel/novel-list').novelList
+			for(let i = 0;i<novelList.length;i++){
+				console.log(novelList[i].id === number)
+				if(novelList[i].id === number){
+					descr = descr || novelList[i].des
+					flag = i
+					break;
+				}
+			}
+			let obj = {
+				title:name,
+				id:number,
+				des:descr
+			}
+			if(flag > 0){
+				novelList = novelList.map(item => item.id === obj.id ? obj : item)
+			} else {
+				novelList.push(obj)
+			}
+			read.createdFile(novelListPath,'module.exports.novelList = '+JSON.stringify(novelList),(msg)=>{
+				res.json({
+					message:msg
+				})
 			})
 		})
 	})
