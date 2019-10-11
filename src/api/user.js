@@ -18,6 +18,7 @@ export const login = p => post('/nodeApi/login', p)
 //天气
 export const getWeather = p => get('/nodeApi/weather',p)
 export const getWeatherCity = p => get('/nodeApi/getWeatherCity',p)
+export const getReadFile = p => get('/nodeApi/getReadFile',p)
 
 // websocket 聊天
 export const chatLogin = p => post('/nodeApi/chatLogin', p)

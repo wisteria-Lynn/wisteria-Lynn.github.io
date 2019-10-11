@@ -1,5 +1,5 @@
 <template>
-    <div class="novelIndex novelDetail">
+	<div class="novelIndex novelDetail">
 		<div class="slideTip" @click="getSliceMenu">
 			<i class="iconfont icon1"></i>
 		</div>
@@ -32,28 +32,27 @@
 </template>
 
 <script>
-	import {getQueryString} from "../../util/methods"
-    export default {
+	export default {
 		inject: ['reload'],
-        name: "novelDetail",
-		data(){
-        	return{
-        		novelTitle:'',
-        		title:'',
-				html:'',
-				num:0,
-				sideData:[],
-				novelArc:'',
-				isSlideMenu:false,
+		name: "novelDetail",
+		data() {
+			return {
+				novelTitle: '',
+				title: '',
+				html: '',
+				num: 0,
+				sideData: [],
+				novelArc: '',
+				isSlideMenu: false,
 				isSlideMenuBlock: false,
 			}
 		},
-		methods:{
+		methods: {
 			getSliceMenu() {
 				this.isSlideMenu = true
 				this.isSlideMenuBlock = !this.isSlideMenuBlock
 			},
-			hideSlideNav(e){
+			hideSlideNav(e) {
 				let sp2 = document.getElementsByClassName('headSlideMenuChild')[0]
 				if (sp2) {
 					// 点击其他地方 导航隐藏
@@ -62,33 +61,33 @@
 					}
 				}
 			},
-			getNovelSpce(index){
+			getNovelSpce(index) {
 				this.$router.push({
-					path:'/novel/novelDetail',
-					query:{
-						id:this.$route.query.id,
-						num:index,
-						novelTitle:this.novelTitle
+					path: '/novel/novelDetail',
+					query: {
+						id: this.$route.query.id,
+						num: index,
+						novelTitle: this.novelTitle
 					}
 				})
 			},
-			getNext(str){
-				if(str === 'up' && this.num === 0){
+			getNext(str) {
+				if (str === 'up' && this.num === 0) {
 					this.layer.msg('已经是第1章啦！')
 					return false
 				}
-				if(str === 'down' && this.num === this.novelArc.novel.length-1){
+				if (str === 'down' && this.num === this.novelArc.novel.length - 1) {
 					this.layer.msg('已经是最后一章啦！')
 					return false
 				}
 				let index = str === 'up' ? this.num - 1 : this.num + 1
 				this.getNovelSpce(index)
 			},
-			back(){
-				this.$router.push({path:'/novel'})
+			back() {
+				this.$router.push({path: '/novel'})
 			}
 		},
-		created(){
+		created() {
 			switch (Number(this.$route.query.id)) {
 				case 1001:
 					this.novelArc = require('../../../static/js/novel/novel-1001')
@@ -102,47 +101,60 @@
 				case 1004:
 					this.novelArc = require('../../../static/js/novel/novel-1004')
 					break;
+				case 1005:
+					this.novelArc = require('../../../static/js/novel/novel-1005')
+					break;
+				case 1006:
+					this.novelArc = require('../../../static/js/novel/novel-1006')
+					break;
+				case 1007:
+					this.novelArc = require('../../../static/js/novel/novel-1007')
+					break;
 			}
 			this.sideData = this.novelArc.novel
 			this.num = Number(this.$route.query.num)
 			this.novelTitle = this.$route.query.novelTitle
-			let txt= this.novelArc.novel[this.num].txt.split('\n')
+			let txt = this.novelArc.novel[this.num].txt
 			this.title = this.novelArc.novel[this.num].title
 			this.html = ''
-			for(let i = 0;i<txt.length;i++){
-				this.html+=`<p style="margin:20px 0;font-size:16px;">${txt[i]}</p>`
+			for (let i = 0; i < txt.length; i++) {
+				this.html += `<p style="margin-bottom:20px;">${txt[i]}</p>`
 			}
 		}
-    }
+	}
 </script>
 <style scoped lang="less">
 	@import "../../assets/less/novel";
-	.slideTip{
+
+	.slideTip {
 		display: none;
 		position: fixed;
 		top: 50%;
 		left: 2%;
 		width: 40px;
 		height: 40px;
-		background: rgba(96, 122, 175,.5);
+		background: rgba(96, 122, 175, .5);
 		color: #fff;
 		border-radius: 25px;
 		line-height: 40px;
 		text-align: center;
 		cursor: pointer;
-		z-index:900;
-		i{
-			font-size:22px;
+		z-index: 900;
+
+		i {
+			font-size: 22px;
 		}
 	}
+
 	.headSlideMenu {
 		position: fixed;
-		top:0;
+		top: 0;
 		width: 100%;
 		height: 100%;
-		left:-100%;
+		left: -100%;
 		background: rgba(0, 0, 0, 0.1);
 		z-index: 1000;
+
 		&.menu-show {
 			-webkit-animation: menuNavShow .5s forwards;
 			animation: menuNavShow .5s forwards;
@@ -154,32 +166,38 @@
 		}
 
 		.headSlideMenuChild {
-			width:60%;
-			height:100%;
+			width: 60%;
+			height: 100%;
 			/*margin-top:62px;*/
 			padding-top: 10px;
 			background: #fff;
-			span{
+			overflow: auto;
+
+			span {
 				display: block;
-				color:#333;
-				padding-left:20px;
+				color: #333;
+				padding-left: 20px;
 				line-height: 40px;
-				&:hover{
-					color:#246dff;
-					background:#ccc;
+
+				&:hover {
+					color: #246dff;
+					background: #ccc;
 				}
-				&.is-active{
-					color:#246dff;
-					background:#ccc;
+
+				&.is-active {
+					color: #246dff;
+					background: #ccc;
 				}
 			}
 		}
 	}
+
 	@media (max-width: 768px) {
 		.slideTip {
 			display: block !important;
 		}
 	}
+
 	@keyframes menuNavShow {
 		from {
 			left: -100%;

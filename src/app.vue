@@ -5,7 +5,7 @@
 </template>
 <style lang="less" type="text/less">
 	#app{
-		min-width:375px;
+		/*min-width:375px;*/
 		width: 100%;
 		height: 100%;
 	}
