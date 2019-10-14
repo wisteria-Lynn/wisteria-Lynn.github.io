@@ -177,7 +177,6 @@
 					})
 				}
 			}).catch(() => {
-				this.layer.msg('口令错误！')
 				this.$router.push({
 					path: '/'
 				})

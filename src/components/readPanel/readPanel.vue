@@ -1,6 +1,6 @@
 <template>
     <div class="readPanel">
-		<v-sideFromMenu showBtn="true">
+		<v-sideFromMenu :showBtn="showBtn">
 			<span>{{title}}</span>
 			<template v-for="(item,index) in readData">
 				<span @click="getNovelSpce(index)" :class="[{'is-active':index=== num}]">第{{index+1}}章&nbsp;&nbsp;{{item.title}}</span>
@@ -17,8 +17,7 @@
 		</div>
 		<div class="novelBtn">
 			<el-button class="btn btn-success" @click="getNext('up')">上一章</el-button>
-			<el-button class="btn btn-success" @click="getSliceMenu()">目录</el-button>
-			<el-button class="btn btn-success" @click="back()">返回书架</el-button>
+			<el-button class="btn btn-success" @click="back()">书架</el-button>
 			<el-button class="btn btn-success" @click="getNext('down')">下一章</el-button>
 		</div>
 	</div>
@@ -39,6 +38,7 @@
 				num: 0,
 				isSlideMenu: false,
 				isSlideMenuBlock: false,
+				showBtn:true
 			}
 		},
 		methods: {

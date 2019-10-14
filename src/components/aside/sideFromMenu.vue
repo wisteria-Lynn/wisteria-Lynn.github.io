@@ -1,6 +1,6 @@
 <template>
     <div class="sideFromMenu">
-		<div class="slideTip" :class="[{'slide-show':showBtn}]" @click="getSliceMenu">
+		<div class="slideTip" :class="showBtn2 ? 'slide-show' : 'slide-hidden'" @click="getSliceMenu">
 			<i class="iconfont icon1"></i>
 		</div>
 		<template v-if="isSlideMenu">
@@ -17,8 +17,12 @@
     export default {
         name: "sideFromMenu",
 		props:['showBtn'],
+		created(){
+        	console.log(this.showBtn)
+		},
 		data() {
 			return {
+				showBtn2:this.showBtn,
 				isSlideMenu: false,
 				isSlideMenuBlock: false,
 			}
@@ -42,10 +46,12 @@
 </script>
 
 <style scoped>
+	.slide-show{
+		display: block !important;
+	}
 	@media (max-width: 768px) {
-		.slide-show{
+		.slide-hidden{
 			display: block !important;
 		}
 	}
-
 </style>

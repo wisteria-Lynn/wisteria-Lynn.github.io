@@ -2,7 +2,7 @@
 <template>
 	<div class="projectIndex">
 		<headerOne></headerOne>
-		<v-sideFromMenu showBtn="false">
+		<v-sideFromMenu :showBtn="showBtn">
 			<span>小项目</span>
 			<template v-for="item in sideData[0].itemArray">
 				<router-link :to="{path:item.url}" :class="[{'is-active':item.url === $route.path}]">{{item.title}}</router-link>
@@ -105,6 +105,7 @@
 						}
 					]
 				}],
+				showBtn:false,
 			}
 		},
 		watch:{
