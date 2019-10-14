@@ -36,8 +36,6 @@
 				arcTitle: '',
 				html: '',
 				num: 0,
-				isSlideMenu: false,
-				isSlideMenuBlock: false,
 				showBtn:true
 			}
 		},

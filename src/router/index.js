@@ -187,6 +187,35 @@ const routes = [
 		},
 		component: resolve => require(['../pages/curriculumVitae/curriculumVitae.vue'], resolve)
 	},
+	{
+		path: '/interviewQuestion',
+		name: 'interviewQuestion',
+		meta: {
+			title: '面试-知识点总结',
+			// requireAuth: true
+		},
+		component: resolve => require(['../pages/interviewQuestion/interviewQuestion.vue'], resolve),
+		children: [
+			{
+				path: 'HRQuestion',
+				name: 'HRQuestion',
+				meta: {
+					title: '题目集锦',
+					// requireAuth: true
+				},
+				component: resolve => require(['../pages/interviewQuestion/HRQuestion.vue'], resolve),
+			},
+			{
+				path: 'TECQuestion',
+				name: 'TECQuestion',
+				meta: {
+					title: '题目集锦',
+					// requireAuth: true
+				},
+				component: resolve => require(['../pages/interviewQuestion/TECQuestion.vue'], resolve),
+			}
+		]
+	},
 	// {
 	// 	path: '/websocket',
 	// 	meta: {
