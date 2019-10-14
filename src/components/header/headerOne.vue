@@ -2,7 +2,7 @@
 <template>
 	<div class="headerOne">
 		<template v-if="isSlideMenu">
-			<div class="headSlideMenu" :class="[isSlideMenuBlock?'menu-show':'menu-hidden']" @click="hideSlideNav">
+			<div class="headSlideMenu from-top" :class="[isSlideMenuBlock?'menu-show':'menu-hidden']" @click="hideSlideNav">
 				<div class="headSlideMenuChild">
 					<template v-for="item in navList">
 						<router-link :to="{path:item.url}">{{item.name}}</router-link>
@@ -12,7 +12,7 @@
 		</template>
 		<div class="header">
 			<el-row>
-				<el-col :span="16" class="h-left t-left">
+				<el-col :md="16" :xs="8"  class="h-left t-left">
 					<div class="headMenuWrap">
 						<template v-for="item in navList">
 							<router-link :to="{path:item.url}">{{item.name}}</router-link>
@@ -22,7 +22,9 @@
 						<span @click="getSliceMenu" class="iconfont iconcategory"></span>
 					</div>
 				</el-col>
-				<el-col :span="8" class="h-right t-right">
+				<el-col :md="8" :xs="16" class="h-right t-right">
+					<span @click="curriculumVitae">简历</span>
+					<i v-if="GLOBAL.dataApi" @click="addfile" class="iconfont icon1" style="margin:0 20px;"></i>
 					<template v-if="$store.state.USER.isLogin">
 						<span>{{$store.state.USER.username}}</span>
 						<span @click="loginOut">退出</span>
@@ -60,6 +62,10 @@
 					{
 						name: '小说',
 						url: '/novel'
+					},
+					{
+						name: '面试题',
+						url: '/interviewQuestion'
 					}
 				],
 				isSlideMenu:false,
@@ -87,6 +93,16 @@
 						this.isSlideMenuBlock = false
 					}
 				}
+			},
+			addfile() {
+				this.$router.push({
+					path: '/addfile'
+				})
+			},
+			curriculumVitae(){
+				this.$router.push({
+					path: '/curriculumVitae'
+				})
 			}
 		}
 	}
@@ -138,54 +154,6 @@
 				/*text-decoration: underline;*/
 				/*}*/
 			}
-		}
-
-		.headSlideMenu {
-			position: fixed;
-			top:-100%;
-			width: 100%;
-			height: 100%;
-			left:0;
-			background: rgba(0, 0, 0, 0.1);
-			z-index: 1000;
-			&.menu-show {
-				-webkit-animation: menuNavShow .5s forwards;
-				animation: menuNavShow .5s forwards;
-			}
-
-			&.menu-hidden {
-				-webkit-animation: menuNavHidden .5s forwards;
-				animation: menuNavHidden .5s forwards;
-			}
-
-			a {
-				margin-right: 10px;
-			}
-
-			.headSlideMenuChild {
-				margin-top:62px;
-				padding-top: 10px;
-				padding-left: 30px;
-				min-height: 100px;
-				background: #fff;
-			}
-		}
-	}
-	@keyframes menuNavShow {
-		from {
-			top: -100%;
-		}
-		to {
-			top: 0;
-		}
-	}
-
-	@keyframes menuNavHidden {
-		from {
-			top: 0;
-		}
-		to {
-			top: -100%;
 		}
 	}
 </style>

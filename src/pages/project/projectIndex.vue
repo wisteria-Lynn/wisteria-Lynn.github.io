@@ -2,18 +2,12 @@
 <template>
 	<div class="projectIndex">
 		<headerOne></headerOne>
-		<div class="slideTip" @click="getSliceMenu">
-			<i class="iconfont icon1"></i>
-		</div>
-		<template v-if="isSlideMenu">
-			<div class="headSlideMenu" :class="[isSlideMenuBlock?'menu-show':'menu-hidden']" @click="hideSlideNav">
-				<div class="headSlideMenuChild">
-					<template v-for="item in sideData[0].itemArray">
-						<router-link :to="{path:item.url}" :class="[{'is-active':item.url === $route.path}]">{{item.title}}</router-link>
-					</template>
-				</div>
-			</div>
-		</template>
+		<v-sideFromMenu showBtn="false">
+			<span>小项目</span>
+			<template v-for="item in sideData[0].itemArray">
+				<router-link :to="{path:item.url}" :class="[{'is-active':item.url === $route.path}]">{{item.title}}</router-link>
+			</template>
+		</v-sideFromMenu>
 		<el-row>
 			<el-col class="aside":span="7">
 				<v-side :sideData="sideData" type="url"></v-side>
@@ -41,70 +35,10 @@
 				box-shadow: 0 2px 4px 0 @topShawC;
 			}
 		}
-		.slideTip{
-			display: none;
-			position: fixed;
-			top: 50%;
-			left: 2%;
-			width: 40px;
-			height: 40px;
-			background: rgba(96, 122, 175,.5);
-			color: #fff;
-			border-radius: 25px;
-			line-height: 40px;
-			text-align: center;
-			cursor: pointer;
-			z-index:900;
-			i{
-				font-size:22px;
-			}
-		}
 	}
 
 </style>
 <style scoped lang="less">
-	.projectIndex{
-		.headSlideMenu {
-			position: fixed;
-			top:0;
-			width: 100%;
-			height: 100%;
-			left:-100%;
-			background: rgba(0, 0, 0, 0.1);
-			z-index: 1000;
-			&.menu-show {
-				-webkit-animation: menuNavShow .5s forwards;
-				animation: menuNavShow .5s forwards;
-			}
-
-			&.menu-hidden {
-				-webkit-animation: menuNavHidden .5s forwards;
-				animation: menuNavHidden .5s forwards;
-			}
-
-			.headSlideMenuChild {
-				width:60%;
-				height:100%;
-				margin-top:62px;
-				padding-top: 10px;
-				background: #fff;
-				a{
-					display: block;
-					color:#333;
-					padding-left:20px;
-					line-height: 40px;
-					&:hover{
-						color:#246dff;
-						background:#ccc;
-					}
-					&.is-active{
-						color:#246dff;
-						background:#ccc;
-					}
-				}
-			}
-		}
-	}
 	@media (max-width: 768px) {
 		.aside {
 			display: none;
@@ -116,27 +50,13 @@
 			display: block !important;
 		}
 	}
-	@keyframes menuNavShow {
-		from {
-			left: -100%;
-		}
-		to {
-			left: 0;
-		}
-	}
-
-	@keyframes menuNavHidden {
-		from {
-			left: 0;
-		}
-		to {
-			left: -100%;
-		}
-	}
 </style>
 <script>
 	export default {
 		name:'projectIndex',
+		components:{
+			'v-sideFromMenu':(resolve)=>{require(['../../components/aside/sideFromMenu'],resolve)}
+		},
 		data(){
 			return {
 				title:document.title,
@@ -185,23 +105,6 @@
 						}
 					]
 				}],
-				isSlideMenu:false,
-				isSlideMenuBlock: false,
-			}
-		},
-		methods:{
-			getSliceMenu() {
-				this.isSlideMenu = true
-				this.isSlideMenuBlock = !this.isSlideMenuBlock
-			},
-			hideSlideNav(e){
-				let sp2 = document.getElementsByClassName('headSlideMenuChild')[0]
-				if (sp2) {
-					// 点击其他地方 导航隐藏
-					if (!sp2.contains(e.target)) {
-						this.isSlideMenuBlock = false
-					}
-				}
 			}
 		},
 		watch:{

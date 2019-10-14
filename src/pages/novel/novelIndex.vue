@@ -1,18 +1,13 @@
 <template>
-    <div class="novelIndex">
+	<div class="novelIndex">
 		<headerOne></headerOne>
-		<div class="panel" v-if="$route.path.split('/').length <= 2">
-			<div class="panel-card">
-				<div class="panel-card-item novel-add t-right">
-					<i @click="addNovel" class="iconfont icon1"></i>
-				</div>
-				<div class="panel-card-item novel-list" v-for="item in novelList">
-					<img v-if="item.img" :src="item.img" @click="toReadIt(item.id,item.title)">
-					<span class="novel-list-img" v-else @click="toReadIt(item.id,item.title)"></span>
-					<div>
-						<h4>{{item.title}}</h4>
-						<span v-html="item.des"></span>
-					</div>
+		<div class="u-panel" v-if="$route.path.split('/').length <= 2">
+			<div class="u-panel-card novel-list" v-for="item in novelList">
+				<h4>{{item.title}}</h4>
+				<span class="desrc" v-html="item.des"></span>
+				<div class="t-right">
+					<span class="tip">加载慢，耐心等待</span>
+					<el-button class="btn btn-success" @click="toReadIt(item.id,item.title)">阅读</el-button>
 				</div>
 			</div>
 		</div>
@@ -22,38 +17,49 @@
 
 <script>
 	export default {
-        name: "novelIndex",
-		data(){
-        	return{
-				novelList:[]
+		name: "novelIndex",
+		data() {
+			return {
+				novelList: []
 			}
 		},
-		methods:{
-        	getNovelList(){
+		methods: {
+			getNovelList() {
 				this.novelList = require('../../../static/js/novel/novel-list').novelList
 			},
-			toReadIt(id,title){
+			toReadIt(id, title) {
 				this.$router.push({
-					path:'/novel/novelDetail',
-					query:{
-						id:id,
-						num:'0',
-						novelTitle:title
+					path: '/novel/novelDetail',
+					query: {
+						id: id,
+						num: '0',
+						title: title
 					}
-				})
-			},
-			addNovel(){
-				this.$router.push({
-					path:'/novel/addNovel'
 				})
 			}
 		},
-		created(){
-        	this.getNovelList()
+		created() {
+			this.getNovelList()
 		}
-    }
+	}
 </script>
 
 <style scoped lang="less">
-	@import "../../assets/less/novel";
+	.novel-list {
+		padding: 30px;
+
+		span.desrc{
+			display: inline-block;
+			margin-top: 20px;
+			font-size: 14px;
+		}
+
+		span.tip{
+			font-size:10px;
+			color:#ccc;
+		}
+		button {
+			margin-top: 20px;
+		}
+	}
 </style>

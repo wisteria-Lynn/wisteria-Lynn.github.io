@@ -1,3 +1,4 @@
+// 截取url参数
 export const getQueryString = (name) => {
 	let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
 	let r = window.location.href.split('?')[1].match(reg)

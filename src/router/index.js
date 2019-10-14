@@ -18,6 +18,15 @@ const routes = [
 		component: resolve => require(['../pages/login/login.vue'], resolve)
 	},
 	{
+		path: '/addfile',
+		name: 'addfile',
+		meta: {
+			title: '添加',
+			// requireAuth: true
+		},
+		component: resolve => require(['../pages/addfile.vue'], resolve),
+	},
+	{
 		path: '/demo',
 		name: 'demo',
 		meta: {
@@ -146,15 +155,6 @@ const routes = [
 					// requireAuth: true
 				},
 				component: resolve => require(['../pages/novel/novelDetail.vue'], resolve),
-			},
-			{
-				path: 'addNovel',
-				name: 'addNovel',
-				meta: {
-					title: '添加',
-					// requireAuth: true
-				},
-				component: resolve => require(['../pages/novel/addNovel.vue'], resolve),
 			}
 		]
 	},
@@ -177,6 +177,15 @@ const routes = [
 				component: resolve => require(['../pages/project/city/city.vue'], resolve),
 			}
 		]
+	},
+	{
+		path: '/curriculumVitae',
+		name: 'curriculumVitae',
+		meta: {
+			title: '简历',
+			// requireAuth: true
+		},
+		component: resolve => require(['../pages/curriculumVitae/curriculumVitae.vue'], resolve)
 	},
 	// {
 	// 	path: '/websocket',

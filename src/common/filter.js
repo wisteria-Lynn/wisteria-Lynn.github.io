@@ -9,5 +9,5 @@ export const dateFilter = p => {
 }
 
 export const enterTxt = (str) =>{
-	return str.replace(/\n/g,"<br/>")
+	return str.replace(/\t/g,"").replace(/\n/g,"<br/>")
 }
