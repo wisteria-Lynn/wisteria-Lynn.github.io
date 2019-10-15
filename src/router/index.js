@@ -159,26 +159,6 @@ const routes = [
 		]
 	},
 	{
-		path: '/blog',
-		name: 'blog',
-		meta: {
-			title: '博客',
-			// requireAuth: true
-		},
-		component: resolve => require(['../pages/blog/blog.vue'], resolve),
-		children: [
-			{
-				path: 'city',
-				name: 'city',
-				meta: {
-					title: '城市级联',
-					// requireAuth: true
-				},
-				component: resolve => require(['../pages/project/city/city.vue'], resolve),
-			}
-		]
-	},
-	{
 		path: '/curriculumVitae',
 		name: 'curriculumVitae',
 		meta: {

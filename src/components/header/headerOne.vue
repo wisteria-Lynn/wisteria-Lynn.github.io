@@ -5,7 +5,8 @@
 			<div class="headSlideMenu from-top" :class="[isSlideMenuBlock?'menu-show':'menu-hidden']" @click="hideSlideNav">
 				<div class="headSlideMenuChild">
 					<template v-for="item in navList">
-						<router-link :to="{path:item.url}">{{item.name}}</router-link>
+						<a v-if="item.url.indexOf('http') > -1" :href="item.url">{{item.name}}</a>
+						<router-link v-else :to="{path:item.url}">{{item.name}}</router-link>
 					</template>
 				</div>
 			</div>
@@ -15,7 +16,8 @@
 				<el-col :md="16" :xs="8"  class="h-left t-left">
 					<div class="headMenuWrap">
 						<template v-for="item in navList">
-							<router-link :to="{path:item.url}">{{item.name}}</router-link>
+							<a v-if="item.url.indexOf('http') > -1" :href="item.url">{{item.name}}</a>
+							<router-link v-else :to="{path:item.url}">{{item.name}}</router-link>
 						</template>
 					</div>
 					<div class="headMenuIcon">
@@ -57,7 +59,7 @@
 					},
 					{
 						name: '博客',
-						url: '/blog'
+						url: 'https://wisteria-lynn.github.io/public/index.html'
 					},
 					{
 						name: '小说',

@@ -1,16 +1,18 @@
 <template>
 	<div class="novelIndex">
-		<headerOne></headerOne>
-		<div class="u-panel" v-if="$route.path.split('/').length <= 2">
-			<div class="u-panel-card novel-list" v-for="item in novelList">
-				<h4>{{item.title}}</h4>
-				<span class="desrc" v-html="item.des"></span>
-				<div class="t-right">
-					<span class="tip">加载慢，耐心等待</span>
-					<el-button class="btn btn-success" @click="toReadIt(item.id,item.title)">阅读</el-button>
+		<template v-if="$route.path.split('/').length <= 2">
+			<headerOne></headerOne>
+			<div class="u-panel">
+				<div class="u-panel-card novel-list" v-for="item in novelList">
+					<h4>{{item.title}}</h4>
+					<span class="desrc" v-html="item.des"></span>
+					<div class="t-right">
+						<span class="tip">加载慢，耐心等待</span>
+						<el-button class="btn btn-success" @click="toReadIt(item.id,item.title)">阅读</el-button>
+					</div>
 				</div>
 			</div>
-		</div>
+		</template>
 		<router-view :key="$route.fullPath"></router-view>
 	</div>
 </template>
