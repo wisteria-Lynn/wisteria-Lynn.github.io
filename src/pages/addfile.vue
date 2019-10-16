@@ -92,14 +92,6 @@
 					{
 						value:'D:\\Lynn\\myproject\\wisteria-Lynn.github.io\\static\\js\\novel\\novel-',
 						label:'D:\\Lynn\\myproject\\wisteria-Lynn.github.io\\static\\js\\novel\\novel-'
-					},
-					{
-						value:'D:\\Lynn\\myproject\\wisteria-Lynn.github.io\\static\\js\\interviewQuestion\\TCEQuestion-',
-						label:'D:\\Lynn\\myproject\\wisteria-Lynn.github.io\\static\\js\\interviewQuestion\\TCEQuestion-'
-					},
-					{
-						value:'D:\\Lynn\\myproject\\wisteria-Lynn.github.io\\static\\js\\interviewQuestion\\HRQuestion-',
-						label:'D:\\Lynn\\myproject\\wisteria-Lynn.github.io\\static\\js\\interviewQuestion\\HRQuestion-'
 					}
 				],
 				createPath:'D:\\Lynn\\myproject\\wisteria-Lynn.github.io\\static\\js\\novel\\novel-',
@@ -108,21 +100,17 @@
 				descr:'',
 				options:[],
 				novelList:[],
-				addType:'',
+				addType:'0',
 				addTypeOpt:[
 					{
 						value:'0',
 						label:'小说'
-					},
-					{
-						value:'1',
-						label:'题目集锦'
 					}
 				]
 			}
 		},
 		created(){
-			this.novelList = require('../../static/js/novel/novel-list').novelList
+			this.novelList = require('../novel/novel-list').novelList
 		},
 		methods: {
 			// 重写产品主图上传
@@ -186,27 +174,7 @@
 							value:this.novelList[i].id
 						})
 					}
-				} else {
-					this.options = [
-						{
-							value:'js',
-							label:'js'
-						},
-						{
-							value:'vue',
-							label:'vue'
-						},
-						{
-							value:'css',
-							label:'css'
-						},
-						{
-							value:'html',
-							label:'html/其他'
-						}
-					]
 				}
-
 			}
 		}
 	}

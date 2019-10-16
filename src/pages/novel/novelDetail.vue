@@ -13,7 +13,7 @@
 		},
 		data() {
 			return {
-				readData:''
+				readData:[]
 			}
 		},
 		methods: {
@@ -22,7 +22,7 @@
 			}
 		},
 		created() {
-			this.readData= require('../../../static/js/novel/novel-'+ this.$route.query.id).novel
+			this.readData = this.GLOBAL.novel
 		}
 	}
 </script>

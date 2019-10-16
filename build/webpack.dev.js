@@ -37,13 +37,6 @@ module.exports = merge(base, {
 		}//重定向,//代理
 	},
 	plugins: [
-		new HtmlWebpackPlugin({//html模板
-			title: '首页',
-			template: 'index.html',//模板
-			filename: 'index.html',//文件名
-			favicon: './favicon.ico', // 添加小图标
-			inject: true //是否接受插入
-		}),
 		// new webpack.DefinePlugin({在 webpack 3 及其更低版本中，你需要使用 DefinePlugin：
 		//  'process.env.NODE_ENV':JSON.stringify('development')//指定环境
 		// }),

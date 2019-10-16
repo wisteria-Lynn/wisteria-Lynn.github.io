@@ -18,6 +18,26 @@ module.exports = merge(base, {
 	output: {
 		filename: 'js/[name].[hash].js',//输出名
 		path: path.resolve(__dirname, '../dist'),//输出地址
+		publicPath: ''// 静态资源路径前缀
+	},
+	// 构建 - 信息打印
+	stats: {
+		hash: true, // 构建哈希值
+		builtAt: true,//构建日期和构建时间信息
+		version: true,// webpack 版本信息
+		maxModules: 5,// 设置要显示的模块的最大数量
+		modules: false,// 构建模块信息
+		children: false,  ////解决类似Entrypoint undefined = index.html和Entrypoint mini-css-extract-plugin = *的警告
+		entrypoints: false, // 入口指定是否显示
+		colors: {
+			green: '\u001b[32m',
+			yellow: '\u001b[32m',
+		}
+	},
+	performance: {
+		maxAssetSize: 1048576,//单个资源体积（整数类型，以字节为单位）
+		maxEntrypointSize: 2097152, //入口资源体积（整数类型，以字节为单位）
+		hints: 'warning'  // 对文件大小limit的警告 false | warning | error
 	},
 	plugins: [
 		// new UglifyJSPlugin({//Js压缩
@@ -41,17 +61,11 @@ module.exports = merge(base, {
 			},
 			canPrint: true//是否将插件信息打印到控制台
 		}),
-		new HtmlWebpackPlugin({
-			title: '首页',
-			template: 'index.html',
-			filename: 'index.html',
-			favicon: './favicon.ico', // 添加小图标
-			inject: true
-		}),
 		new BundleAnalyzerPlugin(),
 		new copyWebpackPlugin([{
 			from: path.resolve(__dirname, '../static'),    //要打包的静态资源目录地址，这里的__dirname是指项目目录下，是node的一种语法，可以直接定位到本机的项目目录中
-			to: './static'  //要打包到的文件夹路径，跟随output配置中的目录。所以不需要再自己加__dirname
+			to: './static',  //要打包到的文件夹路径，跟随output配置中的目录。所以不需要再自己加__dirname
+			// ignore: ['js/novel/**/*'] // 忽略文件
 		}])
 	],
 	optimization: {//提取公有代码到一个文件
@@ -61,31 +75,38 @@ module.exports = merge(base, {
 		},
 		//我们需要将所有的第三方库抽离出来。将chunks值改为all(先前的默认值为async)，表示对所有的第三方库进行代码分割(包括async和initial)。此时生产的代码中多了一个vendors~main.*.js文件。
 		splitChunks: {
-			chunks:'all',
 			// 需要新加一个cacheGroup，该cacheGroup对于被引用
 			// 此时大于等于2的module进行分割
+			chunks: 'all',
+			// 缓存组
 			cacheGroups: {
-				common: {
-					minChunks: 2,
-					name: 'commons',
+				vendor: {
+					test: /[\\/]node_modules[\\/]/,//默认拆分node_modules中的模块
+					name: 'vendors',
+					chunks: 'all',
+					priority: 1, // 权限更高，优先抽离
+					minSize: 0,
+					minChunks: 1
+				},
+				styles: {
+					minChunks: 1,
+					minSize: 0,
+					name: 'styles',
+					test: /\.(le|sa|sc|c)ss$/,
 					chunks: 'async',
-					priority: 10,
+					enforce: true
+				},
+				common: {
+					minChunks: 2, //表示提取公共部分最少的文件数 模块被引用>=2次，拆分至commons公共模块
+					minSize: 0,
+					name: 'commons', // 包名
+					chunks: 'async',
+					priority: 5, // 优先级
 					reuseExistingChunk: true,
 					enforce: true
 				}
 			}
 		}
-		// minimize:true,
-		// splitChunks: {// SplitChunks 是由 webpack 4 内置的 SplitChunksPlugin 插件提供的能力，可直接在 optimization 选项中配置
-		// 	cacheGroups: {
-		// 		styles: {
-		// 			name: 'styles',
-		// 			test: /\.(le|sa|sc|c)ss$/,
-		// 			chunks: 'all',
-		// 			enforce: true
-		// 		}
-		// 	}
-		// }
 	},
 	module: {
 		rules: [

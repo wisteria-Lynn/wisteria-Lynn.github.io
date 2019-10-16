@@ -89,7 +89,7 @@
             html = data.map(function(post) {
                 return tpl(searchTpl, {
                     title: filter(post.title, 'title'),
-                    path: post.path,
+                    path: 'public/'+post.path,
                     content: filter(post.text, 'content')
                 });
             }).join('');

@@ -50,85 +50,57 @@ Router.get('/getReadFile',(req, res, next) => {
 	let name = req.query.name
 	let descr = req.query.descr
 
-	if(type === '0'){
-		read.readFileByLine(path,(data)=>{
+	if(type === '0') {
+		read.readFileByLine(path, (data) => {
 			let arr = []
 			let obj = {
-				title:'',
-				txt:[]
+				title: '',
+				txt: []
 			}
-			for(let i = 0;i<data.length;i++){
+			for (let i = 0; i < data.length; i++) {
 				let start = data[i].indexOf('第')
 				let end = data[i].indexOf('章')
-				data[i] = data[i].replace(' ','')
-				if((start > -1 && end > -1 && data[i].length < 30) || i===data.length - 1){
+				data[i] = data[i].replace(' ', '')
+				if ((start > -1 && end > -1 && data[i].length < 30) || i === data.length - 1) {
 					obj.title = obj.title || '序言'
 					arr.push(obj)
 					obj = {
-						title:'',
-						txt:[]
+						title: '',
+						txt: []
 					}
-					obj.title = data[i].substring(end+1)
+					obj.title = data[i].substring(end + 1)
 				} else {
 					obj.txt.push(data[i])
 				}
 			}
-			read.createdFile(createPath,'export const novel = '+JSON.stringify(arr),(msg)=>{
+			read.createdFile(createPath, 'export const novel = ' + JSON.stringify(arr), (msg) => {
 				let flag = -1
-				let novelList = require('../static/js/novel/novel-list').novelList
-				for(let i = 0;i<novelList.length;i++){
+				let novelList = require('../src/novel/novel-list').novelList
+				for (let i = 0; i < novelList.length; i++) {
 					console.log(novelList[i].id === number)
-					if(novelList[i].id === number){
+					if (novelList[i].id === number) {
 						descr = descr || novelList[i].des
 						flag = i
 						break;
 					}
 				}
 				let obj = {
-					title:name,
-					id:number,
-					des:descr
+					title: name,
+					id: number,
+					des: descr
 				}
-				if(flag > 0){
+				if (flag > 0) {
 					novelList = novelList.map(item => item.id === obj.id ? obj : item)
 				} else {
 					novelList.push(obj)
 				}
-				read.createdFile('D:\\Lynn\\myproject\\wisteria-Lynn.github.io\\static\\js\\novel\\novel-list.js','module.exports.novelList = '+JSON.stringify(novelList),(msg)=>{
+				read.createdFile('D:\\Lynn\\myproject\\wisteria-Lynn.github.io\\static\\js\\novel\\novel-list.js', 'module.exports.novelList = ' + JSON.stringify(novelList), (msg) => {
 					res.json({
-						message:msg
+						message: msg
 					})
 				})
 			})
 		})
-	} else {
-		read.readFileByLine(path,(data)=>{
-			let arr = []
-			let obj = {
-				title:'',
-				txt:[]
-			}
-			for(let i = 0;i<data.length;i++){
-				let start = data[i].indexOf('*题目：')
-				data[i] = data[i].replace(' ','')
-				if((start > -1) || i===data.length - 1){
-					obj = {
-						title:'',
-						txt:[]
-					}
-					obj.title = data[i].substring(start+4)
-					arr.push(obj)
-				} else {
-					obj.txt.push(data[i])
-				}
-			}
-			read.createdFile(createPath,'export const qustion = '+JSON.stringify(arr),(msg)=>{
-				res.json({
-					message:msg
-				})
-			})
-		})
 	}
-
 })
 module.exports = Router

@@ -4,13 +4,14 @@
 //4、vueLoaderConfig也是同样基础生产环境和开发环境对vue-loader进行配置。
 const path = require('path')//引入noded的路径
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
-
+//指定html模板
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 //这是一个封装函数，进行传参，获取绝对路径，方便对import时引入地址的方便填写。
 //path.join()是对多个字符串进行拼接，此时__dirname是build文件路径..代表在出去一层，就是文件的根路径，dir这个参数则是你要传的文件夹，如果我们传crs的话就从src目录开始查找。
 function resolve (dir) {
 	return path.join(__dirname, '..', dir)
 }
-
+// let env = process.env.NODE_ENV === "development";
 module.exports = {
 	entry: {//入口
 		app:["babel-polyfill",'./src/index.js']
@@ -18,7 +19,8 @@ module.exports = {
 	},
 	output: {//输出
 		filename: '[name].[hash].js',//输出名
-		path: path.resolve(__dirname, '../dist')//输出地址//不指定输出文件位置，默认为 dist/main.js
+		path: path.resolve(__dirname, '../dist'),//输出地址//不指定输出文件位置，默认为 dist/main.js
+		publicPath: ''
 	},
 	resolve: {
 		extensions: [' ', '.js', '.json', '.vue', '.scss', '.css'],//导入的时候不用写拓展名
@@ -35,6 +37,18 @@ module.exports = {
 	plugins: [//插件
 		new VueLoaderPlugin(),
 		//它的职责是将你定义过的其它规则复制并应用到 .vue 文件里相应语言的块。例如，如果你有一条匹配 /\.js$/ 的规则，那么它会应用到 .vue 文件里的 <script> 块。
+		// html模板
+		new HtmlWebpackPlugin({
+			title: '首页',
+			template: 'index.html',
+			filename: 'index.html',
+			favicon: './favicon.ico', // 添加小图标
+			minify: {  //压缩html
+				removeComments: true,  //删除注释
+				collapseWhitespace: true  //删除空格
+			},
+			inject: true
+		}),
 	],
 	module: {
 		rules: [

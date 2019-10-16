@@ -8,7 +8,7 @@
 					<span class="desrc" v-html="item.des"></span>
 					<div class="t-right">
 						<span class="tip">加载慢，耐心等待</span>
-						<el-button class="btn btn-success" @click="toReadIt(item.id,item.title)">阅读</el-button>
+						<el-button class="btn btn-success" v-loading.fullscreen.lock="fullscreenLoading" @click="toReadIt(item.id,item.title)">阅读</el-button>
 					</div>
 				</div>
 			</div>
@@ -22,21 +22,28 @@
 		name: "novelIndex",
 		data() {
 			return {
-				novelList: []
+				novelList: [],
+				fullscreenLoading:false
 			}
 		},
 		methods: {
 			getNovelList() {
-				this.novelList = require('../../../static/js/novel/novel-list').novelList
+				this.novelList = require('../../novel/novel-list').novelList
 			},
 			toReadIt(id, title) {
-				this.$router.push({
-					path: '/novel/novelDetail',
-					query: {
-						id: id,
-						num: '0',
-						title: title
-					}
+				let _this = this
+				this.fullscreenLoading = true
+				require(['../../novel/novel-'+id],(res)=>{
+					_this.GLOBAL.novel = res.novel
+					this.fullscreenLoading = false
+					this.$router.push({
+						path: '/novel/novelDetail',
+						query: {
+							id: id,
+							num: '0',
+							title: title
+						}
+					})
 				})
 			}
 		},
