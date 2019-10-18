@@ -1,36 +1,57 @@
-/* zheli shi zhushi*/
+/*
+ ----------------------
+ css样式初始化
+ ----------------------
+ */
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td { margin:0; padding:0; }
+body, button, input, select, textarea { font:12px/1.5tahoma, arial, \5b8b\4f53; }/*字体大小/字体行高 字体格式*/
+h1, h2, h3, h4, h5, h6{ font-size:100%; }
+address, cite, dfn, em, var { font-style:normal; }
+code, kbd, pre, samp { font-family:couriernew, courier, monospace; }
+small{ font-size:12px; }
+ul, ol { list-style:none; }
+a { text-decoration:none; }
+a:hover { text-decoration:none; }
+sup { vertical-align:text-top; }
+sub{ vertical-align:text-bottom; }
+legend { color:#000; }
+fieldset, img { border:0; }
+button, input, select, textarea { font-size:100%; }
+table { border-collapse:collapse; border-spacing:0; }
+
+/*
+ ----------------------
+ css - 公共样式
+ ----------------------
+ */
+
 html{
-	font-size:16px;
-}
-body,html,*{
-	margin:0;
-	padding:0;
+	//font-size:16px;
 }
 body,html{
-	margin:0;
-	padding:0;
-	//min-width:500px;
 	background: @projectBG;
 	width:100%;
 	height:100%;
 }
 a{
 	color: @topTxtC;
-	text-decoration: none;
-}
-.t-left{
-	text-align: left;
-}
-.t-right{
-	text-align: right;
-}
-.t-center{
-	text-align: center;
-}
-.cursor-point{
-	cursor: pointer;
 }
 
+/*文本*/
+.tl{
+	text-align: left;
+}
+.tr{
+	text-align: right;
+}
+.tc{
+	text-align: center;
+}
+/*手势*/
+.cursor-p{
+	cursor: pointer;
+}
+/*滚动条*/
 .scroll-style::-webkit-scrollbar{
 	width:5px;
 	height:5px;
@@ -43,6 +64,7 @@ a{
 	width:7px;
 	background: #ebebeb;
 }
+/*按钮*/
 .btn{
 	display: inline-block;
 	color:#fff;
@@ -53,151 +75,65 @@ a{
 .btn-error{
 	background:#F56C6C;
 }
-
+.btn-f49110{
+	background:#f49110;
+}
+/*消息数字*/
 .message-num{
 	display: inline-block;
 	color:#fff;
 	background:#d50000;
 	border-radius: 50%;
 }
-
-//面板
-.u-panel{
-	width:100%;
-	.u-panel-card {
-		margin: 20px;
-		background: #fff;
-	}
+/*弹性布局*/
+.x-flex{
+	display:flex;
+	justify-content: center;
+	align-items: center
 }
-@media (max-width: 768px) {
-	.u-panel-card{
-		margin:20px 0 !important;
-	}
-}
+/*
+ ----------------------
+elementui - 公共样式调整
+ ----------------------
+ */
 
-// 左侧滑动
-.slideTip{
-	display: none;
-	position: fixed;
-	top: 50%;
-	left: 2%;
-	width: 40px;
-	height: 40px;
-	background: rgba(96, 122, 175,.5);
-	color: #fff;
-	border-radius: 25px;
-	line-height: 40px;
-	text-align: center;
-	cursor: pointer;
-	z-index:900;
-	i{
-		font-size:22px;
-	}
-}
-.headSlideMenu {
-	position: fixed;
-	&.from-top{
-		top: -100%;
-		left: 0;
-		&.menu-show {
-			-webkit-animation: menuNavShow .5s forwards;
-			animation: menuNavShow .5s forwards;
-		}
-
-		&.menu-hidden {
-			-webkit-animation: menuNavHidden .5s forwards;
-			animation: menuNavHidden .5s forwards;
-		}
-		.headSlideMenuChild{
-			width: 100%;
-			margin-top:62px;
-			min-height: 200px;
-		}
-	}
-	&.from-left{
-		top: 0;
-		left: -100%;
-		&.menu-show {
-			-webkit-animation: menuNavShowLeft .5s forwards;
-			animation: menuNavShowLeft .5s forwards;
-		}
-
-		&.menu-hidden {
-			-webkit-animation: menuNavHiddenLeft .5s forwards;
-			animation: menuNavHiddenLeft .5s forwards;
-		}
-		.headSlideMenuChild{
-			width: 60%;
-			height: 100%;
-		}
-	}
-
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.1);
-	z-index: 1000;
-	.headSlideMenuChild {
-		padding-top: 10px;
-		background: #fff;
-		overflow: auto;
-
-		span,a {
-			display: block;
-			color: #333;
-			padding-left: 20px;
-			line-height: 40px;
-
-			&:hover {
-				color: #246dff;
-				background: #ccc;
-			}
-
-			&.is-active {
-				color: #246dff;
-				background: #ccc;
-			}
-		}
-	}
-}
-
-@keyframes menuNavShow {
-	from {
-		top: -100%;
-	}
-	to {
-		top: 0;
-	}
-}
-
-@keyframes menuNavHidden {
-	from {
-		top: 0;
-	}
-	to {
-		top: -100%;
-	}
-}
-@keyframes menuNavShowLeft {
-	from {
-		left: -100%;
-	}
-	to {
-		left: 0;
-	}
-}
-
-@keyframes menuNavHiddenLeft {
-	from {
-		left: 0;
-	}
-	to {
-		left: -100%;
-	}
-}
-
-// elementui 框架调整
 @media (max-width: 768px) {
 	.el-message-box{
 		width:100% !important;
 	}
 }
+/*
+ ------------------------------------------------------------
+- 开始 pc移动自适应
+ ------------------------------------------------------------
+ */
+/*pc端最小宽度*/
+.all-wrap{
+	max-width:1200px;
+	margin:auto;
+}
+//面板
+.u-panel{
+	width:100%;
+	.u-panel-card {
+		margin: 20px;
+		padding: 20px;
+		background: #fff;
+	}
+}
+@media (max-width: 768px) {
+	//.body,html{
+	//	background: @projectBG !important;
+	//}
+	.u-panel-card{
+		margin:10px 0 !important;
+	}
+	.all-wrap{
+		width:100% !important;
+	}
+}
+
+
+//----------------------------------------------------------------------------------
+//-------------------------结束 pc移动自适应-------------------------------------
+//----------------------------------------------------------------------------------

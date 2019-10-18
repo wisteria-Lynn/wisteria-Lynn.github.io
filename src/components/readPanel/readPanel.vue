@@ -7,18 +7,18 @@
 			</template>
 		</v-sideFromMenu>
 		<div class="u-panel">
-			<div class="u-panel-card novel-bg">
+			<div class="u-panel-card novel-bg" style="margin-top:0 !important;">
 				<div class="novel-arc">
-					<h3 class="novelTitle t-center">第{{num+1}}章&nbsp;&nbsp;{{arcTitle}}</h3>
+					<h3 class="novelTitle tc">第{{num+1}}章&nbsp;&nbsp;{{arcTitle}}</h3>
 					<div class="novelTxt" v-html="html">
+					</div>
+					<div class="novelBtn">
+						<el-button class="btn btn-f49110" @click="getNext('up')">上一章</el-button>
+						<el-button class="btn btn-f49110" @click="back()">书架</el-button>
+						<el-button class="btn btn-f49110" @click="getNext('down')">下一章</el-button>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="novelBtn">
-			<el-button class="btn btn-success" @click="getNext('up')">上一章</el-button>
-			<el-button class="btn btn-success" @click="back()">书架</el-button>
-			<el-button class="btn btn-success" @click="getNext('down')">下一章</el-button>
 		</div>
 	</div>
 </template>
@@ -85,7 +85,6 @@
 			background:#f6f6ee;
 		}
 		.novel-arc{
-			padding:25px;
 			.novelTitle{
 				margin:20px 0 30px 0;
 			}
@@ -97,13 +96,8 @@
 			}
 		}
 		.novelBtn{
-			position: fixed;
-			width: 100%;
-			height: 50px;
-			line-height: 50px;
+			margin-bottom:20px;
 			text-align: center;
-			background: #ccc;
-			bottom: 0;
 		}
 	}
 	@media (max-width: 768px) {

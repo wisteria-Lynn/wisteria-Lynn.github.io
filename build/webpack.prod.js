@@ -40,16 +40,10 @@ module.exports = merge(base, {
 		hints: 'warning'  // 对文件大小limit的警告 false | warning | error
 	},
 	plugins: [
-		// new UglifyJSPlugin({//Js压缩
-		// 	sourceMap: true
-		// }),// webpack4已废弃
 		new CleanWebpackPlugin(['./dist'], {
 			root: path.resolve(__dirname, '../'),    // 设置root不会清楚目录原因在于，这个插件会认为webpack.config.js所在的目录为项目的根目录。
 			verbose: true//开启在控制台输出消息  只使用第一个参数的话，会报错移除目标的目录位置不对：
 		}),
-		// new webpack.DefinePlugin({
-		//   'process.env.NODE_ENV':JSON.stringify('production')//指定环境
-		// }),
 		new MiniCssExtractPlugin({
 			filename: 'css/[name].[hash].css'//抽取 css 成单个文件 之前使用的 extract-text-webpack-plugin 不再支持webpack4，官方出了 mini-css-extract-plugin 来处理css的抽取
 		}),
@@ -124,7 +118,7 @@ module.exports = merge(base, {
 						loader: 'sass-resources-loader',
 						options: {
 							resources: [
-								path.resolve(__dirname, '../src/assets/less/common.less'),
+								path.resolve(__dirname, '../src/assets/less/color.less'),
 							]
 						}
 					}

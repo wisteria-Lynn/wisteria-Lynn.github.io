@@ -151,10 +151,19 @@ const routes = [
 				path: 'novelDetail',
 				name: 'novelDetail',
 				meta: {
-					title: '小说详情',
+					title: '小说简介',
 					// requireAuth: true
 				},
 				component: resolve => require(['../pages/novel/novelDetail.vue'], resolve),
+			},
+			{
+				path: 'novelRead',
+				name: 'novelRead',
+				meta: {
+					title: '小说阅读',
+					// requireAuth: true
+				},
+				component: resolve => require(['../pages/novel/novelRead.vue'], resolve),
 			}
 		]
 	},

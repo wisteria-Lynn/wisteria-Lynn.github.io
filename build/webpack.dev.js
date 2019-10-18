@@ -1,7 +1,6 @@
 const path = require('path')//引入noded的路径
 const merge = require('webpack-merge')
 const webpack = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin')//指定html模板
 const base = require('./webpack.base.js')
 
 console.log('当前是开发环境:development')
@@ -37,9 +36,6 @@ module.exports = merge(base, {
 		}//重定向,//代理
 	},
 	plugins: [
-		// new webpack.DefinePlugin({在 webpack 3 及其更低版本中，你需要使用 DefinePlugin：
-		//  'process.env.NODE_ENV':JSON.stringify('development')//指定环境
-		// }),
 		new webpack.NamedModulesPlugin(),//热加载
 		new webpack.HotModuleReplacementPlugin()//热加载
 	],
@@ -51,7 +47,7 @@ module.exports = merge(base, {
 					loader: 'sass-resources-loader',
 					options: {
 						resources: [
-							path.resolve(__dirname, '../src/assets/less/common.less'),
+							path.resolve(__dirname, '../src/assets/less/color.less'),
 						]
 					}
 				}]

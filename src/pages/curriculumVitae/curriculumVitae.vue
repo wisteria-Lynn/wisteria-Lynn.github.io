@@ -1,8 +1,8 @@
 <template>
     <div class="curriculumVitae">
-		<header-one></header-one>
+		<v-head-back-2 url="/"></v-head-back-2>
 		<div class="u-panel">
-			<div class="u-panel-card cv-card aurtavet-card t-center">
+			<div class="u-panel-card cv-card aurtavet-card tc">
 				<img class="at-img" :src="info.img">
 				<h3>{{info.name}}</h3>
 			</div>
@@ -61,17 +61,16 @@
 					<span v-for="(item,index) in info.personalIntro" :key="index">{{item}}</span>
 				</el-row>
 			</div>
-			<div class="u-panel-card cv-card t-center">
+			<div class="u-panel-card cv-card tc">
 				<el-row class="cv-content">
 					<h3>谢谢！</h3>
 				</el-row>
 			</div>
-			<div class="u-panel-card cv-card t-center">
+			<div class="u-panel-card cv-card tc">
 				<a class="btn btn-success download" download="阳仁-web前端-15197220396.pdf" href="https://wisteria-lynn.github.io/dist/static/file/阳仁-web前端-15197220396.pdf">下载简历</a>
-				<span>微信浏览器不支持下载</span>
+				<span style="font-size:12px;">微信浏览器不支持下载</span>
 			</div>
 		</div>
-		<div style="height:400px;"></div>
 	</div>
 </template>
 
@@ -145,8 +144,6 @@
 		methods: {
 			previewImg(){
 				for(let i = 0 ; i < this.cvCard.length ; i++){
-					console.log(this.cvCard[i])
-					console.log(i,this.cvCard[i].offsetTop,Scroll.scrollTop(),this.cvCard[i].offsetTop - Scroll.scrollTop() - 82 - (i+1)*20,this.viewHeight)
 					if(this.cvCard[i].offsetTop - Scroll.scrollTop() - 82 - (i+1)*40< this.viewHeight){
 						if(!dom.hasClass(this.cvCard[i],'anmial')){
 							dom.addClass(this.cvCard[i],'anmial')
