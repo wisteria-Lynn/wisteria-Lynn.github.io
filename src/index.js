@@ -6,10 +6,13 @@ import Router from 'vue-router'
 import Vuex from 'vuex'
 import axios from 'axios'
 import STORE from './vuex/store'
+import Viewer from 'v-viewer'
+import 'viewerjs/dist/viewer.css'
 require('./mock/mock.js')
 // 页面标题json文档
 import pageTitle from './common/pageTitle.json'
 // 全局变量
+import WS from './common/websocket'
 import GlobalVal from './common/GlobalVal'
 // 全局函数
 import GlobalFunc from './common/GlobalFun'
@@ -198,7 +201,7 @@ Vue.prototype.layer = layer(Vue)
 
 // vuex
 Vue.use(Vuex)
-
+Vue.use(Viewer)
 // 路由
 Vue.use(Router)
 const router = new Router({
@@ -278,6 +281,7 @@ router.beforeEach((to, from, next) => {
 
 // 引入全局变量/全局函数/全局组件
 Vue.prototype.GLOBAL = GlobalVal
+Vue.prototype.WS = WS
 Vue.use(GlobalFunc)
 Vue.use(GlobalComponent)
 

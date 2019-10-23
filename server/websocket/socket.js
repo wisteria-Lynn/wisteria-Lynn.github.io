@@ -54,6 +54,7 @@ let wsServer = ws.createServer((conn) => {
 			let reciveIndex = user.findIndex((val, index ,arr)=> {
 				return val.username === message.reciveName
 			})
+			console.log(sendIndex,reciveIndex,user)
 			if(user[sendIndex].readay&&user[reciveIndex].readay){
 				user[sendIndex].conn.sendText(JSON.stringify({
 					type:'message',

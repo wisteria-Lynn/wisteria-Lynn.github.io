@@ -33,18 +33,7 @@ const routes = [
 			title: '演示',
 			// requireAuth: true
 		},
-		component: resolve => require(['../pages/demo/demoIndex.vue'], resolve),
-		children: [
-			{
-				path: 'indexAnima',
-				name: 'demo-indexAnima',
-				meta: {
-					title: '城市级联',
-					// requireAuth: true
-				},
-				component: resolve => require(['../pages/demo/indexAnima.vue'], resolve),
-			}
-		]
+		component: resolve => require(['../pages/project/demoIndex.vue'], resolve)
 	},
 	{
 		path: '/project',
@@ -72,24 +61,6 @@ const routes = [
 					// requireAuth: true
 				},
 				component: resolve => require(['../pages/project/weather/weatherIndex.vue'], resolve),
-			},
-			{
-				path: 'chatLogin',
-				name: 'chatLogin',
-				meta: {
-					title: '聊天室登录',
-					// requireAuth: true
-				},
-				component: resolve => require(['../pages/project/chat/chatLogin.vue'], resolve)
-			},
-			{
-				path: 'chat',
-				name: 'chat',
-				meta: {
-					title: '聊天室',
-					// requireAuth: true
-				},
-				component: resolve => require(['../pages/project/chat/chat.vue'], resolve)
 			},
 			{
 				path: 'canvasDemo',
@@ -135,6 +106,14 @@ const routes = [
 					// requireAuth: true
 				},
 				component: resolve => require(['../pages/project/indexAnima/indexAnima.vue'], resolve)
+			},{
+				path: 'cropper',
+				name: 'cropper',
+				meta: {
+					title: '图片裁剪',
+					// requireAuth: true
+				},
+				component: resolve => require(['../pages/project/cropper/cropper.vue'], resolve)
 			},
 		]
 	},
@@ -175,6 +154,50 @@ const routes = [
 			// requireAuth: true
 		},
 		component: resolve => require(['../pages/curriculumVitae/curriculumVitae.vue'], resolve)
+	},
+	{
+		path: '/wechat',
+		name: 'wechat',
+		meta: {
+			title: '聊天',
+			// requireAuth: true
+		},
+		component: resolve => require(['../pages/wechat/wechat.vue'], resolve),
+		children: [
+			{
+				path: 'friendList',
+				name: 'friendList',
+				meta: {
+					title: '聊天列表',
+					// requireAuth: true
+				},
+				component: resolve => require(['../pages/wechat/friendList.vue'], resolve),
+			},{
+				path: 'chatLogin',
+				name: 'chatLogin',
+				meta: {
+					title: '聊天室登录',
+					// requireAuth: true
+				},
+				component: resolve => require(['../pages/wechat/chatLogin.vue'], resolve)
+			},{
+				path: 'chatPage',
+				name: 'chatPage',
+				meta: {
+					title: '',
+					// requireAuth: true
+				},
+				component: resolve => require(['../pages/wechat/chatPage.vue'], resolve)
+			},{
+				path: 'chat',
+				name: 'chat',
+				meta: {
+					title: '聊天室',
+					// requireAuth: true
+				},
+				component: resolve => require(['../pages/wechat/chat.vue'], resolve)
+			},
+		]
 	},
 	// {
 	// 	path: '/websocket',

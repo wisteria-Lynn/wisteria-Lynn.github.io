@@ -9,7 +9,7 @@
 		<div class="a-panel">
 			<div class="a-panel-title">css打字动画</div>
 			<div class="a-panel-show demo-2">
-				<h1>Typing animation by lanrenzhijia.com</h1>
+				<h1>Typing animation</h1>
 			</div>
 		</div>
 		<div class="a-panel">
@@ -131,8 +131,8 @@
 					h1 {
 						font: bold 200% Consolas, Monaco, monospace;
 						border-right: .1em solid;
-						width: 16.5em; /* fallback */
-						width: 37ch; /* # of chars */
+						width: 10em; /* fallback */
+						/*width: 37ch; !* # of chars *!*/
 						margin: 2em 1em;
 						white-space: nowrap;
 						overflow: hidden;
@@ -174,14 +174,14 @@
 				}
 				&.demo-4{
 					.card-wrap{
-						width:600px;
+						width:100%;
 						height:400px;
 						input{
 							display: none;
 						}
 						ul{
 							position:relative;
-							width:600px;
+							width:100%;
 							height:400px;
 							overflow: hidden;
 							li{
@@ -223,8 +223,8 @@
 									}
 								}
 								img{
-									/*width:100%;*/
-									height:100%;
+									width:100%;
+									/*height:100%;*/
 								}
 							}
 						}

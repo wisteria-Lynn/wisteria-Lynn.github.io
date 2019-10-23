@@ -3,7 +3,7 @@
 		<v-head-back-2 url="/novel"></v-head-back-2>
 		<div class="all-wrap">
 			<v-panel-one>
-				<div class="forwad-img tc">封面</div>
+				<div class="forwad-img tc">小说</div>
 				<div class="detail-right">
 					<h4>{{readData.title}}</h4>
 					<p style="color:#999;">{{readData.author}}</p>
@@ -17,6 +17,10 @@
 				</div>
 				<div style="clear: both"></div>
 				<div class="read-des" v-html="readData.des"></div>
+				<div>
+					<span class="readBtn tc cursor-p" @click="read">阅读</span>
+					<span class="readBtn tc cursor-p disabled" >缓存</span>
+				</div>
 			</v-panel-one>
 			<v-panel-one>
 				<el-row class="detail-menu">
@@ -30,7 +34,6 @@
 				</el-row>
 			</v-panel-one>
 			<v-remark :remark="remark" style="margin-bottom:70px;"></v-remark>
-			<div class="readBtn tc cursor-p" @click="read">立即阅读</div>
 		</div>
 	</div>
 </template>
@@ -72,6 +75,12 @@
 		},
 		methods: {
 			read(){
+				const loading = this.$loading({
+					lock: true,
+					text: 'Loading',
+					spinner: 'el-icon-loading',
+					background: 'rgba(0, 0, 0, 0.7)'
+				});
 				this.$router.push({
 					path: '/novel/novelRead',
 					query: {
@@ -91,7 +100,7 @@
 		height: 110px;
 		line-height: 120px;
 		color: #fff;
-		background: #8797bd;
+		background: #749dd0;
 	}
 	.detail-right{
 		float:left;
@@ -124,16 +133,22 @@
 		margin-top:20px;
 	}
 	.readBtn{
-		position: static;
-		bottom:0;
-		width:100%;
-		line-height: 60px;
+		line-height: 35px;
+		color: #fff;
+		background: #f49110;
+		display: inline-block;
+		width:120px;
+		border-radius: 4px;
+		margin-top: 30px;
+	}
+	.disabled{
 		color:#fff;
-		background:#f49110;
+		background:#ccc;
+		cursor: no-drop;
 	}
 	@media (max-width: 768px) {
 		.readBtn{
-			position: fixed !important;
+			width: 49% !important;
 		}
 	}
 </style>

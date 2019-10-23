@@ -10,7 +10,8 @@
 					:file-list="goodImages"
 					:auto-upload="false"
 					:http-request="goodImgUploadFile"
-					:before-upload="beforeImgUpload">
+					:before-upload="beforeImgUpload"
+					:on-change='changeUpload'>
 					<el-button size="small" type="primary">点击上传</el-button>
 					<!--<div slot="trigger"><i class="el-icon-plus"></i></div>-->
 					<!--<div slot="tip" class="el-upload__tip"></div>-->
@@ -239,6 +240,9 @@
 					})
 				}
 				// this.formDate.append('goodImages', file.file)
+			},
+			changeUpload(file){
+				console.log(file)
 			},
 			// 上传图片凭证之前的钩子
 			async beforeImgUpload(file) {

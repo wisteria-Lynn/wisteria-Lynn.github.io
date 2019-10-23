@@ -12,7 +12,7 @@
 					<el-row>
 						<el-col class="novel-list tc" :span="8" v-for="(item,index) in novelList" :key="index">
 							<div class="novel-wrap cursor-p" @click="toReadIt(index)">
-								<div class="forwad-img">封面</div>
+								<div class="forwad-img">小说</div>
 								<span>{{item.title}}</span>
 							</div>
 						</el-col>
@@ -93,13 +93,14 @@
 				overflow: hidden; /*超出部分隐藏*/
 				text-overflow: ellipsis; /* 超出部分显示省略号 */
 				white-space: nowrap; /*规定段落中的文本不进行换行 */
+				font-size: 14px;
 			}
 
 			.forwad-img {
-				height: 110px;
-				line-height: 120px;
+				height: 115px;
+				line-height: 115px;
 				color: #fff;
-				background: #8797bd;
+				background: #749dd0;
 			}
 		}
 	}

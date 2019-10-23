@@ -13,7 +13,7 @@
 				</template>
 			</p>
 		</el-row>
-		<v-swiper></v-swiper>
+		<v-swiper class="index-swiper"></v-swiper>
 		<div class="all-wrap">
 			<el-row>
 				<el-col :span="16" class="left">
@@ -68,6 +68,11 @@
 			return {
 				cardList:[
 					{
+						title:'我的聊天',
+						icon:'iconresume-line',
+						url: '/wechat/friendList'
+					},
+					{
 						title:'我的小说',
 						icon:'iconiconset0116',
 						url: '/novel'
@@ -103,11 +108,6 @@
 			loginOut() {
 				this.$store.dispatch('loginOut')
 				this.$router.push({'path': '/'})
-				// if (this.$route.fullPath !== '/') {
-				// 	this.$router.push({'path': '/login', query: {redirect: this.$route.fullPath}})
-				// } else {
-				// 	this.$router.push({'path': '/login'})
-				// }
 			},
 			clickToPage(url){
 				if(url.indexOf('http') > -1){
@@ -134,12 +134,13 @@
 	.index{
 		.left{
 			.my-card{
+				margin-bottom:20px;
 				i{
 					font-size:42px;
 				}
 				span{
 					display: block;
-					margin-top:10px;
+					margin-top:5px;
 				}
 			}
 		}
@@ -188,6 +189,9 @@
 			}
 			.avatar-top{
 				display:block !important;
+			}
+			.index-swiper{
+				display:none;
 			}
 		}
 	}

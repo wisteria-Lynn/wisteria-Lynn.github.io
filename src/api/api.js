@@ -40,7 +40,7 @@ export function post(url, params) {
  * @param message {String} 后台返回的信息
  * @return {string} 返回的文本信息
  */
-export function codeText(code,message) {
+export function codeText(code) {
 	switch (code) {
 		case 404:
 			return '404 Not Found'
@@ -58,7 +58,7 @@ export function codeText(code,message) {
 		case 20001:
 			return '数据库插入错误'
 		default:
-			return message
+			return String(code)
 	}
 }
 
