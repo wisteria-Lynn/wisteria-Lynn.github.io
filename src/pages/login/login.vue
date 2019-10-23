@@ -431,29 +431,45 @@
 </script>
 <style lang="less" type="text/less">
 	.login {
-		.el-checkbox{
-			color:#fff
-		}
-		.el-form-item__label {
-			color: #ccc;
-		}
-
 		.el-input__inner {
-			border-color: rgba(255, 255, 255, .1)
+			border-color: #ccc;
 		}
 
 		.el-input__inner:focus {
-			border-color: rgba(255, 255, 255, .4)
+			border-color: #ccc;
 		}
 
 		.el-form-item.is-success .el-input__inner {
-			border-color: rgba(255, 255, 255, .1)
+			border-color: #ccc;
 		}
 
 		.el-form-item.is-success .el-input__inner:focus {
-			border-color: rgba(255, 255, 255, .4)
+			border-color: #ccc;
 		}
+		&.bg{
+			.el-checkbox{
+				color:#fff
+			}
 
+			.el-input__inner {
+				border-color: rgba(255, 255, 255, .5)
+			}
+
+			.el-input__inner:focus {
+				border-color: rgba(255, 255, 255, .4)
+			}
+
+			.el-form-item.is-success .el-input__inner {
+				border-color: rgba(255, 255, 255, .4)
+			}
+
+			.el-form-item.is-success .el-input__inner:focus {
+				border-color: rgba(255, 255, 255, .4)
+			}
+			input{
+				color:#fff;
+			}
+		}
 		.el-input__suffix {
 			display: none;
 		}
@@ -471,7 +487,6 @@
 			background-size: 100% 100%;
 		}
 		input {
-			color: #fff;
 			background: rgba(255, 255, 255, .1);
 		}
 

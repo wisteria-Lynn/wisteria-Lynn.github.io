@@ -37,11 +37,12 @@ export function post(url, params) {
 /**
  * 后台返回code对应文本信息
  * @param code {int} code码
- * @param message {String} 后台返回的信息
  * @return {string} 返回的文本信息
  */
 export function codeText(code) {
 	switch (code) {
+		case 1 :
+			return '登录失败'
 		case 404:
 			return '404 Not Found'
 		// 全局

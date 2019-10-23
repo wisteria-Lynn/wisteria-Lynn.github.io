@@ -89,6 +89,7 @@
 						title: this.readData.title
 					}
 				})
+				loading.close()
 			}
 		}
 	}
