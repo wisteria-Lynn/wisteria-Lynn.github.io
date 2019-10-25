@@ -1,0 +1,330 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="流莹离的个人博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/public/">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+<meta name="keywords" content="流莹离的个人博客">
+
+
+<meta name="description" content="elementui 和 chrome兼容问题：饿了么框架的el-select标签选择国码，在iphone移动端的chrome78中，需要点击两次才能切换成功，安卓没有这个问题。测试参数如下：ip...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    在做项目中，曾经遇到过的难题 |
+    
+    流莹离的个人博客
+</title>
+
+<link rel="alternate" href="/atom.xml" title="流莹离的个人博客" type="application/atom+xml">
+
+
+<link rel="icon" href="/public/favicon.ico">
+
+    
+
+<link rel="stylesheet" href="/public/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/public/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/public/css/style.css?rev=@@hash">
+    
+<div class="hide">
+    <script type="text/javascript">
+    var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+</div>
+
+
+
+
+    
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    http://snippet.shenliyang.com/img/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title='流莹离'>
+            <img src="/public/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                流莹离|拼命往前，仗剑天涯
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">
+                        流莹离的个人博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="https://wisteria-lynn.github.io/dist/index.html#/novel"><i class="fa "></i>
+                                小说</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/public/about"><i class="fa "></i>
+                                关于</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/public/archives"><i class="fa "></i>
+                                时间轴</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="在做项目中，曾经遇到过的难题">
+            
+            在做项目中，曾经遇到过的难题
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/public/categories/错题总结/">错题总结</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2019/10/24</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <h2 id="elementui-和-chrome兼容"><a href="#elementui-和-chrome兼容" class="headerlink" title="elementui 和 chrome兼容"></a>elementui 和 chrome兼容</h2><p>问题：饿了么框架的el-select标签选择国码，在iphone移动端的chrome78中，需要点击两次才能切换成功，安卓没有这个问题。<br>测试参数如下：<br>iphone xr w/ ios 13.1.3<br>chrome 78.0.3904.67 in Dark mode    </p>
+<blockquote>
+<p>解决1：使用原生的select标签。<br>在ios+chrome无法显示select的options数据，安卓没有这个问题，解决方案无效。</p>
+</blockquote>
+<blockquote>
+<p>解决2：使用弹窗+raido标签。</p>
+</blockquote>
+<h2 id="webpack4打包，按需加载js"><a href="#webpack4打包，按需加载js" class="headerlink" title="webpack4打包，按需加载js"></a>webpack4打包，按需加载js</h2><p>问题：webpack4打包的时候，会把一个.vue页面中的js全部打包进一个文件中，导致进入此页面时，加载很慢，页面很长时间无法响应。</p>
+<blockquote>
+<p>解决：webpack4按需加载。</p>
+</blockquote>
+<h2 id="移动端-pc端适配"><a href="#移动端-pc端适配" class="headerlink" title="移动端|pc端适配"></a>移动端|pc端适配</h2><p>问题：iphone点击输入框，有焦点时，屏幕会放大。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">解决：</span><br><span class="line">&lt;meta name=&quot;viewport&quot; content=&apos;width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0, user-scalable=0&apos;&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id><a href="#" class="headerlink" title></a></h2><p>问题：</p>
+<blockquote>
+<p>解决：</p>
+</blockquote>
+<h2 id="-1"><a href="#-1" class="headerlink" title></a></h2><p>问题：</p>
+<blockquote>
+<p>解决：</p>
+</blockquote>
+<h2 id="-2"><a href="#-2" class="headerlink" title></a></h2><p>问题：</p>
+<blockquote>
+<p>解决：</p>
+</blockquote>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">流莹离</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/public/2019/10/24/面试/常见js面试问题/" class="pre-post btn btn-default" title='常见js面试问题'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            常见js面试问题</span>
+    </a>
+    
+    
+    <a href="/public/2019/10/16/面试/interviewQuestion/" class="next-post btn btn-default" title='那些面试过程中，HR会问的面试题'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            那些面试过程中，HR会问的面试题</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<div id="comments">
+    
+
+<div id="vcomments" class="valine"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/public/assets/valine.min.js"></script>
+<script>
+new Valine({
+    av: AV,
+    el: '#vcomments',
+    appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+    appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+    placeholder: '说点什么吧',
+    notify: false,
+    verify: true,
+    avatar: 'mm',
+    meta: 'nick,mail'.split(','),
+    pageSize: '10',
+    path: window.location.pathname,
+    lang: 'zh-CN'.toLowerCase()
+})
+</script>
+
+
+</div>
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#elementui-和-chrome兼容"><span class="toc-text">elementui 和 chrome兼容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#webpack4打包，按需加载js"><span class="toc-text">webpack4打包，按需加载js</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#移动端-pc端适配"><span class="toc-text">移动端|pc端适配</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#null"><span class="toc-text"></span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-1"><span class="toc-text"></span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-2"><span class="toc-text"></span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+    访问量:
+    <strong id="busuanzi_value_site_pv">
+        <i class="fa fa-spinner fa-spin"></i>
+    </strong>
+    &nbsp; | &nbsp;
+    访客数:
+    <strong id="busuanzi_value_site_uv">
+        <i class="fa fa-spinner fa-spin"></i>
+    </strong>
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2017
+                    <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                        流莹离</a>
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/public/js/app.js?rev=@@hash"></script>
+</body>
+</html>

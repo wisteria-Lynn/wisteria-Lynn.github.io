@@ -525,6 +525,8 @@
 				&.mobile{
 					color:#fff;
 					padding: 80px 30px 0 30px;
+					height:calc(100% - 80px);
+					overflow: auto;
 				}
 				.f-avatar{
 					width:30%;

@@ -63,7 +63,7 @@
 				remark:{
 					title:'精彩书评',
 					list:[{
-						name:this.$store.state.USER.username,
+						name:this.$store.state.USER.username||'流莹离',
 						avatar:this.GLOBAL.avatar,
 						remark:'hello 您好！'
 					}]

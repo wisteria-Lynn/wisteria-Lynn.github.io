@@ -47,7 +47,7 @@
 				remark: {
 					title: '作者有话说',
 					list: [{
-						name: this.$store.state.USER.username,
+						name: this.$store.state.USER.username||'流莹离',
 						avatar: this.GLOBAL.avatar,
 						remark: '感谢大家的一路支持！'
 					}]

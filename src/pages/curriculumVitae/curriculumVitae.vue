@@ -95,14 +95,13 @@
 						Skill:'物联网工程',
 					},
 					JobIntension:'web前端 | 薪资面议 | 月内到岗',
-					personalSkill:'\t\t\t\t\t（1）精通div+css/less页面布局，熟悉熟悉HTML5技术/CSS3样式。\n' +
-						'\t\t\t\t\t（2）掌握JavaScript语言，了解 ES6语法，可应用于项目开发。\n' +
-						'\t\t\t\t\t（3）掌握Vue技术栈、可快速使用Vue全家桶开发项目。\n' +
-						'\t\t\t\t\t（4）掌握Element、Bootstrap、echarts/swiper等框架。\n' +
-						'\t\t\t\t\t（5）对node.js有一定的了解。\n' +
-						'\t\t\t\t\t（6）掌握webpack自动化构建工具及npm包管理工具\n' +
-						'\t\t\t\t\t（7）熟悉photoshop，具备一定的图片处理能力\n' +
-						'\t\t\t\t\t（8）熟练使用webstorm、git等项目开发工具',
+					personalSkill:'（1）精通页面布局，熟悉HTML5技术/CSS3样式，可熟练使用less进行开发。\n' +
+						'（2）掌握JavaScript语言，熟悉 ES6语法。\n' +
+						'（3）掌握Vue技术栈、可快速使用Vue全家桶开发项目。\n' +
+						'（4）掌握ElementUI等UI框架，熟悉photoshop，具备一定的图片处理能力。\n' +
+						'（5）掌握webpack自动化构建工具，熟悉模块化，熟练使用git开发工具。\n' +
+						'（6）对node.js有一定的了解。\n' +
+						'（7）熟悉微信公众号开发，对小程序有一定的了解。',
 					WorkExperience:[
 						{
 							time:'2017.07-至今',
