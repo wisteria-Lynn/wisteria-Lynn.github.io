@@ -259,6 +259,121 @@
 <p>v-if 和 v-show 区分使用场景<br>computed 和 watch  区分使用场景<br>v-for 遍历必须为 item 添加 key，且避免同时使用 v-if<br>长列表性能优化<br>事件的销毁<br>图片资源懒加载<br>路由懒加载<br>第三方插件的按需引入<br>优化无限列表性能<br>服务端渲染 SSR or 预渲染</p>
 <p>（2）Webpack 层面的优化</p>
 <p>Webpack 对图片进行压缩<br>减少 ES6 转为 ES5 的冗余代码<br>提取公共代码<br>模板预编译<br>提取组件的 CSS<br>优化 SourceMap<br>构建结果输出分析<br>Vue 项目的编译优化</p>
+<h2 id="js的运行机制"><a href="#js的运行机制" class="headerlink" title="js的运行机制"></a>js的运行机制</h2><p>js是单线程，执行代码的时候，只有一个主线程来处理所有的任务。一个线程可以保证程序执行的一致性。</p>
+<p>单线程的缺点就是当有一个任务阻塞的时候，就无法继续执行下去，为了解决这种问题，就出现了异步任务，异步任务就是执行这个任务时，无法立刻返回，驻现场就会把这个任务挂起，然后继续往下执行</p>
+<p>js执行代码时会将不同变量存于内存中的不同位置，堆和栈，堆是对象，栈放基础类型变量以及对象的指针。</p>
+<p>当我们调用js一个方法的时候，js会生成一个与这个方法对应的执行环境，又叫执行上下文，js是单线程，同一时间只能执行一个方法，于是这些方法就会放入一个栈中排队，这个栈叫做执行栈。</p>
+<p>当一个脚本第一次执行的时候，js引擎会解析这段代码，并将其中的同步代码按照执行顺序加入执行栈中，然后从头开始执行。如果当前执行的是一个方法，那么js会向执行栈中添加这个方法的执行环境，然后进入这个执行环境继续执行其中的代码。当这个执行环境中的代码 执行完毕并返回结果后，js会退出这个执行环境并把这个执行环境销毁，回到上一个方法的执行环境。。这个过程反复进行，直到执行栈中的代码全部执行完毕。这个过程也叫做event loop（事件循环）</p>
+<p>事件队列：微任务和宏任务，执行顺序先微后宏</p>
+<p>微任务 promise<br>宏任务 setTimeout setIntervel</p>
+<h2 id="js垃圾回收机制"><a href="#js垃圾回收机制" class="headerlink" title="js垃圾回收机制"></a>js垃圾回收机制</h2><ul>
+<li><p>有一组基本的固有可达值，由于显而易见的原因无法删除。例如:</p>
+<ul>
+<li>本地函数的局部变量和参数</li>
+<li>当前嵌套调用链上的其他函数的变量和参数</li>
+<li>全局变量</li>
+<li>还有一些其他的，内部的</li>
+</ul>
+</li>
+</ul>
+<p>这些值称为根。</p>
+<ul>
+<li>如果引用或引用链可以从根访问任何其他值，则认为该值是可访问的。</li>
+</ul>
+<p>例如，如果局部变量中有对象，并且该对象具有引用另一个对象的属性，则该对象被视为可达性， 它引用的那些也是可以访问的，</p>
+<p>可达性 和 引用链</p>
+<p>不可达，引用链丢失，就回收对象。</p>
+<h2 id="null-undefined-NaN-“”-的区别"><a href="#null-undefined-NaN-“”-的区别" class="headerlink" title="null undefined NaN “” 的区别"></a>null undefined NaN “” 的区别</h2><p>null</p>
+<ul>
+<li>是一种特殊的object</li>
+<li>空值，空指针，指针未指向任何内存空间（指向不存在的东西）</li>
+<li>可以与undefined相等 == ，但 === 时不相等</li>
+<li>可以等于自己，返回true</li>
+<li>转化为数值是0，布尔值是false，字符串是’null’</li>
+<li>与false比较或严格比较，输出false </li>
+</ul>
+<p>undefined</p>
+<ul>
+<li>对应类型undefined</li>
+<li>全局作用域的一个变量</li>
+<li>空值，未定义，使用了一个并未声明的变量时，或者使用了已经声明但还没有赋值的变量时，又或者使用了一个并不存在的对象属性时，返回这个值</li>
+<li>可以等于自己，返回true</li>
+<li>转为数值是NaN，布尔值是false，字符串是’undefined’</li>
+<li>与false比较或严格比较，输出false </li>
+</ul>
+<p>NaN</p>
+<ul>
+<li>一种特殊的Number,表示非数字值，实际上也是一个数字（typeof NaN = “number”）</li>
+<li>NaN不等于自己(可以用isNaN()检测)</li>
+<li>转为数值是NaN，布尔值是false，字符串是’NaN’</li>
+<li>与false比较或严格比较，输出false </li>
+</ul>
+<p>“”</p>
+<ul>
+<li>字符串类型，不等于空格</li>
+<li>空字符串，长度为0</li>
+<li>转为数值是0，布尔值是false，字符串是””</li>
+<li>与false比较时输出true，严格比较时，输出false</li>
+</ul>
+<h2 id="完整的登陆流程"><a href="#完整的登陆流程" class="headerlink" title="完整的登陆流程"></a>完整的登陆流程</h2><p>登陆页面，点击登录按钮时触发的事件</p>
+<ul>
+<li>客户端请求后台接口</li>
+<li>后台验证通过，保存用户的登陆状态，并写入cookie中</li>
+<li>用户进入需要登录权限的页面时，判断该状态，确认用户是否需要重新登录</li>
+<li>如cookie过期，跳转至登录页重新认证</li>
+</ul>
+<h2 id="new操作符具体干了什么"><a href="#new操作符具体干了什么" class="headerlink" title="new操作符具体干了什么"></a>new操作符具体干了什么</h2><p>new的实现原理是什么？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let func = new Func()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建一个空对象obj</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let obj = new Object()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>链接到原型</li>
+</ul>
+<p>让obj对象的<strong>proto</strong>指向构造函数Func的原型<br>此时便建立了 obj 对象的原型链：obj-&gt;Func.prototype-&gt;Object.prototype-&gt;null</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">obj.__proto__ = Func.prototype</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>绑定this值</li>
+</ul>
+<p>让Func中的this指向obj对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Func.call(obj)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>返回obj对象</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func = obj</span><br></pre></td></tr></table></figure>
+
+<h2 id="数组去重方法"><a href="#数组去重方法" class="headerlink" title="数组去重方法"></a>数组去重方法</h2><ul>
+<li><p>双重for循环</p>
+</li>
+<li><p>filter + indexOf</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">arr.filter((item, index)=&gt; &#123;</span><br><span class="line">   return arr.indexOf(item) === index</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>ES6 new Set()</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function distinct(arr) &#123;</span><br><span class="line">    return Array.from(new Set([...arr]))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>for…of + Object</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function distinct(arr) &#123;</span><br><span class="line">    let result = []</span><br><span class="line">    let obj = &#123;&#125;</span><br><span class="line">    for (let i of arr) &#123;</span><br><span class="line">        if (!obj[i]) &#123;</span><br><span class="line">            result.push(i)</span><br><span class="line">            obj[i] = 1</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="回调函数与回调地狱"><a href="#回调函数与回调地狱" class="headerlink" title="回调函数与回调地狱"></a>回调函数与回调地狱</h2><p>在某一个方法的参数里放一个函数，这个函数就称之为回调函。</p>
+<p>回调地狱，就是回调函数里又调用方法，方法的参数里又放函数。</p>
+<p>回调地狱的根本问题：</p>
+<ul>
+<li><p>嵌套函数存在耦合性，一旦有所改动，就会牵一发而动全身，影响后面的代码执行。</p>
+</li>
+<li><p>嵌套函数一多，就很难定位和处理错误。</p>
+</li>
+</ul>
 
     </div>
     
@@ -326,7 +441,7 @@ new Valine({
             文章目录
         </h3>
         
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前端如何进行seo优化"><span class="toc-text">前端如何进行seo优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一次性插入1000个div，如何优化插入的性能"><span class="toc-text">一次性插入1000个div，如何优化插入的性能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#说说你对-SPA-单页面的理解，它的优缺点分别是什么？"><span class="toc-text">说说你对 SPA 单页面的理解，它的优缺点分别是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#computed-和-watch-的区别和运用的场景？"><span class="toc-text">computed 和 watch 的区别和运用的场景？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#直接给一个数组项赋值，Vue-能检测到变化吗？"><span class="toc-text">直接给一个数组项赋值，Vue 能检测到变化吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue-的父组件和子组件生命周期钩子函数执行顺序？"><span class="toc-text">Vue 的父组件和子组件生命周期钩子函数执行顺序？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在哪个生命周期内调用异步请求？"><span class="toc-text">在哪个生命周期内调用异步请求？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#父组件可以监听到子组件的生命周期吗？"><span class="toc-text">父组件可以监听到子组件的生命周期吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#谈谈你对-keep-alive-的了解？"><span class="toc-text">谈谈你对 keep-alive 的了解？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#组件中-data-为什么是一个函数？"><span class="toc-text">组件中 data 为什么是一个函数？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#虚拟-DOM-实现原理？"><span class="toc-text">虚拟 DOM 实现原理？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#你有对-Vue-项目进行哪些优化？"><span class="toc-text">你有对 Vue 项目进行哪些优化？</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前端如何进行seo优化"><span class="toc-text">前端如何进行seo优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一次性插入1000个div，如何优化插入的性能"><span class="toc-text">一次性插入1000个div，如何优化插入的性能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#说说你对-SPA-单页面的理解，它的优缺点分别是什么？"><span class="toc-text">说说你对 SPA 单页面的理解，它的优缺点分别是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#computed-和-watch-的区别和运用的场景？"><span class="toc-text">computed 和 watch 的区别和运用的场景？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#直接给一个数组项赋值，Vue-能检测到变化吗？"><span class="toc-text">直接给一个数组项赋值，Vue 能检测到变化吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue-的父组件和子组件生命周期钩子函数执行顺序？"><span class="toc-text">Vue 的父组件和子组件生命周期钩子函数执行顺序？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在哪个生命周期内调用异步请求？"><span class="toc-text">在哪个生命周期内调用异步请求？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#父组件可以监听到子组件的生命周期吗？"><span class="toc-text">父组件可以监听到子组件的生命周期吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#谈谈你对-keep-alive-的了解？"><span class="toc-text">谈谈你对 keep-alive 的了解？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#组件中-data-为什么是一个函数？"><span class="toc-text">组件中 data 为什么是一个函数？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#虚拟-DOM-实现原理？"><span class="toc-text">虚拟 DOM 实现原理？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#你有对-Vue-项目进行哪些优化？"><span class="toc-text">你有对 Vue 项目进行哪些优化？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#js的运行机制"><span class="toc-text">js的运行机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#js垃圾回收机制"><span class="toc-text">js垃圾回收机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#null-undefined-NaN-“”-的区别"><span class="toc-text">null undefined NaN “” 的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#完整的登陆流程"><span class="toc-text">完整的登陆流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#new操作符具体干了什么"><span class="toc-text">new操作符具体干了什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组去重方法"><span class="toc-text">数组去重方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#回调函数与回调地狱"><span class="toc-text">回调函数与回调地狱</span></a></li></ol>
         
     </div>
 </aside>

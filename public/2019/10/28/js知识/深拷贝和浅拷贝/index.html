@@ -1,0 +1,365 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="流莹离的个人博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/public/">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+<meta name="keywords" content="流莹离的个人博客">
+
+
+<meta name="description" content="深拷贝和浅拷贝的区别
+浅拷贝： 将原对象或原数组的引用直接赋给新对象，新数组，新对象／数组只是原对象的一个引用
+
+深拷贝： 创建一个新的对象和数组，将原对象的各项属性的“值”（数组的所有元素）拷...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    深拷贝和浅拷贝 |
+    
+    流莹离的个人博客
+</title>
+
+<link rel="alternate" href="/atom.xml" title="流莹离的个人博客" type="application/atom+xml">
+
+
+<link rel="icon" href="/public/favicon.ico">
+
+    
+
+<link rel="stylesheet" href="/public/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/public/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/public/css/style.css?rev=@@hash">
+    
+<div class="hide">
+    <script type="text/javascript">
+    var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+</div>
+
+
+
+
+    
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    http://snippet.shenliyang.com/img/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title='流莹离'>
+            <img src="/public/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                流莹离|拼命往前，仗剑天涯
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">
+                        流莹离的个人博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="https://wisteria-lynn.github.io/dist/index.html#/novel"><i class="fa "></i>
+                                小说</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/public/about"><i class="fa "></i>
+                                关于</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/public/archives"><i class="fa "></i>
+                                时间轴</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="深拷贝和浅拷贝">
+            
+            深拷贝和浅拷贝
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/public/categories/js/">js</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2019/10/28</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <h2 id="深拷贝和浅拷贝的区别"><a href="#深拷贝和浅拷贝的区别" class="headerlink" title="深拷贝和浅拷贝的区别"></a>深拷贝和浅拷贝的区别</h2><ul>
+<li><p>浅拷贝： 将原对象或原数组的引用直接赋给新对象，新数组，新对象／数组只是原对象的一个引用</p>
+</li>
+<li><p>深拷贝： 创建一个新的对象和数组，将原对象的各项属性的“值”（数组的所有元素）拷贝过来，是“值”而不是“引用”</p>
+</li>
+</ul>
+<h2 id="为什么要使用深拷贝？"><a href="#为什么要使用深拷贝？" class="headerlink" title="为什么要使用深拷贝？"></a>为什么要使用深拷贝？</h2><p>我们希望在改变新的数组（对象）的时候，不改变原数组（对象）</p>
+<h2 id="深拷贝的要求程度"><a href="#深拷贝的要求程度" class="headerlink" title="深拷贝的要求程度"></a>深拷贝的要求程度</h2><p>我们在使用深拷贝的时候，一定要弄清楚我们对深拷贝的要求程度：是仅“深”拷贝第一层级的对象属性或数组元素，还是递归拷贝所有层级的对象属性和数组元素？</p>
+<h2 id="怎么检验深拷贝成功"><a href="#怎么检验深拷贝成功" class="headerlink" title="怎么检验深拷贝成功"></a>怎么检验深拷贝成功</h2><p>改变任意一个新对象/数组中的属性/元素, 都不改变原对象/数组</p>
+<h2 id="拷贝类型"><a href="#拷贝类型" class="headerlink" title="拷贝类型"></a>拷贝类型</h2><p>1.基本数据类型的拷贝（名值存储栈内存中）</p>
+<p>number,string,boolean,null,undefined,symbol</p>
+<p>2.引用（复杂）数据（名存栈内存，栈内存有指向堆内存的地址，值存对内存）</p>
+<p>对象<code>{a:1}</code>,数组<code>[1,2,3]</code>,函数</p>
+<p>对象：日期对象，正则对象……</p>
+<h2 id="浅拷贝Object-assign"><a href="#浅拷贝Object-assign" class="headerlink" title="浅拷贝Object.assign"></a>浅拷贝Object.assign</h2><p>ES6中拷贝对象的方法，接受的第一个参数是拷贝的目标，剩下的参数是拷贝的源对象；</p>
+<blockquote>
+<p>语法：Object.assign(target, …sources)</p>
+</blockquote>
+<p>Object.assign是一个浅拷贝，它只是在根属性(对象的第一层级)创建了一个新的对象，但是如果属性的值是对象的话，只会拷贝一份相同的内存地址。如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> p = &#123;</span><br><span class="line">  <span class="string">'name'</span>: <span class="string">'张三'</span>,</span><br><span class="line">  <span class="string">'user'</span>:&#123;</span><br><span class="line">      age:<span class="string">'16'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> copyP = &#123;&#125;;</span><br><span class="line"><span class="built_in">Object</span>.assign(copyP, p);</span><br><span class="line">copyP.name = <span class="string">'yang'</span></span><br><span class="line"><span class="built_in">console</span>.log(copyP.name);<span class="comment">//yang</span></span><br><span class="line"><span class="built_in">console</span>.log(p.name);<span class="comment">// 张三</span></span><br><span class="line">copyP.user.age = <span class="string">'19'</span></span><br><span class="line"><span class="built_in">console</span>.log(copyP.user.age);<span class="comment">//19</span></span><br><span class="line"><span class="built_in">console</span>.log(p.user.age);<span class="comment">//19</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="浅拷贝扩展运算符"><a href="#浅拷贝扩展运算符" class="headerlink" title="浅拷贝扩展运算符"></a>浅拷贝扩展运算符</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;<span class="string">'name'</span>: <span class="string">'撩课'</span>, <span class="string">'college'</span>: [<span class="string">'H5'</span>,<span class="string">'JAVA'</span>,<span class="string">'Python'</span>]&#125;</span><br><span class="line"><span class="keyword">var</span> obj2 = &#123;...obj&#125;;</span><br><span class="line">obj.name=<span class="string">'小撩'</span>;</span><br><span class="line"><span class="comment">//&#123;'name': '小撩', 'college': ['H5','JAVA','Python']&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(obj);</span><br><span class="line"><span class="comment">//&#123;'name': '撩课', 'college': ['H5','JAVA','Python']&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(obj2); </span><br><span class="line">obj.college.push(<span class="string">'Go'</span>);</span><br><span class="line"><span class="comment">//&#123;'name': '小撩', 'college': ['H5','JAVA','Python','Go']&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(obj); </span><br><span class="line"><span class="comment">//&#123;'name': '小撩', 'college': ['H5','JAVA','Python','Go']&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(obj2);</span><br></pre></td></tr></table></figure>
+
+<p>扩展运算符和Object.assign()存在同样的问题，对于值是对象的属性无法完全拷贝成两个不同对象；</p>
+<p>但是如果属性都是基本类型的值的话，使用扩展运算符更加简洁。</p>
+<h2 id="深拷贝JSON-stringify"><a href="#深拷贝JSON-stringify" class="headerlink" title="深拷贝JSON.stringify"></a>深拷贝JSON.stringify</h2><p>注意：</p>
+<ul>
+<li><p>拷贝的对象的值中如果有函数,undefined,symbol，经过JSON.stringify()序列化后的JSON字符串中这个键值对会消失；</p>
+</li>
+<li><p>拷贝的数组的值中如果有函数,undefined,symbol，经过JSON.stringify()序列化后的JSON字符串中，这个值会变成null</p>
+</li>
+<li><p>无法拷贝不可枚举的属性，无法拷贝对象的原型链</p>
+</li>
+<li><p>拷贝Date引用类型会变成字符串</p>
+</li>
+<li><p>拷贝RegExp引用类型会变成空对象</p>
+</li>
+</ul>
+<blockquote>
+<p>对象中含有NaN、Infinity和-Infinity，则序列化的结果会变成null</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = [</span><br><span class="line">	&#123;</span><br><span class="line">		number1:<span class="literal">null</span>,</span><br><span class="line">		number2:<span class="literal">undefined</span>,</span><br><span class="line">		number3:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="keyword">return</span> <span class="number">1</span>&#125;,</span><br><span class="line">		number: <span class="number">1</span>,</span><br><span class="line">		second: &#123;</span><br><span class="line">			name: <span class="string">'333'</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="keyword">return</span> <span class="number">2</span>&#125;,</span><br><span class="line">	[<span class="number">3</span>, <span class="number">4</span>],</span><br><span class="line">	<span class="literal">false</span>,</span><br><span class="line">	<span class="literal">true</span>,</span><br><span class="line">	<span class="number">45</span>,</span><br><span class="line">	<span class="literal">null</span>,</span><br><span class="line">	<span class="literal">undefined</span>,</span><br><span class="line">	&#123;<span class="attr">data</span>:<span class="keyword">new</span> <span class="built_in">Date</span>()&#125;,</span><br><span class="line">	&#123;<span class="attr">reg</span>:<span class="regexp">/\w/g</span>&#125;,</span><br><span class="line">	<span class="built_in">Number</span>(<span class="string">'sdgd34'</span>)</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">JSON</span>.stringify(obj))</span><br><span class="line"><span class="comment">// [&#123;"number1":null,"number":1,"second":&#123;"name":"333"&#125;&#125;,null,[3,4],false,true,45,null,null,&#123;"data":"2019-10-28T05:47:23.064Z"&#125;,&#123;"reg":&#123;&#125;&#125;,null]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="手写简单的拷贝对象"><a href="#手写简单的拷贝对象" class="headerlink" title="手写简单的拷贝对象"></a>手写简单的拷贝对象</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 辅助函数, 判定是否是对象</span></span><br><span class="line"><span class="comment"> * @param obj</span></span><br><span class="line"><span class="comment"> * @returns &#123;boolean&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isObj</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> obj <span class="keyword">instanceof</span> <span class="built_in">Object</span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 深拷贝fromObj面的所有属性/值, 到toObj对象里面</span></span><br><span class="line"><span class="comment"> * @param fromObj 拷贝对象</span></span><br><span class="line"><span class="comment"> * @param toObj  目标对象</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepCopyObj2NewObj</span>(<span class="params">fromObj, toObj</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> fromObj) &#123;</span><br><span class="line">    <span class="keyword">if</span>(fromObj.hasOwnProperty(key))&#123;</span><br><span class="line">      <span class="keyword">var</span> fromValue = fromObj[key];</span><br><span class="line">      <span class="comment">// 如果是值类型，那么就直接拷贝赋值</span></span><br><span class="line">      <span class="keyword">if</span> (!isObj(fromValue)) &#123;</span><br><span class="line">        toObj[key] = fromValue;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 如果是引用类型，那么就再调用一次这个方法，</span></span><br><span class="line">        <span class="comment">// 去内部拷贝这个对象的所有属性</span></span><br><span class="line">        <span class="comment">// fromValue是什么类型, 创建一个该类型的空对象</span></span><br><span class="line">        <span class="keyword">var</span> tmpObj = <span class="keyword">new</span> fromValue.constructor;</span><br><span class="line"> </span><br><span class="line">        <span class="comment">// console.log(tmpObj);</span></span><br><span class="line">        <span class="comment">// debugger;</span></span><br><span class="line">        deepCopyObj2NewObj(fromValue, tmpObj);</span><br><span class="line">        toObj[key] = tmpObj;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="存在大量深拷贝需求的代码——immutable提供的解决方案"><a href="#存在大量深拷贝需求的代码——immutable提供的解决方案" class="headerlink" title="存在大量深拷贝需求的代码——immutable提供的解决方案"></a>存在大量深拷贝需求的代码——immutable提供的解决方案</h2><p>实际上，即使我们知道了如何在各种情况下进行深拷贝，我们也仍然面临一些问题： 深拷贝实际上是很消耗性能的。（我们可能只是希望改变新数组里的其中一个元素的时候不影响原数组，但却被迫要把整个原数组都拷贝一遍，这不是一种浪费吗？）所以，当你的项目里有大量深拷贝需求的时候，性能就可能形成了一个制约的瓶颈了。</p>
+<p>immutable的作用：</p>
+<p>通过immutable引入的一套API，实现：</p>
+<ul>
+<li><p>在改变新的数组（对象）的时候，不改变原数组（对象）</p>
+</li>
+<li><p>在大量深拷贝操作中显著地减少性能消耗</p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; <span class="built_in">Map</span> &#125; = <span class="built_in">require</span>(<span class="string">'immutable'</span>)</span><br><span class="line"><span class="keyword">const</span> map1 = <span class="built_in">Map</span>(&#123; <span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">2</span>, <span class="attr">c</span>: <span class="number">3</span> &#125;)</span><br><span class="line"><span class="keyword">const</span> map2 = map1.set(<span class="string">'b'</span>, <span class="number">50</span>)</span><br><span class="line">map1.get(<span class="string">'b'</span>) <span class="comment">// 2</span></span><br><span class="line">map2.get(<span class="string">'b'</span>) <span class="comment">// 50</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>1）在日常开发中一般并不需要拷贝很多特殊的引用类型，深拷贝对象使用JSON.stringify是最直接和简单的方法。</p>
+<p>2）实现一个完整的深拷贝是非常复杂的,需要考虑到很多边界情况。对于特殊的引用类型有拷贝需求的话，建议借助第三方完整的库。</p>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">流莹离</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/public/2019/10/28/js知识/原型链/" class="pre-post btn btn-default" title='原型链'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            原型链</span>
+    </a>
+    
+    
+    <a href="/public/2019/10/25/算法/排序算法/" class="next-post btn btn-default" title='排序算法'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            排序算法</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<div id="comments">
+    
+
+<div id="vcomments" class="valine"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/public/assets/valine.min.js"></script>
+<script>
+new Valine({
+    av: AV,
+    el: '#vcomments',
+    appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+    appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+    placeholder: '说点什么吧',
+    notify: false,
+    verify: true,
+    avatar: 'mm',
+    meta: 'nick,mail'.split(','),
+    pageSize: '10',
+    path: window.location.pathname,
+    lang: 'zh-CN'.toLowerCase()
+})
+</script>
+
+
+</div>
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#深拷贝和浅拷贝的区别"><span class="toc-text">深拷贝和浅拷贝的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么要使用深拷贝？"><span class="toc-text">为什么要使用深拷贝？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#深拷贝的要求程度"><span class="toc-text">深拷贝的要求程度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#怎么检验深拷贝成功"><span class="toc-text">怎么检验深拷贝成功</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拷贝类型"><span class="toc-text">拷贝类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浅拷贝Object-assign"><span class="toc-text">浅拷贝Object.assign</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浅拷贝扩展运算符"><span class="toc-text">浅拷贝扩展运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#深拷贝JSON-stringify"><span class="toc-text">深拷贝JSON.stringify</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#手写简单的拷贝对象"><span class="toc-text">手写简单的拷贝对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#存在大量深拷贝需求的代码——immutable提供的解决方案"><span class="toc-text">存在大量深拷贝需求的代码——immutable提供的解决方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+    访问量:
+    <strong id="busuanzi_value_site_pv">
+        <i class="fa fa-spinner fa-spin"></i>
+    </strong>
+    &nbsp; | &nbsp;
+    访客数:
+    <strong id="busuanzi_value_site_uv">
+        <i class="fa fa-spinner fa-spin"></i>
+    </strong>
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2017
+                    <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                        流莹离</a>
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/public/js/app.js?rev=@@hash"></script>
+</body>
+</html>

@@ -75,7 +75,7 @@
 		},
 		methods: {
 			read(){
-				const loading = this.$loading({
+				this.$loading({
 					lock: true,
 					text: 'Loading',
 					spinner: 'el-icon-loading',
@@ -89,7 +89,6 @@
 						title: this.readData.title
 					}
 				})
-				loading.close()
 			}
 		}
 	}
