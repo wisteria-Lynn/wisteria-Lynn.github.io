@@ -22,7 +22,18 @@
 <meta name="keywords" content="流莹离的个人博客">
 
 
-<meta name="description" content="流莹离的个人博客">
+<meta name="description" content="let,const
+let
+
+let定义变量不可以再次定义,可以从新赋值
+具有块级作用域
+没有变量提升,必须先定义在使用
+let声明的变量不能被window调用,是独立的
+
+
+const
+
+co...">
 
 
 <meta name="robots" content="all">
@@ -144,7 +155,7 @@
     
     <span class="categories-meta fa-wrap">
         <i class="fa fa-folder-open-o"></i>
-        
+        <a class="category-link" href="/public/categories/es6/">es6</a> <a class="category-link" href="/public/categories/es6/js/">js</a>
     </span>
     
     
@@ -175,7 +186,107 @@
     </div>
     
     <div class="post-body post-content">
-        
+        <h2 id="let-const"><a href="#let-const" class="headerlink" title="let,const"></a>let,const</h2><ul>
+<li><p>let</p>
+<ul>
+<li>let定义变量不可以再次定义,可以从新赋值</li>
+<li>具有块级作用域</li>
+<li>没有变量提升,必须先定义在使用</li>
+<li>let声明的变量不能被window调用,是独立的</li>
+</ul>
+</li>
+<li><p>const</p>
+<ul>
+<li>const定义常量,是不可变的,一旦定义,不能修改其值</li>
+<li>初始化常量时,必须给初始值</li>
+<li>具有块级作用域</li>
+<li>没有变量提升,必须先定义在使用</li>
+<li>const声明的常量也是独立的,不能被window调用</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>var<br>变量提升，可被window调用，可以不给初始值，具有全局作用域</p>
+</blockquote>
+<h2 id="解构赋值"><a href="#解构赋值" class="headerlink" title="解构赋值"></a>解构赋值</h2><ul>
+<li><p>数组解构</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1.变量和值一一对应</span></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> [a, b, c] = arr;</span><br><span class="line"><span class="built_in">console</span>.log(a,b,c);   <span class="comment">// 1 2 3</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2. 变量多,值少</span></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">5</span>, <span class="number">8</span>];</span><br><span class="line"><span class="keyword">let</span> [a, b, c, d] = arr;</span><br><span class="line"><span class="built_in">console</span>.log(a, b, c, d); <span class="comment">// 1 5 8 undefined</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 3. 变量少,值多</span></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="number">5</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">8</span>, <span class="number">3</span>, <span class="number">2</span>];</span><br><span class="line"><span class="keyword">let</span> [a, b] = arr;</span><br><span class="line"><span class="built_in">console</span>.log(a, b);  <span class="comment">// 5, 9</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 4.按需取值</span></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="number">5</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">8</span>, <span class="number">3</span>, <span class="number">2</span>];</span><br><span class="line"><span class="keyword">let</span> [, , a, , b] = arr; <span class="comment">// 不需要用变量接收的值，用空位占位</span></span><br><span class="line"><span class="built_in">console</span>.log(a, b); <span class="comment">// 10, 3</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 5.剩余值</span></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="number">5</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">8</span>, <span class="number">3</span>, <span class="number">2</span>];</span><br><span class="line"><span class="keyword">let</span> [a, b, ...c] = arr; <span class="comment">// ...c 接收剩余的其他值，得到的c是一个数组</span></span><br><span class="line"><span class="built_in">console</span>.log(a, b, c); </span><br><span class="line"><span class="comment">// 结果：</span></span><br><span class="line"><span class="comment">// a = 5, </span></span><br><span class="line"><span class="comment">// b = 9, </span></span><br><span class="line"><span class="comment">// c = [10, 8, 3, 2]</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 6.复杂的情况,只要符合模式.即可解构</span></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="string">'zhangsan'</span>, <span class="number">18</span>, [<span class="string">'175cm'</span>, <span class="string">'65kg'</span>]];</span><br><span class="line"><span class="keyword">let</span> [, , [a, b]] = arr;</span><br><span class="line"><span class="built_in">console</span>.log(a, b); <span class="comment">// 175cm 65kg</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对象解构</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 变量名和属性名一样</span></span><br><span class="line"><span class="keyword">let</span> &#123; foo, bar &#125; = &#123;<span class="attr">foo</span>: <span class="string">'aaa'</span>, <span class="attr">bar</span>: <span class="string">'bbb'</span>&#125;;</span><br><span class="line"><span class="built_in">console</span>.log(foo, bar); <span class="comment">// aaa, bbb</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> &#123;a, c&#125; = &#123;<span class="attr">a</span>: <span class="string">'hello'</span>, <span class="attr">b</span>: <span class="string">'world'</span>&#125;;</span><br><span class="line"><span class="built_in">console</span>.log(a, c); <span class="comment">// hello, undefined</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2. 通过 :来更改变量名</span></span><br><span class="line"><span class="keyword">let</span> &#123;a, <span class="attr">b</span>:c&#125; = &#123;<span class="attr">a</span>: <span class="string">'hello'</span>, <span class="attr">b</span>: <span class="string">'world'</span>&#125;;</span><br><span class="line"><span class="built_in">console</span>.log(a, c); <span class="comment">// hello, world</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 3. 变量名和属性名一致即可获取到值,不需要一一对应,无需按顺序</span></span><br><span class="line"><span class="keyword">let</span> &#123;b,a&#125; = &#123;<span class="attr">a</span>: <span class="string">'hello'</span>, <span class="attr">b</span>: <span class="string">'world'</span>&#125;;</span><br><span class="line"><span class="built_in">console</span>.log(b); <span class="comment">// world</span></span><br><span class="line"><span class="built_in">console</span>.log(a); <span class="comment">// hello</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 4. 剩余值</span></span><br><span class="line"><span class="keyword">let</span> obj = &#123;<span class="attr">name</span>:<span class="string">'橘右京'</span>, <span class="attr">age</span>:<span class="number">20</span>, <span class="attr">gender</span>:<span class="string">'男'</span>&#125;;</span><br><span class="line"><span class="keyword">let</span> &#123;name, ...a&#125; = obj;</span><br><span class="line"><span class="built_in">console</span>.log(name, a);  <span class="comment">// name = zs   a = &#123;age: 20, gender: "男"&#125;;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 5. 复杂情况,只要符合模式,即可解构</span></span><br><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">name: <span class="string">'不知火舞'</span>,</span><br><span class="line">age: <span class="number">22</span>,</span><br><span class="line">dog: &#123;</span><br><span class="line">    name: <span class="string">'娜可露露'</span>,</span><br><span class="line">    age: <span class="number">13</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">let</span> &#123;<span class="attr">dog</span>: &#123;name, age&#125;&#125; = obj;</span><br><span class="line"><span class="built_in">console</span>.log(name, age); <span class="comment">// 娜可露露 13</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<p>dog不会被赋值，只有最后的对象才会被赋值</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 假设服务器上的获取的数据如下</span></span><br><span class="line"><span class="keyword">let</span> res = &#123;</span><br><span class="line">    data: [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>],</span><br><span class="line">    meta: &#123;</span><br><span class="line">        code: <span class="number">200</span>,</span><br><span class="line">        msg: <span class="string">'获取数据成功'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 如何获取到 code 和 msg</span></span><br><span class="line"><span class="keyword">let</span> &#123; <span class="attr">meta</span>: &#123; code, msg &#125; &#125; = res;</span><br><span class="line"><span class="built_in">console</span>.log(code, msg); <span class="comment">// 200, 获取数据成功</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><ul>
+<li><p>箭头函数（往下讲）</p>
+</li>
+<li><p>函数参数的默认值</p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ES5 中给参数设置默认值的变通做法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">x, y</span>) </span>&#123;</span><br><span class="line">    y = y || <span class="string">'world'</span>;</span><br><span class="line">    <span class="built_in">console</span>.log(x, y);</span><br><span class="line">&#125;</span><br><span class="line">fn(<span class="number">1</span>)</span><br><span class="line"><span class="comment">// ES6 中给函数设置默认值</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">x, y = <span class="string">'world'</span></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(x, y);</span><br><span class="line">&#125;</span><br><span class="line">fn(<span class="number">2</span>)</span><br><span class="line">fn(<span class="number">2</span>,<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>rest参数</li>
+</ul>
+<p>剩余参数,以…修饰最后一个参数,把多余的参数放到一个数组中</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 参数很多，不确定多少个，可以使用剩余参数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">...values</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(values); <span class="comment">// [6, 1, 100, 9, 10]</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 调用</span></span><br><span class="line"><span class="built_in">console</span>.log(fn(<span class="number">6</span>, <span class="number">1</span>, <span class="number">100</span>, <span class="number">9</span>, <span class="number">10</span>));</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>rest参数只能是最后一个参数</p>
+</blockquote>
+<h2 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h2><ul>
+<li><p>箭头函数的特点</p>
+<ul>
+<li>箭头函数内部的this指向外部作用域中的this,箭头函数没有自己的this</li>
+<li>箭头函数中内部没有arguments</li>
+<li>箭头函数不能作为构造函数</li>
+</ul>
+</li>
+</ul>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="function"><span class="params">()</span>=&gt;</span>&#123;&#125;</span><br><span class="line"><span class="comment">// 等价于</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="内置对象的扩展"><a href="#内置对象的扩展" class="headerlink" title="内置对象的扩展"></a>内置对象的扩展</h2><ul>
+<li><p>array的扩展</p>
+<ul>
+<li>扩展运算符(…可以把数组中的每一项展开)</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 合并两个数组</span></span><br><span class="line"><span class="keyword">let</span> arr1 = [<span class="number">1</span>, <span class="number">2</span>];</span><br><span class="line"><span class="keyword">let</span> arr2 = [<span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line"><span class="keyword">let</span> arr3 = [...arr1, ...arr2];</span><br><span class="line"><span class="built_in">console</span>.log(arr3); <span class="comment">// [1, 2, 3, 4]</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>Array.from()</p>
+<ul>
+<li>把伪数组转换成数组</li>
+<li>伪数组必须有length属性,没有length得到一个空数组</li>
+<li>转换后的数组长度根据伪数组的length决定的</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> fakeArr = &#123;</span><br><span class="line">    <span class="number">0</span>: <span class="string">'a'</span>,</span><br><span class="line">    <span class="number">1</span>: <span class="string">'b'</span>,</span><br><span class="line">    <span class="number">2</span>: <span class="string">'c'</span>,</span><br><span class="line">    length: <span class="number">3</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">let</span> arr = <span class="built_in">Array</span>.from(fakeArr);</span><br><span class="line"><span class="built_in">console</span>.log(arr); <span class="comment">// ['a', 'b', 'c']</span></span><br></pre></td></tr></table></figure>
     </div>
     
     <div class="post-footer">
@@ -192,6 +303,12 @@
     </div>
 </article>
 <div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/public/2019/10/29/js知识/arguments/" class="pre-post btn btn-default" title='arguments'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            arguments</span>
+    </a>
     
     
     <a href="/public/2019/10/28/js知识/原型链/" class="next-post btn btn-default" title='原型链'>
@@ -236,7 +353,7 @@ new Valine({
             文章目录
         </h3>
         
-        <p>暂无目录</p>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#let-const"><span class="toc-text">let,const</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解构赋值"><span class="toc-text">解构赋值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#函数"><span class="toc-text">函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#箭头函数"><span class="toc-text">箭头函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内置对象的扩展"><span class="toc-text">内置对象的扩展</span></a></li></ol>
         
     </div>
 </aside>

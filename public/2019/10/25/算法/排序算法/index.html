@@ -22,7 +22,17 @@
 <meta name="keywords" content="流莹离的个人博客">
 
 
-<meta name="description" content="流莹离的个人博客">
+<meta name="description" content="八大算法
+快速排序
+冒泡排序
+插入排序
+堆排序
+希尔排序
+归并排序
+简单选择排序
+交换排序
+
+快速排序原理：选择一个基准元素，将比基准元素小的元素放在其前面，比基准元素大的元素放在其后面，然后在...">
 
 
 <meta name="robots" content="all">
@@ -144,7 +154,7 @@
     
     <span class="categories-meta fa-wrap">
         <i class="fa fa-folder-open-o"></i>
-        
+        <a class="category-link" href="/public/categories/js/">js</a>
     </span>
     
     
@@ -175,7 +185,41 @@
     </div>
     
     <div class="post-body post-content">
-        
+        <h2 id="八大算法"><a href="#八大算法" class="headerlink" title="八大算法"></a>八大算法</h2><ul>
+<li>快速排序</li>
+<li>冒泡排序</li>
+<li>插入排序</li>
+<li>堆排序</li>
+<li>希尔排序</li>
+<li>归并排序</li>
+<li>简单选择排序</li>
+<li>交换排序</li>
+</ul>
+<h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><p>原理：选择一个基准元素，将比基准元素小的元素放在其前面，比基准元素大的元素放在其后面，然后在将小于基准值元素的子数列和大于基准元素的子数列按原来的方法排序，直到整个序列有序;</p>
+<p>时间复杂度：O(NlogN) 　　</p>
+<p>稳定性：不稳定</p>
+<h2 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h2><p>原理：在要排序的一组数中，对当前还未排好序的范围内的全部数，自上而下对相邻的两个数依次进行比较，让较大的数往下沉，较小的往上冒。即：每当两相邻的数比较后发现他们的排序与排序要求相反时，就将他们互换。</p>
+<p>时间复杂度：O(N*N) 　</p>
+<p>稳定性：稳定</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bubbleSort</span>(<span class="params">arr</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> temp;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i&lt;arr.length - <span class="number">1</span>;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> j = <span class="number">0</span>;j&lt;arr.length - <span class="number">1</span> - i;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(arr[j] &gt; arr[j+<span class="number">1</span>])&#123;</span><br><span class="line">                temp = arr[j]</span><br><span class="line">                arr[j] = arr[j+<span class="number">1</span>]</span><br><span class="line">                arr[j+<span class="number">1</span>] = temp</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bubbleSort</span>(<span class="params">arr</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> temp,j;</span><br><span class="line">    <span class="keyword">let</span> len = arr.length</span><br><span class="line">    <span class="keyword">while</span>(len &gt; <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">for</span>(j = <span class="number">0</span>;j&lt;len - <span class="number">1</span>;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(arr[j] &gt; arr[j+<span class="number">1</span>])&#123;</span><br><span class="line">               temp = arr[j]</span><br><span class="line">               arr[j] = arr[j+<span class="number">1</span>]</span><br><span class="line">               arr[j+<span class="number">1</span>] = temp</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        i--;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h2><p>原理：将一个记录插入到已排序好的有序表中，从而得到一个新的，记录数增1的有序表。即先将序列的第一个记录看成是一个有序的子序列，然后从第二个记录逐个进行插入，直至整个序列有序为止。</p>
+<h2 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h2><p>原理：</p>
+<h2 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h2><p>原理：</p>
+<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p>原理：</p>
+<h2 id="堆排序-1"><a href="#堆排序-1" class="headerlink" title="堆排序"></a>堆排序</h2><p>原理：</p>
+<h2 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h2><p>原理：</p>
+<p>第一趟：从第一个记录开始，将后面n-1个记录进行比较，找到其中最小的记录和第一个记录进行交换；</p>
+<p>第二趟：从第二个记录开始，将后面n-2个记录进行比较，找到其中最小的记录和第2个记录进行交换；</p>
+<p>………..</p>
+<p>第i趟：从第i个记录开始，将后面n-i个记录进行比较，找到其中最小的记录和第i个记录进行交换；</p>
+<p>以此类推，经过n-1趟比较，将n-1个记录排到位，剩下一个最大记录直接排在最后；</p>
+<p>时间复杂度：O(N*N) 　　</p>
+<p>稳定性：不稳定</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">selectSort</span>(<span class="params">arr</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> temp;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i&lt;arr.length;i++)&#123;</span><br><span class="line">        <span class="keyword">let</span> minIndex = i;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> j = i;j&lt;arr.length;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(arr[j] &lt; arr[minIndex])&#123;</span><br><span class="line">                minIndex = j</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(minIndex !== i)&#123;</span><br><span class="line">            temp = arr[i];</span><br><span class="line">            arr[i] = arr[minIndex]</span><br><span class="line">            arr[minIndex] = temp</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="交换排序"><a href="#交换排序" class="headerlink" title="交换排序"></a>交换排序</h2><p>原理：</p>
+
     </div>
     
     <div class="post-footer">
@@ -242,7 +286,7 @@ new Valine({
             文章目录
         </h3>
         
-        <p>暂无目录</p>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#八大算法"><span class="toc-text">八大算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#快速排序"><span class="toc-text">快速排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#冒泡排序"><span class="toc-text">冒泡排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#插入排序"><span class="toc-text">插入排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#堆排序"><span class="toc-text">堆排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#希尔排序"><span class="toc-text">希尔排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#归并排序"><span class="toc-text">归并排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#堆排序-1"><span class="toc-text">堆排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#选择排序"><span class="toc-text">选择排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#交换排序"><span class="toc-text">交换排序</span></a></li></ol>
         
     </div>
 </aside>

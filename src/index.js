@@ -201,7 +201,15 @@ Vue.prototype.layer = layer(Vue)
 
 // vuex
 Vue.use(Vuex)
-Vue.use(Viewer)
+Vue.use(Viewer, {
+	debug: true,
+	defaultOptions: {
+		'inline': false,
+		'navbar': false,
+		'url': 'data-source',
+		zIndex: 9999
+	}
+})
 // 路由
 Vue.use(Router)
 const router = new Router({

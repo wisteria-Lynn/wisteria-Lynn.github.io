@@ -1,0 +1,356 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="流莹离的个人博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/public/">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+<meta name="keywords" content="流莹离的个人博客">
+
+
+<meta name="description" content="File通常情况下， File 对象是来自用户在一个 &lt;input&gt;元素上选择文件后返回的 FileList 对象,也可以是来自由拖放操作生成的 DataTransfer 对象，或者...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    file,blob,base64格式转换 |
+    
+    流莹离的个人博客
+</title>
+
+<link rel="alternate" href="/atom.xml" title="流莹离的个人博客" type="application/atom+xml">
+
+
+<link rel="icon" href="/public/favicon.ico">
+
+    
+
+<link rel="stylesheet" href="/public/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/public/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/public/css/style.css?rev=@@hash">
+    
+<div class="hide">
+    <script type="text/javascript">
+    var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+</div>
+
+
+
+
+    
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    http://snippet.shenliyang.com/img/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title='流莹离'>
+            <img src="/public/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                流莹离|拼命往前，仗剑天涯
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">
+                        流莹离的个人博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="https://wisteria-lynn.github.io/dist/index.html#/novel"><i class="fa "></i>
+                                小说</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/public/about"><i class="fa "></i>
+                                关于</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/public/archives"><i class="fa "></i>
+                                时间轴</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="file,blob,base64格式转换">
+            
+            file,blob,base64格式转换
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/public/categories/js/">js</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2019/10/30</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <h2 id="File"><a href="#File" class="headerlink" title="File"></a>File</h2><p>通常情况下， File 对象是来自用户在一个 <code>&lt;input&gt;</code>元素上选择文件后返回的 FileList 对象,也可以是来自由拖放操作生成的 DataTransfer 对象，或者来自 HTMLCanvasElement 上的 mozGetAsFile() API。</p>
+<p>File 对象是特殊类型的 Blob，且可以用在任意的 Blob 类型的 context中。</p>
+<p><strong>构造函数</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myFile = <span class="keyword">new</span> File(bits, name[, options]);</span><br><span class="line"><span class="comment">// 例如</span></span><br><span class="line"><span class="keyword">var</span> file = <span class="keyword">new</span> File([<span class="string">"foo"</span>], <span class="string">"foo.txt"</span>, &#123;</span><br><span class="line">  type: <span class="string">"text/plain"</span>,</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">Object</span>.prototype.toString.call(file)<span class="comment">// [object File]</span></span><br></pre></td></tr></table></figure>
+
+<p>参数：</p>
+<ul>
+<li><p>bits<br>ArrayBuffer，ArrayBufferView，Blob，或者 DOMString 对象的 Array — 或者任何这些对象的组合。这是 UTF-8 编码的文件内容。</p>
+</li>
+<li><p>name</p>
+<p>USVString，表示文件名称，或者文件路径。</p>
+</li>
+<li><p>options(可选)</p>
+<p>选项对象，包含文件的可选属性。可用的选项如下：</p>
+<ul>
+<li>type: DOMString，表示将要放到文件中的内容的 MIME 类型。默认值为 “” 。</li>
+<li>lastModified: 数值，表示文件最后修改时间的 Unix 时间戳（毫秒）。默认值为 Date.now()。</li>
+</ul>
+</li>
+</ul>
+<p><strong>属性</strong></p>
+<p>File 接口也继承了 Blob 接口的属性：</p>
+<ul>
+<li><p>File.lastModified 只读<br>返回当前 File 对象所引用文件最后修改时间，自 UNIX 时间起始值（1970年1月1日 00:00:00 UTC）以来的毫秒数。</p>
+</li>
+<li><p>File.lastModifiedDate 只读<br>返回当前 File 对象所引用文件最后修改时间的 Date 对象。</p>
+</li>
+<li><p>File.name 只读<br>返回当前 File 对象所引用文件的名字。</p>
+</li>
+<li><p>File.size 只读<br>返回文件的大小。</p>
+</li>
+<li><p>File.webkitRelativePath 只读<br>返回 File 相关的 path 或 URL。</p>
+</li>
+<li><p>File.type 只读<br>返回文件的 多用途互联网邮件扩展类型（MIME Type）</p>
+</li>
+</ul>
+<p><strong>方法</strong></p>
+<p>File 接口没有定义任何方法，但是它从 Blob 接口继承了以下方法：</p>
+<p>Blob.slice([start[, end[, contentType]]])<br>返回一个新的 Blob 对象，它包含有源 Blob 对象中指定范围内的数据。</p>
+<blockquote>
+<p>file可分blob碎片提交</p>
+</blockquote>
+<p><strong>浏览器兼容</strong></p>
+<p>Edge/IE 不支持File的构造函数</p>
+<h2 id="File转url"><a href="#File转url" class="headerlink" title="File转url"></a>File转url</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> _URL = <span class="built_in">window</span>.URL || <span class="built_in">window</span>.webkitURL;</span><br><span class="line"><span class="keyword">let</span> url = _URL.createObjectURL(file|blob)</span><br><span class="line"><span class="comment">// 释放</span></span><br><span class="line">_URL.revokeObjectURL(url)</span><br></pre></td></tr></table></figure>
+
+<h2 id="base64转Blob"><a href="#base64转Blob" class="headerlink" title="base64转Blob"></a>base64转Blob</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dataURLtoBlob</span>(<span class="params">dataurl</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> arr = dataurl.split(<span class="string">','</span>), mime = arr[<span class="number">0</span>].match(<span class="regexp">/:(.*?);/</span>)[<span class="number">1</span>],</span><br><span class="line">        bstr = atob(arr[<span class="number">1</span>]), n = bstr.length, u8arr = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(n);</span><br><span class="line">    <span class="keyword">while</span> (n--) &#123;</span><br><span class="line">        u8arr[n] = bstr.charCodeAt(n);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Blob([u8arr], &#123; <span class="attr">type</span>: mime &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Blob转为base64"><a href="#Blob转为base64" class="headerlink" title="Blob转为base64"></a>Blob转为base64</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">blobToDataURL</span>(<span class="params">blob, callback</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> a = <span class="keyword">new</span> FileReader();</span><br><span class="line">    a.onload = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123; callback(e.target.result); &#125;</span><br><span class="line">    a.readAsDataURL(blob);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="base64转File"><a href="#base64转File" class="headerlink" title="base64转File"></a>base64转File</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dataURLtoFile</span>(<span class="params">dataurl, filename</span>) </span>&#123;<span class="comment">//将base64转换为文件</span></span><br><span class="line">        <span class="keyword">var</span> arr = dataurl.split(<span class="string">','</span>), mime = arr[<span class="number">0</span>].match(<span class="regexp">/:(.*?);/</span>)[<span class="number">1</span>],</span><br><span class="line">            bstr = atob(arr[<span class="number">1</span>]), n = bstr.length, u8arr = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(n);</span><br><span class="line">        <span class="keyword">while</span>(n--)&#123;</span><br><span class="line">            u8arr[n] = bstr.charCodeAt(n);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> File([u8arr], filename, &#123;<span class="attr">type</span>:mime&#125;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="url转base64"><a href="#url转base64" class="headerlink" title="url转base64"></a>url转base64</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgToBase64</span>(<span class="params">url,callback</span>)</span>&#123;<span class="comment">//将图片转换为Base64</span></span><br><span class="line">  <span class="keyword">var</span> canvas = <span class="built_in">document</span>.createElement(<span class="string">'canvas'</span>),</span><br><span class="line">    ctx = canvas.getContext(<span class="string">'2d'</span>),</span><br><span class="line">    img = <span class="keyword">new</span> Image;</span><br><span class="line">  img.crossOrigin = <span class="string">'Anonymous'</span>;</span><br><span class="line">  img.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    canvas.height = img.height;</span><br><span class="line">    canvas.width = img.width;</span><br><span class="line">    ctx.drawImage(img,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">var</span> dataURL = canvas.toDataURL(<span class="string">'image/png'</span>);</span><br><span class="line">    callback(dataURL);</span><br><span class="line">    canvas = <span class="literal">null</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">  img.src = url;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">流莹离</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/public/2019/11/06/css/css的一些常见面试题/" class="pre-post btn btn-default" title='css的一些常见面试题'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            css的一些常见面试题</span>
+    </a>
+    
+    
+    <a href="/public/2019/10/29/js知识/arguments/" class="next-post btn btn-default" title='arguments'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            arguments</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<div id="comments">
+    
+
+<div id="vcomments" class="valine"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/public/assets/valine.min.js"></script>
+<script>
+new Valine({
+    av: AV,
+    el: '#vcomments',
+    appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+    appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+    placeholder: '说点什么吧',
+    notify: false,
+    verify: true,
+    avatar: 'mm',
+    meta: 'nick,mail'.split(','),
+    pageSize: '10',
+    path: window.location.pathname,
+    lang: 'zh-CN'.toLowerCase()
+})
+</script>
+
+
+</div>
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#File"><span class="toc-text">File</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#File转url"><span class="toc-text">File转url</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#base64转Blob"><span class="toc-text">base64转Blob</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Blob转为base64"><span class="toc-text">Blob转为base64</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#base64转File"><span class="toc-text">base64转File</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#url转base64"><span class="toc-text">url转base64</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+    访问量:
+    <strong id="busuanzi_value_site_pv">
+        <i class="fa fa-spinner fa-spin"></i>
+    </strong>
+    &nbsp; | &nbsp;
+    访客数:
+    <strong id="busuanzi_value_site_uv">
+        <i class="fa fa-spinner fa-spin"></i>
+    </strong>
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2017
+                    <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                        流莹离</a>
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/public/js/app.js?rev=@@hash"></script>
+</body>
+</html>

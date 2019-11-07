@@ -1,6 +1,5 @@
 <template>
     <div class="x-cropper">
-		{{cropperStore}}
 		<el-upload action=""
 				   list-type="picture-card"
 				   :auto-upload="false"
@@ -8,23 +7,44 @@
 				   :on-change='changeUpload'>
 			<i class="el-icon-upload"></i>
 		</el-upload>
-		<img v-if="cropperStore.cropperImg !== ''" :src="cropperStore.cropperImg">
+		<img :src="avatarImageUrl">
+		<v-cropper v-if="cropperShow"
+				   :cropperOptions="cropperOptions"
+				   @out="outCropper"
+				   @submit="getCropperImage"
+				   type="avatar"></v-cropper>
+		<div v-viewer="viewerOptions" class="viewerShow">
+			<img class="head-picImg" :src="imgurl">
+		</div>
 	</div>
 </template>
 
 <script>
+	import cropper from '../../../components/cropper/cropperMode'
     export default {
         name: "cropper",
+		components: {
+			'v-cropper': cropper
+		},
 		data() {
 			return {
+				// 裁剪组件是否显示
+				cropperShow: false,
+				// 裁剪组件的选项
+				cropperOptions: {
+					dialogVisible:false,
+					img: ""
+				},
+				// 裁剪过后返回的文件
+				cropperFile:'',
+				viewerOptions:{
+					toolbar: true,
+					url: 'data-source'
+				},
 				dialogVisible: false,
-				imgUrl:'',
+				avatarImageUrl:'',
+				imgurl:'',
 				picsList: [],  //页面显示的数组
-			}
-		},
-		computed: {
-			cropperStore() {
-				return this.$store.state.CROPPER
 			}
 		},
 		methods:{
@@ -40,18 +60,38 @@
 				// console.log(typeof file)
 				// 上传成功后将图片地址赋值给裁剪框显示图片
 				this.$nextTick(() => {
-					this.imgUrl = window.URL.createObjectURL(file.raw)
+					this.cropperOptions = {
+						dialogVisible:true,
+						img:file.raw
+					}
+					this.cropperShow = true
+					// this.avatarImageUrl = window.URL.createObjectURL(file.raw)
 					// this.option.img = file.url
 					// console.log(this.imgUrl)
 				})
 			},
 			preview(){
-				this.$store.dispatch('cropperAction', {
-					viewerShow:true,
-					cropperShow:false,
-					imgUrl:[this.imgUrl],
-					cropperImg:''
-				})
+				const viewer = this.$el.querySelector('.images').$viewer
+				viewer.show()
+			},
+			// 退出裁剪
+			outCropper(){
+				this.cropperShow = false
+				this.cropperOptions = {
+					dialogVisible:false,
+					img:''
+				}
+			},
+			// 确认裁剪
+			getCropperImage(e) {
+				console.log('裁剪确定按钮')
+				this.cropperFile = e
+				this.avatarImageUrl = window.URL.createObjectURL(e)
+				this.cropperShow = false
+				this.cropperOptions = {
+					dialogVisible:false,
+					img:''
+				}
 			},
 			// 点击裁剪，这一步是可以拿到处理后的地址
 			// finish() {

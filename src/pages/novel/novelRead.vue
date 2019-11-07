@@ -28,12 +28,6 @@
 		},
 		created() {
 			this.readData = require('../../novel/novel-'+this.$route.query.id).novel
-			this.$loading({
-				lock: false,
-				text: 'Loading',
-				spinner: 'el-icon-loading',
-				background: 'rgba(0, 0, 0, 0.7)'
-			});
 			// const loading = this.$loading({
 			// 	lock: true,
 			// 	text: 'Loading',

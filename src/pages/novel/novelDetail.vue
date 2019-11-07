@@ -21,6 +21,7 @@
 					<span class="readBtn tc cursor-p" @click="read">阅读</span>
 					<span class="readBtn tc cursor-p disabled" >缓存</span>
 				</div>
+				<div style="margin-top: 5px;font-size: 12px;">加载慢，请耐心等待</div>
 			</v-panel-one>
 			<v-panel-one>
 				<el-row class="detail-menu">
@@ -75,12 +76,12 @@
 		},
 		methods: {
 			read(){
-				this.$loading({
-					lock: true,
-					text: 'Loading',
-					spinner: 'el-icon-loading',
-					background: 'rgba(0, 0, 0, 0.7)'
-				});
+				// this.$loading({
+				// 	lock: true,
+				// 	text: 'Loading',
+				// 	spinner: 'el-icon-loading',
+				// 	background: 'rgba(0, 0, 0, 0.7)'
+				// });
 				this.$router.push({
 					path: '/novel/novelRead',
 					query: {

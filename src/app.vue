@@ -1,8 +1,6 @@
 <template>
 	<div id="app">
 		<router-view :key="$route.fullPath"></router-view>
-		<v-cropper></v-cropper>
-		<v-veiwer></v-veiwer>
 	</div>
 </template>
 <style lang="less" type="text/less">
@@ -18,16 +16,9 @@
 	@import "./assets/less/chat.less";
 </style>
 <script>
-	import cropper from './components/cropper/cropperMode'
-	import viewer from './components/cropper/viewerMode'
-	import Bus from './common/bus'
 
 	export default {
 		name: 'app',
-		components: {
-			'v-cropper': cropper,
-			'v-veiwer': viewer
-		},
 		data() {
 			return {
 				// provide / inject 组合刷新重加载当前页
