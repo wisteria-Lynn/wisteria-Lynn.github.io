@@ -2,7 +2,7 @@
 <template>
 	<div id="index" class="index">
 		<el-row class="avatar tc avatar-top">
-			<img :src="GLOBAL.avatar">
+			<img :src="GLOBAL.avatar" alt="头像">
 			<p>
 				<template v-if="$store.state.USER.isLogin">
 					<span>{{$store.state.USER.username}}</span>|
@@ -139,6 +139,7 @@
 					font-size:42px;
 				}
 				span{
+					font-size:14px;
 					display: block;
 					margin-top:5px;
 				}

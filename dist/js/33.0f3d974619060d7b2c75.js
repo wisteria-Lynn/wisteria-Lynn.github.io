@@ -1,2 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[33],{619:function(t,e,s){"use strict";s.r(e);var r=function(){var t=this.$createElement,e=this._self._c||t;return e("div",{staticClass:"projectIndex"},[e("v-head-back-2",{attrs:{url:"/demo"}}),this._v(" "),e("div",{staticClass:"all-wrap"},[e("router-view")],1)],1)};r._withStripped=!0;var a=s(74),i=Object(a.a)({},r,[],!1,null,null,null);i.options.__file="src/pages/project/projectIndex.vue";e.default=i.exports}}]);
-//# sourceMappingURL=33.0f3d974619060d7b2c75.js.map

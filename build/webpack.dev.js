@@ -2,7 +2,8 @@ const path = require('path')//引入noded的路径
 const merge = require('webpack-merge')
 const webpack = require('webpack')
 const base = require('./webpack.base.js')
-
+// const websockt = require('../server/websocket/socket')
+// const server = require('../server/index')
 console.log('当前是开发环境:development')
 
 module.exports = merge(base, {

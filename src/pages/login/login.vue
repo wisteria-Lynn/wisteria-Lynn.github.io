@@ -1,6 +1,9 @@
 <!--登录-->
 <template>
-	<div class="login" :class="[!isMobileBrowser()?'':'bg']">
+	<div>
+		<div class="login" :class="[!isMobileBrowser()?'':'bg']">
+			<bgScroll></bgScroll>
+		</div>
 		<div class="loginBack">
 			<div class="formWrap tc" :class="[!isMobileBrowser()?'computed':'mobile']">
 				<div class="form-foot tr">
@@ -78,9 +81,13 @@
 	import {login} from "../../api/user"
 	import {Base64} from "common/base64"
 	import {codeText} from '../../api/api'
+	import bgScroll from '../../pages/project/bgScroll/bgScroll'
 
 	export default {
 		name: "login",
+		components:{
+			bgScroll,
+		},
 		data() {
 			// var checkAge = (rule, value, callback) => {
 			// 	if (!value) {
@@ -480,12 +487,20 @@
 		position: absolute;
 		width: 100%;
 		height: 100%;
-		background: url('../../assets/img/imgLazyLoad/lazy-10.jpg') no-repeat center;
-		background-size: 100% 100%;
+		/*background: url('../../assets/img/imgLazyLoad/lazy-10.jpg') no-repeat center;*/
+		/*background-size: 100% 100%;*/
 		&.bg{
-			background: url('../../assets/img/imgLazyLoad/lazy-5.jpg') no-repeat center;
-			background-size: 100% 100%;
+			/*background: url('../../assets/img/imgLazyLoad/lazy-5.jpg') no-repeat top;*/
+			/*background-size: 100% 100%;*/
+			/*animation: slide ease-in-out 3s infinite;*/
 		}
+	}
+	.loginBack {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0,0,0,.5);
+		/*background-size: 100%;*/
 		input {
 			background: rgba(255, 255, 255, .1);
 		}
@@ -499,204 +514,202 @@
 				/*border-color: #0f7ef1;*/
 			}
 		}
-
-		.loginBack {
+	}
+	.formWrap {
+		&.computed{
 			position: absolute;
-			width: 100%;
-			height: 100%;
-			background-color: rgba(0,0,0,.5);
-			/*background-size: 100%;*/
+			/*animation: formWrapWidth 3s 1 forwards;*/
+			/*animation: formWrapWidth 2s 1 forwards;*/
+			top: 50%;
+			left: 50%;
+			width: 350px;
+			transform: translate(-50%, -50%);
+			/*background: #fff;*/
+			padding: 50px 50px 0 50px;
+			background:rgba(11, 35, 99, 0.2s);
+			box-shadow: 0 12px 15px 0 rgba(0, 0, 0, .24), 0 17px 50px 0 rgba(0, 0, 0, .19);
+			color:#fff;
+		}
+		&.mobile{
+			color:#fff;
+			padding: 80px 30px 0 30px;
+			height:calc(100% - 80px);
+			overflow: auto;
+		}
+		.f-avatar{
+			width:30%;
+			height:30%;
+			border-radius: 50%;
+		}
+		h3{
+			margin:15px auto 60px auto;
+		}
+		.slide-wrap {
+			/*position:relative;*/
+			width: 250px;
+			height: 40px;
+			background: #ccc;
 
-			.formWrap {
-				&.computed{
-					position: absolute;
-					/*animation: formWrapWidth 3s 1 forwards;*/
-					/*animation: formWrapWidth 2s 1 forwards;*/
-					top: 50%;
-					left: 50%;
-					width: 350px;
-					transform: translate(-50%, -50%);
-					background: #fff;
-					padding: 50px 50px 0 50px;
-					/*background:rgba(11, 35, 99, 0.8);*/
-					box-shadow: 0 12px 15px 0 rgba(0, 0, 0, .24), 0 17px 50px 0 rgba(0, 0, 0, .19);
-					color:#666;
-				}
-				&.mobile{
-					color:#fff;
-					padding: 80px 30px 0 30px;
-					height:calc(100% - 80px);
-					overflow: auto;
-				}
-				.f-avatar{
-					width:30%;
-					height:30%;
-					border-radius: 50%;
-				}
-				h3{
-					margin:15px auto 60px auto;
-				}
-				.slide-wrap {
-					/*position:relative;*/
-					width: 250px;
-					height: 40px;
-					background: #ccc;
+			.slide-bg {
+				position: absolute;
+				height: 40px;
+				background: green;
+			}
 
-					.slide-bg {
-						position: absolute;
-						height: 40px;
-						background: green;
-					}
+			.slide-btn {
+				position: absolute;
+				display: inline-block;
+				width: 40px;
+				left: 0;
+				background: #Fff;
+				cursor: move;
 
-					.slide-btn {
-						position: absolute;
-						display: inline-block;
-						width: 40px;
-						left: 0;
-						background: #Fff;
-						cursor: move;
-
-						span {
-							&.animation {
-								animation: slideBtn 1.5s infinite;
-							}
-						}
-					}
-
-					.slide-text {
-						/*position: absolute;*/
-						/*margin-left: 100px;*/
-
-						&.success {
-							color: #fff;
-						}
+				span {
+					&.animation {
+						animation: slideBtn 1.5s infinite;
 					}
 				}
+			}
 
-				.canvas-slide-wrap {
-					margin-top: 1rem;
-					width: 250px;
-					height: 40px;
-					background: #ccc;
+			.slide-text {
+				/*position: absolute;*/
+				/*margin-left: 100px;*/
 
-					.canvas-slide-bg {
-						position: absolute;
-						height: 40px;
-						background: green;
-					}
-
-					.canvas-slide-btn {
-						position: absolute;
-						display: inline-block;
-						width: 40px;
-						left: 0;
-						background: #Fff;
-						cursor: move;
-					}
-
-					.canvas-slide-text {
-						/*position: absolute;*/
-						/*margin-left: 100px;*/
-
-						&.success {
-							color: #fff;
-						}
-					}
-				}
-
-				.canvas-wrap {
-					position: relative;
-					overflow: hidden;
-					height: 100px;
-					background: #fff;
-
-					#canvas {
-						position: absolute;
-					}
-
-					#block {
-						position: absolute;
-					}
-				}
-
-				.form-foot {
-					color: #ccc;
-					font-size:14px;
-					margin-bottom:10px;
-					span {
-						cursor: pointer;
-						margin-right: .3rem;
-
-						&:hover {
-							text-decoration: underline;
-						}
-					}
-				}
-
-				.other-type {
-					margin-bottom:20px;
-					font-size:14px;
-					.other-text {
-						margin-bottom:10px;
-						/*color: #999;*/
-					}
-					.icon-qq:hover{
-						color:rgb(94,170,222)
-					}
-					.icon-weixin:hover{
-						color:#5cca25
-					}
-					span{
-						color:#aaa;
-						font-size:22px;
-						cursor: pointer;
-					}
+				&.success {
+					color: #fff;
 				}
 			}
 		}
 
-		@keyframes formWrapWidth {
-			/*0%{*/
-			/*left:0;*/
-			/*}*/
-			/*100%{*/
-			/*left:70%;*/
-			/*}*/
-			0% {
-				top: 0;
+		.canvas-slide-wrap {
+			margin-top: 1rem;
+			width: 250px;
+			height: 40px;
+			background: #ccc;
+
+			.canvas-slide-bg {
+				position: absolute;
+				height: 40px;
+				background: green;
 			}
-			25% {
-				top: 65%;
+
+			.canvas-slide-btn {
+				position: absolute;
+				display: inline-block;
+				width: 40px;
+				left: 0;
+				background: #Fff;
+				cursor: move;
 			}
-			50% {
-				top: 35%;
-			}
-			75% {
-				top: 55%;
-			}
-			85% {
-				top: 45%;
-			}
-			100% {
-				top: 50%;
+
+			.canvas-slide-text {
+				/*position: absolute;*/
+				/*margin-left: 100px;*/
+
+				&.success {
+					color: #fff;
+				}
 			}
 		}
-		@keyframes slideBtn {
-			0% {
-				opacity: .9;
+
+		.canvas-wrap {
+			position: relative;
+			overflow: hidden;
+			height: 100px;
+			background: #fff;
+
+			#canvas {
+				position: absolute;
 			}
-			25% {
-				opacity: .7;
+
+			#block {
+				position: absolute;
 			}
-			50% {
-				opacity: .3;
+		}
+
+		.form-foot {
+			color: #ccc;
+			font-size:14px;
+			margin-bottom:10px;
+			span {
+				cursor: pointer;
+				margin-right: .3rem;
+
+				&:hover {
+					text-decoration: underline;
+				}
 			}
-			75% {
-				opacity: .6;
+		}
+
+		.other-type {
+			margin-bottom:20px;
+			font-size:14px;
+			.other-text {
+				margin-bottom:10px;
+				/*color: #999;*/
 			}
-			100% {
-				opacity: .8;
+			.icon-qq:hover{
+				color:rgb(94,170,222)
 			}
+			.icon-weixin:hover{
+				color:#5cca25
+			}
+			span{
+				color:#aaa;
+				font-size:22px;
+				cursor: pointer;
+			}
+		}
+	}
+	@keyframes formWrapWidth {
+		/*0%{*/
+		/*left:0;*/
+		/*}*/
+		/*100%{*/
+		/*left:70%;*/
+		/*}*/
+		0% {
+			top: 0;
+		}
+		25% {
+			top: 65%;
+		}
+		50% {
+			top: 35%;
+		}
+		75% {
+			top: 55%;
+		}
+		85% {
+			top: 45%;
+		}
+		100% {
+			top: 50%;
+		}
+	}
+	@keyframes slideBtn {
+		0% {
+			opacity: .9;
+		}
+		25% {
+			opacity: .7;
+		}
+		50% {
+			opacity: .3;
+		}
+		75% {
+			opacity: .6;
+		}
+		100% {
+			opacity: .8;
+		}
+	}
+	@keyframes slide{
+		0%{
+			transform: translateY(-30%);
+		}
+		100%{
+			transform: translateY(30%);
 		}
 	}
 </style>

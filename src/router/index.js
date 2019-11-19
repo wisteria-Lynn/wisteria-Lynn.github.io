@@ -114,6 +114,30 @@ const routes = [
 					// requireAuth: true
 				},
 				component: resolve => require(['../pages/project/cropper/cropper.vue'], resolve)
+			},{
+				path: 'bgScroll',
+				name: 'bgScroll',
+				meta: {
+					title: '背景无限滚动',
+					// requireAuth: true
+				},
+				component: resolve => require(['../pages/project/bgScroll/bgScroll.vue'], resolve)
+			},{
+				path: 'bgScroll2',
+				name: 'bgScroll2',
+				meta: {
+					title: '背景无限滚动',
+					// requireAuth: true
+				},
+				component: resolve => require(['../pages/project/bgScroll/bgScroll2.vue'], resolve)
+			},{
+				path: 'demo2',
+				name: 'demo2',
+				meta: {
+					title: '其他演示',
+					// requireAuth: true
+				},
+				component: resolve => require(['../pages/project/demo/demo.vue'], resolve)
 			},
 		]
 	},

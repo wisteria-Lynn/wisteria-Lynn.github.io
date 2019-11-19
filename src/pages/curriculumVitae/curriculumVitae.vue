@@ -1,6 +1,6 @@
 <template>
     <div class="curriculumVitae">
-		<v-head-back-2 url="/"></v-head-back-2>
+		<!--<v-head-back-2 url="/"></v-head-back-2>-->
 		<div class="u-panel">
 			<div class="u-panel-card cv-card aurtavet-card tc">
 				<img class="at-img" :src="info.img">
