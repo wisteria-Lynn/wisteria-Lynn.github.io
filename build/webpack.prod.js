@@ -80,10 +80,10 @@ module.exports = merge(base, {
 					chunks: 'all',
 					priority: 1, // 权限更高，优先抽离
 					minSize: 0,
-					minChunks: 1
+					minChunks: 2
 				},
 				styles: {
-					minChunks: 1,
+					minChunks: 2,
 					minSize: 0,
 					name: 'styles',
 					test: /\.(le|sa|sc|c)ss$/,
