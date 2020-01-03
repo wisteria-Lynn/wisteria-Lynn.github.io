@@ -8,7 +8,8 @@ import axios from 'axios'
 import STORE from './vuex/store'
 import Viewer from 'v-viewer'
 import 'viewerjs/dist/viewer.css'
-require('./mock/mock.js')
+
+// require('./mock/mock.js')
 // 页面标题json文档
 import pageTitle from './common/pageTitle.json'
 // 全局变量
@@ -286,7 +287,6 @@ router.beforeEach((to, from, next) => {
   }
   next()
 })
-
 // 引入全局变量/全局函数/全局组件
 Vue.prototype.GLOBAL = GlobalVal
 Vue.prototype.WS = WS
@@ -298,7 +298,13 @@ Vue.use(GlobalComponent)
 
 // 状态管理
 let store = new Vuex.Store(STORE)
-
+let theme = localStorage.getItem('theme')
+if(theme){
+	store.dispatch('themeAction',theme)
+} else {
+	localStorage.setItem('theme','yl-theme-blue')
+	store.dispatch('themeAction','yl-theme-blue')
+}
 // 新建Vue实例
 new Vue({
   router,

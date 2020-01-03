@@ -31,3 +31,9 @@ export const chatAddFriend = p => post('/nodeApi/chatAddFriend', p)
 // 博客
 export const getBlogList = p => get('/nodeApi/getBlogList', p)
 export const getBlogRemarkList = p => get('/nodeApi/getBlogRemarkList', p)
+
+
+// 二维码登录
+export const createUid = p => post('/nodeApi/codeLogin/createUid', p)
+export const UidLogin = p => post('/nodeApi/codeLogin/UidLogin', p)
+export const queryUid = p => post('/nodeApi/codeLogin/queryUid', p)

@@ -2,22 +2,80 @@
  ----------------------
  css样式初始化
  ----------------------
+ block-name__element-name--color
+
+区分块，子元素，修饰元素
+块，页面中独立的单元
+子元素，块里面的儿子 card__item 使用 __ 连接
+子元素长命名使用 - 连接
+修饰（易变的）card__item--warning 使用 --
  */
-body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td { margin:0; padding:0; }
-body, button, input, select, textarea { font:12px/1.5tahoma, arial, \5b8b\4f53; }/*字体大小/字体行高 字体格式*/
-h1, h2, h3, h4, h5, h6{ font-size:100%; }
-address, cite, dfn, em, var { font-style:normal; }
-code, kbd, pre, samp { font-family:couriernew, courier, monospace; }
-small{ font-size:12px; }
-ul, ol { list-style:none; }
-a { text-decoration:none; }
-a:hover { text-decoration:none; }
-sup { vertical-align:text-top; }
-sub{ vertical-align:text-bottom; }
-legend { color:#000; }
-fieldset, img { border:0; }
-button, input, select, textarea { font-size:100%; }
-table { border-collapse:collapse; border-spacing:0; }
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td {
+	margin: 0;
+	padding: 0;
+}
+
+body, button, input, select, textarea {
+	font: 12px/1.5tahoma, arial, \5b8b\4f53;
+}
+
+/*字体大小/字体行高 字体格式*/
+h1, h2, h3, h4, h5, h6 {
+	font-size: 100%;
+}
+
+address, cite, dfn, em, var {
+	font-style: normal;
+}
+
+code, kbd, pre, samp {
+	font-family: couriernew, courier, monospace;
+}
+
+small {
+	font-size: 12px;
+}
+
+ul, ol {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+sup {
+	vertical-align: text-top;
+}
+
+sub {
+	vertical-align: text-bottom;
+}
+
+legend {
+	color: #000;
+}
+
+fieldset, img {
+	border: 0;
+}
+
+button, input, select, textarea {
+	font-size: 100%;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+html, body {
+	font-size: 10px !important;
+}
 
 /*
  ----------------------
@@ -25,72 +83,417 @@ table { border-collapse:collapse; border-spacing:0; }
  ----------------------
  */
 
-html{
+html {
 	//font-size:16px;
 }
-body,html{
-	background: @projectBG;
-	width:100%;
-	height:100%;
-}
-a{
-	color: @topTxtC;
+
+body, html {
+	width: 100%;
+	height: 100%;
 }
 
-/*文本*/
-.tl{
-	text-align: left;
+#app, .yl-theme-blue {
+	width: 100%;
+	height: 100%;
 }
-.tr{
-	text-align: right;
+
+a {
+	color: @mianFsColor;
 }
-.tc{
-	text-align: center;
+
+// -------------------------------------------------- 布局 ---------
+
+.yl-flex-center {
+	display: flex;
+	justify-content: center;
+	justify-items: center;
+	align-items: center
 }
-/*手势*/
-.cursor-p{
-	cursor: pointer;
+.yl-flex-start{
+	display: flex;
+	justify-content: start;
+	justify-items: center;
+	align-items: center
 }
-/*滚动条*/
-.scroll-style::-webkit-scrollbar{
-	width:5px;
-	height:5px;
+
+.yl-flex-space-around {
+	display: flex;
+	justify-content: space-around;
+	justify-items: center;
+	align-items: center;
 }
-.scroll-style::-webkit-scrollbar-thumb{
-	border-radius: 3px;
-	background: #ccc;
+
+/*pc端最小宽度*/
+.all-wrap {
+	max-width: 1200px;
+	margin: auto;
 }
-.scroll-style::-webkit-scrollbar-track{
-	width:7px;
-	background: #ebebeb;
+
+@media (max-width: 768px) {
+	.w100{
+		width:100% !important;
+	}
 }
-/*按钮*/
-.btn{
-	display: inline-block;
-	color:#fff;
+
+//面板
+.u-panel {
+	width: 100%;
+
+	.u-panel-card {
+		margin: 20px;
+		padding: 20px;
+		background: #fff;
+	}
 }
-.btn-success{
-	background:#67C23A;
+
+@media (max-width: 768px) {
+	.u-panel-card {
+		margin: 10px 0 !important;
+	}
+
+	.all-wrap {
+		width: 100% !important;
+	}
 }
-.btn-error{
-	background:#F56C6C;
-}
-.btn-f49110{
-	background:#f49110;
-}
-/*消息数字*/
-.message-num{
-	display: inline-block;
-	color:#fff;
-	background:#d50000;
-	border-radius: 50%;
-}
+
 /*弹性布局*/
-.x-flex{
-	display:flex;
+.x-flex {
+	display: flex;
 	justify-content: center;
 	align-items: center
 }
+
+// -------------------------------------------------- 颜色 ---------
+
+.bg-color--hui{
+	background: #edeef3;
+}
+
+// 主题颜色
+.yl-theme-blue {
+	.bg-color{
+		background:@themeBlue;
+	}
+	.hover {
+		cursor: default;
+
+		&:hover {
+			color: @themeBlue !important;
+		}
+	}
+
+	.tx-themeBlue {
+		color: @themeBlue;
+	}
+
+	.color {
+		color: @themeBlue;
+	}
+
+	.untill-hover {
+		cursor: default;
+		color: @themeBlue !important;
+	}
+	.el-button {
+		border-radius: .2rem;
+
+		&:hover {
+			background-color: @themeBlueHover;
+			border-color: @themeBlueHover;
+			color: #fff;
+		}
+	}
+
+	.el-button--primary {
+		background-color: @themeBlue;
+		border-color: @themeBlue;
+	}
+}
+
+// 主题颜色2
+.yl-theme-orange {
+	.bg-color{
+		background:@themeOrange;
+	}
+	.hover {
+		cursor: default;
+
+		&:hover {
+			color: @themeOrange !important;
+		}
+	}
+
+	.color {
+		color: @themeOrange;
+	}
+
+	.untill-hover {
+		cursor: default;
+		color: @themeOrange !important;
+	}
+	.el-button {
+		border-radius: .2rem;
+
+		&:hover {
+			background-color: @themeOrangeHover;
+			border-color: @themeOrangeHover;
+			color: #fff;
+		}
+	}
+
+	.el-button--primary {
+		background-color: @themeOrange;
+		border-color: @themeOrange;
+	}
+}
+
+/*按钮*/
+.btn {
+	display: inline-block;
+	color: #fff;
+}
+
+.btn-success {
+	background: @success;
+}
+
+.btn-error {
+	background: @error;
+}
+
+.btn-f49110 {
+	background: @waring;
+}
+
+.btn-disabled {
+	pointer-events: none;
+	border: 1px solid #ccc !important;
+	background: #ccc !important;
+	color: #fff !important;
+}
+
+// 按钮禁用
+.disabled {
+	outline: 0 none;
+	cursor: default !important;
+	opacity: .4;
+	filter: alpha(opacity=40);
+	-ms-pointer-events: none;
+	pointer-events: none;
+}
+
+/*消息数字*/
+.message-num {
+	display: inline-block;
+	color: #fff;
+	background: @errorBad;
+	border-radius: 50%;
+}
+
+// ----------------------------------------------------- 定位 ---------
+
+/*文本*/
+.tl {
+	text-align: left;
+}
+
+.tr {
+	text-align: right;
+}
+
+.tc {
+	text-align: center;
+}
+
+
+// 浮动与清除浮动
+.fl {
+	float: left;
+}
+
+.fr {
+	float: right;
+}
+
+.fix {
+	*zoom: 1;
+}
+
+.fix:after {
+	display: table;
+	content: '';
+	clear: both;
+}
+
+/*手势*/
+.cp {
+	cursor: pointer;
+}
+
+.cd {
+	cursor: default;
+}
+
+.cursor-p {
+	cursor: pointer;
+}
+
+
+// 显示
+.dn {
+	display: none;
+}
+
+.di {
+	display: inline;
+}
+
+.db {
+	display: block;
+}
+
+.dib {
+	display: inline-block;
+}
+
+.dt {
+	display: table;
+}
+
+// 定位
+.pr {
+	position: relative;
+}
+
+.pa {
+	position: absolute;
+}
+
+.pf {
+	position: fixed;
+}
+
+.ml20 {
+	margin-left: 2rem;
+}
+
+.ml10 {
+	margin-left: 1rem;
+}
+
+.mr20 {
+	margin-right: 2rem;
+}
+
+.mr10 {
+	margin-right: 1rem;
+}
+
+.mt20 {
+	margin-top: 2rem;
+}
+
+.mt10 {
+	margin-top: 1rem;
+}
+
+.mb20 {
+	margin-bottom: 2rem;
+}
+
+.mb10 {
+	margin-bottom: 1rem;
+}
+
+.m10{
+	margin:10px;
+}
+.m20{
+	margin:20px;
+}
+.p10{
+	padding:10px;
+}
+
+.p20{
+	padding:20px;
+}
+.marBom-20 {
+	margin-bottom: 2rem;
+}
+
+.marBom-10 {
+	margin-bottom: 1rem;
+}
+
+.yl-maxwidth-1200 {
+	max-width: 1200px;
+	margin: auto;
+}
+
+.show {
+	display: block;
+}
+
+.hide {
+	display: none;
+}
+
+// ------------------------------------------------- 字体 ---------
+
+
+// 字体
+.f10 {
+	font-size: 10px;
+}
+
+.f12 {
+	font-size: 12px;
+}
+
+.f14 {
+	font-size: 14px;
+}
+
+.f15 {
+	font-size: 15px;
+}
+
+.f17 {
+	font-size: 17px;
+}
+
+.f20 {
+	font-size: 20px;
+}
+
+.f24 {
+	font-size: 24px;
+}
+
+
+// --------------------------------------------- 滚动条 ---------
+
+
+/*滚动条*/
+.scroll-style::-webkit-scrollbar {
+	width: 5px;
+	height: 5px;
+}
+
+.scroll-style::-webkit-scrollbar-thumb {
+	border-radius: 3px;
+	background: #ccc;
+}
+
+.scroll-style::-webkit-scrollbar-track {
+	width: 7px;
+	background: #ebebeb;
+}
+
+// --------------------------------------------- 其他其他 ---------
+
+
 /*
  ----------------------
 elementui - 公共样式调整
@@ -98,42 +501,10 @@ elementui - 公共样式调整
  */
 
 @media (max-width: 768px) {
-	.el-message-box{
-		width:100% !important;
-	}
-}
-/*
- ------------------------------------------------------------
-- 开始 pc移动自适应
- ------------------------------------------------------------
- */
-/*pc端最小宽度*/
-.all-wrap{
-	max-width:1200px;
-	margin:auto;
-}
-//面板
-.u-panel{
-	width:100%;
-	.u-panel-card {
-		margin: 20px;
-		padding: 20px;
-		background: #fff;
-	}
-}
-@media (max-width: 768px) {
-	//.body,html{
-	//	background: @projectBG !important;
-	//}
-	.u-panel-card{
-		margin:10px 0 !important;
-	}
-	.all-wrap{
-		width:100% !important;
+	.el-message-box {
+		width: 100% !important;
 	}
 }
 
 
-//----------------------------------------------------------------------------------
-//-------------------------结束 pc移动自适应-------------------------------------
-//----------------------------------------------------------------------------------
+

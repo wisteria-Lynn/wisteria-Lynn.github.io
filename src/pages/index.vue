@@ -1,56 +1,52 @@
 <!--首页-->
 <template>
-	<div id="index" class="index">
-		<el-row class="avatar tc avatar-top">
-			<img :src="GLOBAL.avatar" alt="头像">
-			<p>
-				<template v-if="$store.state.USER.isLogin">
-					<span>{{$store.state.USER.username}}</span>|
-					<span @click="loginOut" class="cursor-p">退出</span>
-				</template>
-				<template v-else>
-					<span><router-link to="/login">请登录</router-link></span>
-				</template>
-			</p>
-		</el-row>
+	<div id="index" class="index bg-color--hui">
 		<v-swiper class="index-swiper"></v-swiper>
 		<div class="all-wrap">
 			<el-row>
-				<el-col :span="16" class="left">
-					<v-panel-one>
-						<el-row>
-							<el-col :span="6" v-for="(item,index) in cardList" :key="index">
-								<div @click="clickToPage(item.url)"  class="my-card tc cursor-p">
-									<i class="iconfont" :class="[item.icon]"></i>
-									<span>{{item.title}}</span>
-								</div>
-							</el-col>
-						</el-row>
-					</v-panel-one>
-					<v-panel-one>
-						<router-link to="/demo">
+				<el-col :span="8" class="w100">
+					<div class="avatar tc avatar-right bg-color">
+						<p style="margin-top:0;" class="tr p10">
+							<span class="cp" @click="switchTheme">切换主题</span></p>
+						<img :src="GLOBAL.avatar" alt="">
+						<p>
+							<template v-if="$store.state.USER.isLogin">
+								<span>{{$store.state.USER.username}}</span>|
+								<span @click="loginOut" class="cursor-p">退出</span>
+							</template>
+							<template v-else>
+								<span><router-link to="/login">请登录</router-link></span>
+							</template>
+						</p>
+					</div>
+					<div class="yl-flex-center mt10 left" style="flex-wrap: wrap;background:#fff;">
+						<div v-for="(item,index) in cardList" :key="index">
+							<div @click="clickToPage(item.url)"  class="my-card tc cp f14">
+								<i class="iconfont" :class="[item.icon]"></i>
+								<span>{{item.title}}</span>
+							</div>
+						</div>
+					</div>
+					<div class="mt10 tc p10" style="background:#fff;">
+						<el-input type="text" style="float:left;display:inline-block;width:calc(100% - 80px);" placeholder="搜索demo"></el-input>
+						<el-button type="primary" style="float:right;">搜索</el-button>
+						<p class="fix"></p>
+					</div>
+				</el-col>
+				<el-col :span="16" class="w100 f14">
+					<v-panel-one v-for="(item,index) in demoList" :key="index">
+						<router-link :to="item.url">
 							<el-row class="my-demo">
 								<el-col :span="12">
-									<i class="iconfont icondangedemoban"></i>
-									<span>我的demo</span></el-col>
+									<i class="iconfont icondangedemoban f14"></i>
+									<span>{{item.title}}</span></el-col>
 								<el-col :span="12" class="tr">
-									<i class="el-icon-arrow-right"></i>
+									<span>{{item.des}}</span>
+									<i class="el-icon-arrow-right f14"></i>
 								</el-col>
 							</el-row>
 						</router-link>
 					</v-panel-one>
-				</el-col>
-				<el-col :span="8" class="avatar tc avatar-right">
-					<img :src="GLOBAL.avatar">
-					<p>
-						<template v-if="$store.state.USER.isLogin">
-							<span>{{$store.state.USER.username}}</span>|
-							<span @click="loginOut" class="cursor-p">退出</span>
-						</template>
-						<template v-else>
-							<span><router-link to="/login">请登录</router-link></span>
-						</template>
-					</p>
 				</el-col>
 			</el-row>
 		</div>
@@ -59,6 +55,8 @@
 
 <script>
 	// import { throttle, Scroll } from '@/util/handleDOM'
+	import { demoList } from "../common/demoList"
+
 	export default {
 		name:'index',
 		components:{
@@ -88,20 +86,21 @@
 						title:'我的简历',
 						icon:'iconresume-line',
 						url: '/curriculumVitae'
+					},{
+						title:'我的Demo',
+						icon:'iconresume-line',
+						url: '/demo'
+					},{
+						title:'我的写作',
+						icon:'iconresume-line',
+						url: '/'
+					},{
+						title:'我的写作',
+						icon:'iconresume-line',
+						url: '/'
 					}
 				],
-				demo:{
-					title:true
-				},
-				demoList:[
-					{
-						title:'我的简历',
-						url: '/interviewQuestion'
-					},{
-						title:'我的简历',
-						url: '/interviewQuestion'
-					}
-				]
+				demoList:[]
 			}
 		},
 		methods:{
@@ -115,9 +114,18 @@
 				} else {
 					this.$router.push({path:url})
 				}
+			},
+			switchTheme(){
+				let theme = localStorage.getItem('theme')
+				if(theme === 'yl-theme-blue'){
+					this.$store.dispatch('themeAction','yl-theme-orange')
+				} else {
+					this.$store.dispatch('themeAction','yl-theme-blue')
+				}
 			}
 		},
 		mounted(){
+			this.demoList = demoList.slice(0,7)
 			// 监听滚动条 节流
 			// this.throttled = throttle(() => {
 			// 	this.isScroll = Scroll.scrollTop()
@@ -132,9 +140,14 @@
 </script>
 <style lang="less" scoped>
 	.index{
+		height:100%;
 		.left{
 			.my-card{
-				margin-bottom:20px;
+				margin:16px;
+				&:after {
+					content: "";
+					flex: auto;
+				}
 				i{
 					font-size:42px;
 				}
@@ -146,7 +159,6 @@
 			}
 		}
 		.avatar{
-			background:#f49110;
 			color:#fff;
 			img{
 				width:40%;
@@ -171,11 +183,6 @@
 			margin-top:20px;
 			height:300px;
 		}
-		.my-demo{
-			i{
-				font-size:20px;
-			}
-		}
 		@media (max-width: 768px) {
 			.left{
 				width:100% !important;
@@ -186,7 +193,10 @@
 				}
 			}
 			.avatar-right{
-				display: none;
+				margin-top:0;
+				img{
+					width:20%;
+				}
 			}
 			.avatar-top{
 				display:block !important;

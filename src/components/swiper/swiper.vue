@@ -2,9 +2,9 @@
     <div class="x-swiper">
 		<div class="swiper-container">
 			<div class="swiper-wrapper">
-				<div class="swiper-slide first-slide">流</div>
-				<div class="swiper-slide second-slide">莹</div>
-				<div class="swiper-slide three-slide">离</div>
+				<div class="swiper-slide first-slide bg-color">流</div>
+				<div class="swiper-slide second-slide bg-color">莹</div>
+				<div class="swiper-slide three-slide bg-color">离</div>
 			</div>
 		</div>
 	</div>
@@ -29,15 +29,15 @@
 		text-align: center;
 		font-size: 50px;
 		&.first-slide{
-			background:#4390EE;
+			/*background:#4390EE;*/
 			color:#fff;
 		}
 		&.second-slide{
-			background:#CA4040;
+			/*background:#CA4040;*/
 			color:#fff;
 		}
 		&.three-slide{
-			background:#FF8604;
+			/*background:#FF8604;*/
 			color:#fff;
 		}
 	}

@@ -4,11 +4,26 @@ import {citys} from '../../static/js/citylink'
 Mock.mock('/nodeApi/login','post',function(data){
 	// let params = JSON.parse(data.body).params
 	let params = JSON.parse(data.body)
-	if (params.username === '流莹离'&&params.password === '1234567890') {
-		return {
-			'code':0,
-			'message':'登陆成功',
-			'token': '0123456789'
+	if(params.type === 'Account'){
+		if (params.username === '流莹离'&&params.password === '1234567890') {
+			return {
+				'code':0,
+				'message':'登陆成功',
+				username:'流莹离',
+				phone:'15197220396',
+				'token': '0123456789'
+			}
+		}
+	}
+	if(params.type === 'Mobile'){
+		if (params.phone === '15197220396'&&params.code === '1234') {
+			return {
+				'code':0,
+				'message':'登陆成功',
+				username:'流莹离',
+				phone:'15197220396',
+				'token': '0123456789'
+			}
 		}
 	}
 	return {

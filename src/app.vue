@@ -1,5 +1,5 @@
 <template>
-	<div id="app">
+	<div id="app" :class="[theme]">
 		<router-view :key="$route.fullPath"></router-view>
 	</div>
 </template>
@@ -7,7 +7,7 @@
 	#app {
 		/*min-width:375px;*/
 		width: 100%;
-		height: 100%;
+		/*height: 100%;*/
 	}
 
 	/*<!--公共css样式可以此处导入-->*/
@@ -34,9 +34,14 @@
 				reload: this.reload
 			}
 		},
+		computed:{
+			theme(){
+				return this.$store.state.THEME.theme
+			}
+		},
 		created() {
 			// 开启长连接
-			this.initWebSocket()
+			// this.initWebSocket()
 		},
 		methods: {
 			reload() {

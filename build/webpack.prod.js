@@ -1,9 +1,6 @@
-const webpack = require('webpack')
 const path = require('path')//引入noded的路径
 const merge = require('webpack-merge')
 const CleanWebpackPlugin = require('clean-webpack-plugin')//清除dist
-// const UglifyJSPlugin = require('uglifyjs-webpack-plugin')//js压缩
-const HtmlWebpackPlugin = require('html-webpack-plugin')//指定html模板
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')//css抽取
 const optimizeCss = require('optimize-css-assets-webpack-plugin')//css压缩
 const base = require('./webpack.base.js')

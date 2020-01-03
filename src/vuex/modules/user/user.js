@@ -37,8 +37,7 @@ const USER = {
 			// 移除之前在axios头部设置的token,现在将无法执行需要token的事务
 			delete axios.defaults.headers.common['token']
 		}
-	},
-	getters: {}
+	}
 }
 
 export default USER

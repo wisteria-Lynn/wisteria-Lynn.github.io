@@ -3,7 +3,7 @@ const routes = [
 		path: '/',
 		name: 'index',
 		meta: {
-			title: '流莹离的个人博客',
+			title: '渔火',
 			// requireAuth: true
 		},
 		component: resolve => require(['../pages/index.vue'], resolve)
@@ -16,6 +16,15 @@ const routes = [
 			requireAuth: false
 		},
 		component: resolve => require(['../pages/login/login.vue'], resolve)
+	},
+	{
+		path: '/codeLogin',
+		name: 'codeLogin',
+		meta: {
+			title: '二维码扫描登录',
+			requireAuth: false
+		},
+		component: resolve => require(['../pages/login/codeLogin.vue'], resolve)
 	},
 	{
 		path: '/addfile',
