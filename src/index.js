@@ -69,7 +69,7 @@ import {
 	TabPane,
 	Tag,
 	// Tree,
-	// Alert,
+	Alert,
 	// Slider,
 	// Icon,
 	Row,
@@ -148,7 +148,7 @@ Vue.use(Tabs);
 Vue.use(TabPane);
 Vue.use(Tag);
 // Vue.use(Tree);
-// Vue.use(Alert);
+Vue.use(Alert);
 // Vue.use(Slider);
 // Vue.use(Icon);
 Vue.use(Row);

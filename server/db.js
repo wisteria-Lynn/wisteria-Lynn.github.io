@@ -28,10 +28,20 @@ module.exports = {
 	connectDB(res,sql,callBack,code){
 		pool.getConnection((err, connection) => {
 			try {
-				connection.query(sql, [code], (err, result) => {
+				connection.query(sql, code, (err, result) => {
 					callBack(result)
 					connection.release()
 				})
+			} catch (e) {
+				console.log('操作异常', e)
+				res.json({code: 20000, message:'error'})
+			}
+		})
+	},
+	connection(res,callBack){
+		pool.getConnection((err, connection) => {
+			try {
+				callBack(err,connection)
 			} catch (e) {
 				console.log('操作异常', e)
 				res.json({code: 20000, message:'error'})

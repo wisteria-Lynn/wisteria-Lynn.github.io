@@ -1,6 +1,6 @@
 <!--首页-->
 <template>
-	<div id="index" class="index bg-color--hui">
+	<div id="index" class="index bg-color--hui min-h100">
 		<v-swiper class="index-swiper"></v-swiper>
 		<div class="all-wrap">
 			<el-row>
@@ -11,7 +11,7 @@
 						<img :src="GLOBAL.avatar" alt="">
 						<p>
 							<template v-if="$store.state.USER.isLogin">
-								<span>{{$store.state.USER.username}}</span>|
+								<span>{{$store.state.USER.username}}</span>&nbsp;|
 								<span @click="loginOut" class="cursor-p">退出</span>
 							</template>
 							<template v-else>
@@ -68,7 +68,7 @@
 					{
 						title:'我的聊天',
 						icon:'iconresume-line',
-						url: '/wechat/friendList'
+						url: '/wechat/chat'
 					},
 					{
 						title:'我的小说',
@@ -87,7 +87,7 @@
 						icon:'iconresume-line',
 						url: '/curriculumVitae'
 					},{
-						title:'我的Demo',
+						title:'我的演示',
 						icon:'iconresume-line',
 						url: '/demo'
 					},{
@@ -112,7 +112,12 @@
 				if(url.indexOf('http') > -1){
 					window.location.href = url
 				} else {
-					this.$router.push({path:url})
+					if(url === '/wechat/chat'){
+						let routeUrl = this.$router.resolve({path:url})
+						window.open(routeUrl.href, '_blank');
+					} else {
+						this.$router.push({path:url})
+					}
 				}
 			},
 			switchTheme(){
@@ -140,7 +145,6 @@
 </script>
 <style lang="less" scoped>
 	.index{
-		height:100%;
 		.left{
 			.my-card{
 				margin:16px;
@@ -194,6 +198,7 @@
 			}
 			.avatar-right{
 				margin-top:0;
+				height:200px;
 				img{
 					width:20%;
 				}

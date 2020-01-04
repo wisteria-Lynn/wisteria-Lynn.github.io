@@ -46,13 +46,14 @@
 						this.layer.msg(codeText(res.code))
 					} else {
 						// 发送登录消息
-						let message = {
-							type: 'login',
-							username: this.loginName
-						}
-						this.WS.ws.send(JSON.stringify(message))
+						// let message = {
+						// 	type: 'login',
+						// 	username: this.loginName
+						// }
+						// this.WS.ws.send(JSON.stringify(message))
 						sessionStorage.setItem('chatLoginName',this.loginName)
-						this.$router.push({name:'friendList',params:{name:this.loginName}})
+						sessionStorage.setItem('websocketLink','1')
+						this.$router.push({path:'/wechat/chat'})
 					}
 				})
 			},
@@ -68,6 +69,12 @@
 						this.loginName = this.registName
 					}
 				})
+			}
+		},
+		created(){
+        	if(this.isMobileBrowser()){
+				this.layer.msg(`请用电脑登录聊天界面`)
+				this.$router.push('/')
 			}
 		}
     }

@@ -1,5 +1,5 @@
 <template>
-    <div class="x-wechat">
+    <div class="x-wechat" style="height:100%;">
 		<router-view :key="$route.fullPath"></router-view>
 	</div>
 </template>

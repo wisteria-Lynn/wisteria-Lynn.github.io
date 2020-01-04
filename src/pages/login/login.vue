@@ -345,8 +345,8 @@
 			loginSuccess(res) {
 				// 登录成功
 				let userInfo = {
-					username: res.username,
-					phone: res.phone
+					username: res.data.username,
+					phone: res.data.phone
 				}
 				// 本地存储信息
 				this.$store.dispatch('loginAction', userInfo)
@@ -383,7 +383,39 @@
 
 <style lang="less">
 	// 登录页
-	.yl-theme-blue .yl-login {
+	.yl-theme-blue{
+		.yl-login{
+			.yl-login-main{
+				.yl-login-wrap{
+					.yl-login-tab-head{
+						div{
+							&.active {
+								color: @themeBlue;
+								border-bottom: 2px solid @themeBlue;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	.yl-theme-orange{
+		.yl-login{
+			.yl-login-main{
+				.yl-login-wrap{
+					.yl-login-tab-head{
+						div{
+							&.active {
+								color: @themeOrange;
+								border-bottom: 2px solid @themeOrange;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	.yl-login {
 		background: #Fff;
 		height: 100%;
 		.yl-login-contain {
@@ -419,11 +451,6 @@
 						border-bottom: 1px solid #ccc;
 						font-size: 1.4rem;
 						cursor: pointer;
-
-						&.active {
-							color: @themeBlue;
-							border-bottom: 2px solid @themeBlue;
-						}
 					}
 				}
 
