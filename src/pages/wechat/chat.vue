@@ -34,7 +34,13 @@
 						</p>
 						<img :src="GLOBAL.avatar" alt="">
 						<p class="mt10">
-							{{chatLoginName}}&nbsp;|&nbsp;<span @click="loginout">切换</span>
+							{{chatLoginName}}&nbsp;|
+							<span v-show="!isChatLogin">离线</span>
+							<span v-show="isChatLogin">在线</span>
+						</p>
+						<p class="mt10 chat-btn-link">
+							<el-button v-show="!isChatLogin" type="primary" size="mini" @click="initWebSocket">重新连接</el-button>
+							<el-button v-show="isChatLogin" type="primary" size="mini" @click="loginout">切换账号</el-button>
 						</p>
 					</div>
 					<!--搜索框-->
@@ -80,6 +86,13 @@
 				</div>
 				<!--中间内容-->
 				<div class="fram-container">
+					<el-alert
+						:title="errorMessage"
+						type="warning"
+						show-icon
+						:closable="false"
+						v-show="isErrMes" style="position:absolute;top:-50px;">
+					</el-alert>
 					<!--内容头部-->
 					<div class="fram-head f14">
 						<div>{{chatDetail.chatName}}</div>
@@ -90,13 +103,13 @@
 							<div class="message-panel">
 								<div v-for="list in messageList" v-if="list.chatName === chatDetail.chatName">
 									<div class="m-p-wrap" v-for="item in list.chatArr">
-										<el-row type="flex" v-if="item.name === chatLoginName" class="message-you">
-											<img :src="GLOBAL.avatar" alt>
+										<el-row type="flex" v-if="item.name === chatLoginName" class="message-you" style="justify-content: flex-end;">
 											<span>{{item.mess}}</span>
+											<img :src="GLOBAL.avatar" alt>
 										</el-row>
-										<el-row v-else type="flex" class="message-he" style="justify-content: flex-end;">
-											<span>{{item.mess}}</span>
+										<el-row v-else type="flex" class="message-he">
 											<img :src="GLOBAL.avatar" alt>
+											<span>{{item.mess}}</span>
 										</el-row>
 									</div>
 								</div>
@@ -107,7 +120,15 @@
 					<div class="fram-input">
 						<div style="padding:0 2px;">
 							<el-input
-								@keyup.enter.native="send"
+								v-show="!isUseEnterSend"
+								type="textarea"
+								@focus="animalsAdd"
+								placeholder="请输入内容"
+								v-model="message">
+							</el-input>
+							<el-input
+								v-show="isUseEnterSend"
+								@keydown.enter.native="send($event)"
 								type="textarea"
 								@focus="animalsAdd"
 								placeholder="请输入内容"
@@ -117,7 +138,7 @@
 					</div>
 					<!--聊天发送-->
 					<div class="fram-foot">
-						<div class="tr" style="padding:0 1px;">
+						<div class="tr chat-btn-link" style="padding:0 1px;">
 							<el-button @click="send">发送</el-button>
 						</div>
 					</div>
@@ -125,17 +146,22 @@
 			</div>
 			<!--右侧-->
 			<div class="fram-rgiht-open" v-show="!isShowSys" @click="isShowSys = !isShowSys">
-				<span style="display: block;width:14px;" class="f14 p10 cp">系统消息></span>
+				<span style="display: block;width:14px;" class="f14 p10 cp">系统设置<i class="el-icon-arrow-down"></i></span>
 			</div>
 			<div class="fram-rgiht ml20 f14" v-show="isShowSys">
 				<!--右侧头部-->
 				<div class="fram-head">
-					<div><span @click="isShowSys = false" class="cp"><</span>&nbsp;系统消息</div>
+					<div><span @click="isShowSys = false" class="cp"><i class="el-icon-arrow-left"></i></span>&nbsp;系统设置</div>
 				</div>
 				<!--右侧系统消息-->
-				<div class="fram-right-content">
-					<div class="f-r-scroll scroll-style">
+				<div class="fram-right-content p10">
+					<h2>系统消息</h2>
+					<div class="f-r-scroll scroll-style pl10">
 						<div v-for="list in sysMessages">{{list}}</div>
+					</div>
+					<h2>设置快捷键</h2>
+					<div class="p10 chat-checkbox">
+						<el-checkbox v-model="isUseEnterSend">使用enter发送</el-checkbox>
 					</div>
 				</div>
 			</div>
@@ -161,14 +187,18 @@
 				chatLineList: [],// 聊天在线用户
 				chatList: [],// 好友列表
 				message: '', // 发送的消息
-				localMessage:JSON.parse(sessionStorage.getItem('messageList')) || [],// 本地聊天记录
+				localMessage:JSON.parse(localStorage.getItem('messageList')) || [],// 本地聊天记录
 				localIndex:'',// 该登录用户在本地消息记录中的索引
 				messageList: [],// 消息列表
 				sysMessages: [],//系统消息
 				chatTheme:'chat-bg-color-0',
 				isShowSys:false,
 				animals:1,
-				activePanel:'friend'
+				activePanel:'friend',
+				isChatLogin:false,
+				errorMessage:'',
+				isErrMes:false,
+				isUseEnterSend:true
 			}
 		},
 		methods: {
@@ -196,6 +226,8 @@
 			},
 			websocketonopen() {
 				console.log('WebSocket连接成功')
+				this.isChatLogin = true
+				this.isErrMes = false
 				// 如果当前用户存在
 				if (this.chatLoginName) {
 					let message = {
@@ -222,6 +254,8 @@
 					let levName = this.chatLoginName === data.sendName ? data.reciveName : data.sendName
 					// 消息条数
 					let messNum = 0
+
+
 					// 聊天时是否显示当前 发送/接收 消息的面板
 					if(levName !== this.chatDetail.chatName) {
 						// 消息条数加1
@@ -281,7 +315,7 @@
 						this.localIndex = this.localMessage.length - 1
 					}
 					// 更新存储信息
-					sessionStorage.setItem('messageList', JSON.stringify(this.localMessage))
+					localStorage.setItem('messageList', JSON.stringify(this.localMessage))
 				}
 			},
 			close() {
@@ -297,35 +331,49 @@
 				console.log("服务器关闭")
 			},
 			websocketonerror() {
+				this.isChatLogin = false
+				this.isErrMes = true
+				this.errorMessage = 'websocket连接出错，请重新连接'
 				console.log("连接出错")
 			},
 			// 发送
-			send() {
-				if (!window.WebSocket) {
+			send(e) {
+				if(e && this.isUseEnterSend){
+					e.preventDefault();
+				}
+				if (!this.isChatLogin || !window.WebSocket) {
 					this.layer.msg('服务器关闭，请退出重新登录')
-					return
+					return false;
 				}
 				if (this.chatDetail.chatName === '') {
 					this.layer.msg('请选择聊天对象')
-					return
-				}
-				if (this.message.replace(/\s/g, "") === '') {
-					this.layer.msg('消息不能为空')
-					return
+					return false;
 				}
 				if (this.chatDetail.type !== 2) {
 					this.layer.msg('你们还不是好友，不能聊天哦')
-					return
+					return false;
 				}
 				if (!this.chatDetail.readay) {
 					this.layer.msg('该好友不在线，不能聊天哦')
-					return
+					return false;
 				}
-				let message = {
-					type: 'message', // 消息类型
+				if (this.message.replace(/\s/g, "") === '') {
+					this.layer.msg('消息不能为空')
+					return false;
+				}
+				this.sendMes({
+					type:'message',
 					sendName: this.chatLoginName,// 发送方昵称
 					reciveName: this.chatDetail.chatName,// 接收方昵称
 					message: this.message // 消息
+				})
+			},
+			sendMes(item){
+				let message = {
+					type: item.type, // 消息类型
+					sendName: item.sendName,// 发送方昵称
+					reciveName: item.reciveName,// 接收方昵称
+					message: item.message // 消息
 				}
 				this.websock.send(JSON.stringify(message))
 				this.message = ''
@@ -345,7 +393,7 @@
 							return val.name === this.chatLoginName
 						})
 						this.localMessage[localIndex].list = this.messageList
-						sessionStorage.setItem('messageList', JSON.stringify(this.localMessage))
+						localStorage.setItem('messageList', JSON.stringify(this.localMessage))
 					}
 				}
 				// 滚动条居底部
@@ -399,6 +447,14 @@
 						this.layer.msg(codeText(res.code))
 					} else {
 						this.getFrendList()
+						if(type === 'recive'){
+							this.sendMes({
+								type:'message',
+								sendName: this.chatLoginName,// 发送方昵称
+								reciveName: item.username,// 接收方昵称
+								message: '我们已经是好友了，赶紧来聊天吧'// 消息
+							})
+						}
 					}
 				})
 			},
@@ -455,91 +511,80 @@
 		border: none;
 	}
 </style>
-<style scoped lang="less">
-	@chatTheme0:#354a5f;
-	@chatTheme1:#3598db;
-	@chatTheme2:rgb(55,178,248);
-	@chatTheme3:#637cfb;
-	@chatTheme4:#6691fa;
-	@chatTheme5:#f49110;
-	@chatTheme6:#e4d7cf;
-	.chat-bg-color-0{
+<style lang="less">
+	.chat-com-theme(@main,@active,@hover,@tcolor,@tcshaw){
 		.chat-header,.fram-side,.fram-side-head,.fram-rgiht .fram-head,.fram-rgiht-open span{
-			background:@chatTheme0;
+			background:@main;
 			color:#fff !important;
+		}
+		.f-l-isready{
+			color:@tcolor !important;
 		}
 		.activePanel{
 			&.active{
-				background: #1e3750;
+				background: @active;
 			}
 		}
 		.f-l-item {
 			&.active{
-				background: #1e3750;
+				background: @active;
 			}
 			&:hover{
-				background: #41566b;
+				background: @hover;
 			}
 		}
 		.message-you{
 			span{
-				background:@chatTheme0;
-				box-shadow: 0 0 15px #ddd;
+				color:#fff;
+				background:@main;
+				border-radius: 4px;
+				box-shadow: 0 0 15px @tcshaw;
+			}
+		}
+		.chat-btn-link{
+			.el-button{
+				color:#fff;
+				background:@active;
+				border-color:@active;
+				&:hover{
+					background:@hover;
+					border-color:@hover;
+				}
+			}
+		}
+		.chat-checkbox{
+			.el-checkbox__label{
+				color:#333;
+			}
+			.el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+				background-color:@main;
+				border-color:@main;
+			}
+			.el-checkbox__inner:hover{
+				border-color: #DCDFE6;
 			}
 		}
 	}
+	.chat-bg-color-0{
+		.chat-com-theme(@chatTheme0,@chatTheme0Active,@chatTheme0Hover,#fff,#bbb)
+	}
 	.chat-bg-color-1{
-		.chat-header,.fram-side,.fram-side-head,.fram-rgiht .fram-head,.fram-rgiht-open span{
-			background:@chatTheme1;
-			color:#fff !important;
-		}
-		.f-l-isready{
-			color:#dcdcdc !important;
-		}
+		.chat-com-theme(@chatTheme1,@chatTheme1Active,@chatTheme1Hover,#dcdcdc,#ccc)
 	}
 	.chat-bg-color-2{
-		.chat-header,.fram-side,.fram-side-head,.fram-rgiht .fram-head,.fram-rgiht-open span{
-			background:@chatTheme2;
-			color:#fff !important;
-		}
-
-		.f-l-isready{
-			color:#dcdcdc !important;
-		}
+		.chat-com-theme(@chatTheme2,@chatTheme2Active,@chatTheme2Hover,#dcdcdc,#ccc)
 	}
 	.chat-bg-color-3{
-		.chat-header,.fram-side,.fram-side-head,.fram-rgiht .fram-head,.fram-rgiht-open span{
-			background:@chatTheme3;
-			color:#fff !important;
-		}
-
-		.f-l-isready{
-			color:#dcdcdc !important;
-		}
+		.chat-com-theme(@chatTheme3,@chatTheme3Active,@chatTheme3Hover,#dcdcdc,#ccc)
 	}
 	.chat-bg-color-4{
-		.chat-header,.fram-side,.fram-side-head,.fram-rgiht .fram-head,.fram-rgiht-open span{
-			background:@chatTheme4;
-			color:#fff !important;
-		}
-
-		.f-l-isready{
-			color:#dcdcdc !important;
-		}
+		.chat-com-theme(@chatTheme4,@chatTheme4Active,@chatTheme4Hover,#dcdcdc,#ccc)
 	}
 	.chat-bg-color-5{
-		.chat-header,.fram-side,.fram-side-head,.fram-rgiht .fram-head,.fram-rgiht-open span{
-			background:@chatTheme5;
-			color:#fff !important;
-		}
-		.f-l-isready{
-			color:#dcdcdc !important;
-		}
+		.chat-com-theme(@chatTheme5,@chatTheme5Active,@chatTheme5Hover,#dcdcdc,#ccc)
 	}
 	.chat-bg-color-6{
-		.chat-header,.fram-side,.fram-side-head,.fram-rgiht .fram-head,.fram-rgiht-open span{
-			background:@chatTheme6;
-		}
+		.chat-com-theme(@chatTheme6,@chatTheme6Active,@chatTheme6Hover,#fff,#ccc)
 	}
 	.chat-btn-agree,.chat-btn-reject{
 		padding:0 10px;

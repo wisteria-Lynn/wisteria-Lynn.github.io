@@ -14,7 +14,7 @@ import 'viewerjs/dist/viewer.css'
 import pageTitle from './common/pageTitle.json'
 // 全局变量
 import WS from './common/websocket'
-import GlobalVal from './common/GlobalVal'
+import GlobalVal from '../static/config'
 // 全局函数
 import GlobalFunc from './common/GlobalFun'
 // 过滤器
