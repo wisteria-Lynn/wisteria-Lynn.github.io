@@ -74,66 +74,79 @@ module.exports = {
 			let sql_update = 'UPDATE chatuser SET friendList=? WHERE chatname=?'
 			let result_1
 			let result_2
-			connection.query(sql_query,[qr.sendName] ,(err, result) => {
+			connection.query(sql_query,[qr.sendName] ,(err, result1) => {
 				// 发送方用户信息
-				result_1 =result[0]
-				try{
-					connection.query(sql_query,[qr.reciveName] ,(err, result) => {
-						// 接收方用户信息
-						result_2 = result[0]
-						// 发送方朋友列表
-						let fList_1 = JSON.parse(result_1.friendList)
-						// 接收方朋友列表
-						let fList_2 = JSON.parse(result_2.friendList)
-						// 发送方&&接收方 用户存在
-						if (result_1.length !== 0 && result_2.length !== 0) {
-							// 发送方添加朋友
-							if (qr.type === 'add'){
-								// type 0 已发送 1 待同意 2 同意已成为朋友
-								fList_1.push({
-									"username":qr.reciveName,
-									"type":0
-								})
-								fList_2.push({
-									"username":qr.sendName,
-									"type":1
-								})
-								connection.query(sql_update,[fList_1,qr.sendName] ,(err, result) => {
-									console.log('1',result)
-								})
-								connection.query(sql_update,[fList_2,qr.reciveName] ,(err, result) => {
-									console.log('2',result)
-								})
-							}
-							// 接收方 同意 成为朋友
-							if (qr.type === 'recive'){
-								// 找到接收方在发送方朋友列表中的索引
-								let fList_Index_1 = fList_1.findIndex((val, index ,arr) => {
-									return val.username === qr.reciveName
-								})
-								// 找到发送方在接收方朋友列表中的索引
-								let fList_Index_2 = fList_2.findIndex((val, index ,arr) => {
-									return val.username === qr.sendName
-								})
-								if (fList_Index_1 > -1 && fList_Index_2 > -1) {
-									// 改变 双方朋友状态 type = 2 同意
-									fList_1[fList_Index_1].type = 2
-									fList_2[fList_Index_2].type = 2
-									connection.query(sql_update,[JSON.stringify(fList_1),qr.sendName] ,(err, result) => {
-									})
-									connection.query(sql_update,[JSON.stringify(fList_2),qr.reciveName] ,(err, result) => {
-										res.json({code: 0, message:'success'})
-									})
+				result_1 =result1[0]
+				// 发送方朋友列表
+				let fList_1 = JSON.parse(result_1.friendList)
+				let openId_1 = result_1.openID
+				if(fList_1.length >= 30){
+					res.json({code: 20022, message:'最多只能添加30位好友'})
+				} else {
+					try{
+						connection.query(sql_query,[qr.reciveName] ,(err, result2) => {
+							if(result2.length !== 0){
+								// 接收方用户信息
+								result_2 = result2[0]
+								// 接收方朋友列表
+								let fList_2 = JSON.parse(result_2.friendList)
+								let openId_2 = result_2.openID
+								// 发送方&&接收方 用户存在
+								if (result_1.length !== 0 && result_2.length !== 0) {
+									// 发送方添加朋友
+									if (qr.type === 'add'){
+										// type 0 已发送 1 待同意 2 同意已成为朋友
+										fList_1.push({
+											"openID":openId_2,
+											"username":qr.reciveName,
+											"type":0
+										})
+										fList_2.push({
+											"openID":openId_1,
+											"username":qr.sendName,
+											"type":1
+										})
+										connection.query(sql_update,[JSON.stringify(fList_1),qr.sendName] ,(err, result3) => {
+											// console.log('1',result3)
+										})
+										connection.query(sql_update,[JSON.stringify(fList_2),qr.reciveName] ,(err, result4) => {
+											// console.log('2',result4)
+											res.json({code: 0, message:'success'})
+										})
+									}
+									// 接收方 同意 成为朋友
+									if (qr.type === 'recive'){
+										// 找到接收方在发送方朋友列表中的索引
+										let fList_Index_1 = fList_1.findIndex((val, index ,arr) => {
+											return val.username === qr.reciveName
+										})
+										// 找到发送方在接收方朋友列表中的索引
+										let fList_Index_2 = fList_2.findIndex((val, index ,arr) => {
+											return val.username === qr.sendName
+										})
+										if (fList_Index_1 > -1 && fList_Index_2 > -1) {
+											// 改变 双方朋友状态 type = 2 同意
+											fList_1[fList_Index_1].type = 2
+											fList_2[fList_Index_2].type = 2
+											connection.query(sql_update,[JSON.stringify(fList_1),qr.sendName] ,(err, result) => {
+											})
+											connection.query(sql_update,[JSON.stringify(fList_2),qr.reciveName] ,(err, result) => {
+												res.json({code: 0, message:'success'})
+											})
+										}
+									}
+									connection.release()
+								} else {
+									res.json({code: 10002, message:'name exit'})
 								}
+							} else {
+								res.json({code: 10003, message:'name not exit'})
 							}
-							connection.release()
-						} else {
-							res.json({code: 10002, message:'name exit'})
-						}
-					})
-				} catch (e) {
-					console.log('操作异常', e)
-					res.json({code: 20000, message:'error'})
+						})
+					} catch (e) {
+						console.log('操作异常', e)
+						res.json({code: 20000, message:'error'})
+					}
 				}
 			})
 		})

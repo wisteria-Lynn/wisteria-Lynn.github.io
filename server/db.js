@@ -47,5 +47,17 @@ module.exports = {
 				res.json({code: 20000, message:'error'})
 			}
 		})
+	},
+	connectChat(sql,callBack,code){
+		pool.getConnection((err, connection) => {
+			try {
+				connection.query(sql, code, (err, result) => {
+					callBack(result)
+					connection.release()
+				})
+			} catch (e) {
+				console.log('操作异常', e)
+			}
+		})
 	}
 }

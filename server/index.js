@@ -15,4 +15,4 @@ app.all('*', function(req, res, next) {
 });
 app.use('/nodeApi',nodeRouter)
 app.listen(3000)
-console.log('success list at port 3000')
+console.log('node success list at port 3000')

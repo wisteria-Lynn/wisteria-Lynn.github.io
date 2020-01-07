@@ -44,13 +44,14 @@
 						</p>
 					</div>
 					<!--搜索框-->
-					<div class="fram-side-search">
+					<div class="fram-side-search pr">
 						<el-input
+							@focus="animalsAdd"
 							size="mini"
-							placeholder="请输入内容"
-							suffix-icon="el-icon-search"
+							placeholder="请输入昵称/群聊"
 							v-model="searchName">
 						</el-input>
+						<i @click="searchUserName" class="el-icon-search pa cp" style="right:10px;top:12px;color:#aaa;"></i>
 					</div>
 					<!--好友列表-->
 					<el-row style="height: 40px;line-height: 40px;" class="tc">
@@ -67,7 +68,7 @@
 								<div v-if="item.type === 2" style="float:right;">
 									<span class="message-num chat-ms-num" v-if="getMessNum(item) > 0">{{getMessNum(item)}}</span>
 								</div>
-								<span class="f-l-isready">{{getReadyLine(item,index) ? '在线':'离线'}}</span>
+								<span class="f-l-isready">{{item.ready ? '在线':'离线'}}</span>
 								<div v-if="item.type === 0" style="float:right;">
 									<span class="btn btn-error chat-btn-reject">待通过</span>
 								</div>
@@ -157,7 +158,7 @@
 				<div class="fram-right-content p10">
 					<h2>系统消息</h2>
 					<div class="f-r-scroll scroll-style pl10">
-						<div v-for="list in sysMessages">{{list}}</div>
+						<div v-for="list in sysMessages">{{list}}<span v-show="list.split(' ')[0] !== chatLoginName" class="btn btn-success chat-btn-addf cp" @click="getChatAddFriend({username:list.split(' ')[0]},'add')">加好友</span></div>
 					</div>
 					<h2>设置快捷键</h2>
 					<div class="p10 chat-checkbox">
@@ -166,6 +167,22 @@
 				</div>
 			</div>
 		</div>
+		<el-dialog title="搜索结果" :visible.sync="searchPanelDialog">
+			<el-tabs v-model="tabActiveName">
+				<el-tab-pane label="用户" name="first">
+					<div style="min-height:300px;">
+						<p v-for="item in 10" :key="item" style="border-bottom:1px solid #ddd;" class="p10">
+							{{item}}<span @click="getChatAddFriend(item,'add')" class="btn btn-success chat-btn-addf cp">加为好友</span>
+						</p>
+					</div>
+				</el-tab-pane>
+				<el-tab-pane label="群聊" name="second">
+					<div style="min-height:300px;">
+						<p class="tc"> 没有搜索结果 </p>
+					</div>
+				</el-tab-pane>
+			</el-tabs>
+		</el-dialog>
 	</div>
 </template>
 
@@ -182,9 +199,8 @@
 				chatDetail:{ // 聊天对象信息
 					chatName: '',// 对象名字
 					type:'', // 和该对象的关系，0已发送加好友信息，1等待好友验证，2已是好友关系
-					readay:''// 是否在线
+					ready:''// 是否在线
 				}, // 对方详情
-				chatLineList: [],// 聊天在线用户
 				chatList: [],// 好友列表
 				message: '', // 发送的消息
 				localMessage:JSON.parse(localStorage.getItem('messageList')) || [],// 本地聊天记录
@@ -198,7 +214,9 @@
 				isChatLogin:false,
 				errorMessage:'',
 				isErrMes:false,
-				isUseEnterSend:true
+				isUseEnterSend:true,
+				searchPanelDialog:false,
+				tabActiveName:'first'
 			}
 		},
 		methods: {
@@ -240,14 +258,17 @@
 			websocketonmessage(e) {
 				console.log(e.data)
 				let data = JSON.parse(e.data)
+
 				// 系统消息
 				if (data.type === 'system') {
 					this.sysMessages.push(data.message)
 				}
-				// 用户在线列表
-				if (data.type === 'userList') {
-					this.chatLineList = data.message
+
+				// 用户好友列表
+				if (data.type === 'friendList') {
+					this.chatList = data.message
 				}
+
 				// 对话消息
 				if (data.type === 'message') {
 					// 对方昵称
@@ -328,6 +349,9 @@
 				this.websocketclose()
 			},
 			websocketclose() {
+				this.isChatLogin = false
+				this.isErrMes = true
+				this.errorMessage = 'websocket服务器已关闭，请重新连接'
 				console.log("服务器关闭")
 			},
 			websocketonerror() {
@@ -353,7 +377,7 @@
 					this.layer.msg('你们还不是好友，不能聊天哦')
 					return false;
 				}
-				if (!this.chatDetail.readay) {
+				if (!this.chatDetail.ready) {
 					this.layer.msg('该好友不在线，不能聊天哦')
 					return false;
 				}
@@ -405,29 +429,8 @@
 				this.chatDetail = {
 					chatName:u.username,
 					type:u.type,
-					readay:u.readay
+					ready:u.ready
 				}
-			},
-			// 判断用户是否在线
-			getReadyLine(item,index){
-				let result = this.chatLineList.filter((val, index, arr) => {
-					return val.username === item.username
-				})
-				let readay = result.length === 0 ? false : result[0].readay
-				this.chatList[index].readay = readay
-				return readay
-			},
-			// 获取好友列表
-			getFrendList(){
-				chatFriendList({
-					name:this.chatLoginName
-				}).then((res) => {
-					if(res.code !== 0) {
-						this.layer.msg(codeText(res.code))
-					} else {
-						this.chatList = res.data
-					}
-				})
 			},
 			// 判断未读消息
 			getMessNum(item) {
@@ -444,7 +447,7 @@
 					type:type
 				}).then((res) => {
 					if(res.code !== 0) {
-						this.layer.msg(codeText(res.code))
+						this.layer.msg(res.message)
 					} else {
 						this.getFrendList()
 						if(type === 'recive'){
@@ -454,31 +457,32 @@
 								reciveName: item.username,// 接收方昵称
 								message: '我们已经是好友了，赶紧来聊天吧'// 消息
 							})
+						} else {
+							this.layer.msg('已给对方发送添加好友的通知！')
 						}
 					}
 				})
 			},
-			// getChatReciveFriend() {
-			// 	chatReciveFriend({}).then((res) => {
-			// 		if(res.code !== 0) {
-			// 			this.layer.msg(codeText(res.code))
-			// 		} else {
-			//
-			// 		}
-			// 	})
-			// },
-			// 关闭服务器连接
 			// 退出
 			loginout() {
 				this.close()
 				this.$router.push({name:'chatLogin'})
 			},
+			// 修改皮肤
 			changeChatTheme(e){
 				let theme = e.target.id
 				this.chatTheme = theme ? theme : this.chatTheme
 			},
+			// 熊猫动画次数
 			animalsAdd(){
 				this.animals++
+			},
+			searchUserName(){
+				if(!!this.searchName.replace(/\s/g, "")){
+					this.searchPanelDialog = true
+				} else {
+					this.layer.msg('请输入搜索关键词')
+				}
 			}
 		},
 		created() {
@@ -489,7 +493,7 @@
 					sessionStorage.setItem('chatLoginName',r_name)
 					this.chatLoginName = r_name
 				// 获取好友列表
-				this.getFrendList()
+				// this.getFrendList()
 				// 当前账户的消息索引
 				this.localIndex = this.localMessage.findIndex((val, index, arr) => {
 					return val.name === this.chatLoginName
@@ -512,6 +516,9 @@
 	}
 </style>
 <style lang="less">
+	.vl-notify{
+		z-index:9999;
+	}
 	.chat-com-theme(@main,@active,@hover,@tcolor,@tcshaw){
 		.chat-header,.fram-side,.fram-side-head,.fram-rgiht .fram-head,.fram-rgiht-open span{
 			background:@main;
@@ -587,9 +594,16 @@
 		.chat-com-theme(@chatTheme6,@chatTheme6Active,@chatTheme6Hover,#fff,#ccc)
 	}
 	.chat-btn-agree,.chat-btn-reject{
-		padding:0 10px;
+		padding:0 5px;
 		font-size:12px;
 		line-height: 20px;
+	}
+	.chat-btn-addf{
+		margin-left:5px;
+		padding: 1px 5px;
+		border-radius: 4px;
+		font-size:12px;
+		line-height: 1.3;
 	}
 	.chat-ms-num{
 		width:20px;
