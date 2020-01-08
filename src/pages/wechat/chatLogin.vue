@@ -60,6 +60,7 @@
 						this.layer.msg(codeText(res.code))
 					} else {
 						sessionStorage.setItem('chatLoginName',this.loginName)
+						sessionStorage.setItem('chatLoginAvatar',res.data.avatar)
 						sessionStorage.setItem('websocketLink','1')
 						this.$router.push({path:'/wechat/chat'})
 					}

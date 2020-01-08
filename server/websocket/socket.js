@@ -2,7 +2,6 @@ const DB = require('../db')
 // 创建websocket聊天
 let user = [] //所有用户
 let resultUser = [] // 所有用户
-let linkDBTime = null
 
 // 广播
 const broadcast = (server, info) => {
@@ -47,17 +46,6 @@ const chatGetFriendList = (type)=>{
 	})
 }
 
-// 轮询数据库变化
-
-function linkDB(){
-	return setInterval(()=>{
-		chatGetFriendList()
-	},10000)
-}
-
-linkDBTime = linkDB()
-
-
 if(process.env.NODE_ENV === 'development' || true){
 	console.log("开始建立连接...")
 	const ws = require("nodejs-websocket") // socket对象
@@ -85,16 +73,16 @@ if(process.env.NODE_ENV === 'development' || true){
 					resultUser[userIndex].ready = true
 				}
 				// 给登录的用户发送好友列表
-				if(linkDBTime){
-					clearInterval(linkDBTime)
-					chatGetFriendList('login')
-					linkDBTime = linkDB()
-				}
+				chatGetFriendList('login')
 
 				// 广播登录的系统消息
 				broadcast(wsServer,JSON.stringify({
 					type:'system',
-					message:message.username +' ' + '登录'
+					message:{
+						username:message.username,
+						way:'登录',
+						time:new Date()
+					}
 				}))
 			}
 			// 发送接收
@@ -105,18 +93,15 @@ if(process.env.NODE_ENV === 'development' || true){
 				// console.log(sendIndex,reciveIndex,user)
 
 				if(user[sendIndex].ready&&user[reciveIndex].ready){
-					user[sendIndex].conn.sendText(JSON.stringify({
+					let msgItem = {
 						type:'message',
 						sendName:message.sendName,
 						reciveName:message.reciveName,
+						time:new Date(),
 						message:message.message
-					}))
-					user[reciveIndex].conn.sendText(JSON.stringify({
-						type:'message',
-						sendName:message.sendName,
-						reciveName:message.reciveName,
-						message:message.message
-					}))
+					}
+					user[sendIndex].conn.sendText(JSON.stringify(msgItem))
+					user[reciveIndex].conn.sendText(JSON.stringify(msgItem))
 				}
 			}
 			// 关闭
@@ -129,15 +114,15 @@ if(process.env.NODE_ENV === 'development' || true){
 				}
 				broadcast(wsServer,JSON.stringify({
 					type:'system',
-					message:message.username +' ' + '离线'
+					message:{
+						username:message.username,
+						way:'离线',
+						time:new Date()
+					}
 				}))
 
-				// 给登录的用户发送好友列表
-				if(linkDBTime){
-					clearInterval(linkDBTime)
-					chatGetFriendList()
-					linkDBTime = linkDB()
-				}
+				// 给还未离线的用户发送好友列表
+				chatGetFriendList()
 			}
 			console.log(message)
 			// console.log(user)
