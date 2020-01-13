@@ -228,17 +228,14 @@
 </template>
 
 <script>
-	import {chatFriendList, chatAddFriend} from '../../api/user'
-	import {codeText} from '../../api/api'
-	import Bus from '../../common/bus'
-
+	import {chatUploadAvatar, chatAddFriend} from '../../api/user'
 	export default {
 		name: "chat",
 		data() {
 			return {
 				isChatLogin: false, // 当前聊天室用户是否登录成功
 				chatLoginName: '',// 当前聊天室登录用户
-				chatLoginAvatar:null,
+				chatLoginAvatar:'',
 				searchName: '', // 搜索关键字
 				curChatFriendIndex: null,// 当前聊天好友在列表中的索引
 				curChatFriendName: '',//当前聊天好友对象昵称
@@ -258,6 +255,7 @@
 				searchPanelDialog: false, // 是否展示搜索面板
 				tabActiveName: 'first', // 搜索面板中当前应用tab
 				msgDownMenu: false,// 下拉菜单
+				websocketTime:0,// 连接次数
 			}
 		},
 		methods: {
@@ -287,6 +285,7 @@
 				console.log('WebSocket连接成功')
 				this.isChatLogin = true
 				this.isErrMes = false
+				this.websocketTime = 0
 				// 如果当前用户存在
 				if (this.chatLoginName) {
 					let message = {
@@ -397,12 +396,18 @@
 				this.isErrMes = true
 				this.errorMessage = 'websocket服务器已关闭，请稍后连接'
 				console.log("服务器关闭")
+				if(sessionStorage.getItem('websocketLink') && this.websocketTime < 3){
+					this.initWebSocket()
+				}
 			},
 			websocketonerror() {
 				this.isChatLogin = false
 				this.isErrMes = true
 				this.errorMessage = 'websocket连接出错，请重新连接'
 				console.log("连接出错")
+				if(sessionStorage.getItem('websocketLink') && this.websocketTime < 3){
+					this.initWebSocket()
+				}
 			},
 			// 发送
 			send(e) {
@@ -442,13 +447,19 @@
 				this.websock.send(JSON.stringify(item))
 				this.message = ''
 			},
+			// 更新头像
 			uploadAvatar(){
 				this.$prompt('请输入图片地址', '提示', {
 					confirmButtonText: '确定',
 					cancelButtonText: '取消'
 				}).then(({ value }) => {
-					this.chatLoginAvatar = value
-					this.layer.msg('更换成功')
+					chatUploadAvatar({
+						avatar:value,
+						username:this.chatLoginName
+					}).then(()=>{
+						this.chatLoginAvatar = value
+						this.layer.msg('更换成功')
+					})
 				}).catch(() => {});
 			},
 			// 左侧item点击事件
@@ -511,6 +522,9 @@
 			},
 			// 退出
 			loginout() {
+				sessionStorage.removeItem('chatLoginName')
+				sessionStorage.removeItem('websocketLink')
+				sessionStorage.removeItem('chatLoginAvatar')
 				this.close()
 				this.$router.push({name: 'chatLogin'})
 			},
@@ -590,8 +604,8 @@
 			}
 		},
 		created() {
-			let r_name = this.$route.params.name || sessionStorage.getItem('chatLoginName')
-			this.chatLoginAvatar = sessionStorage.getItem('chatLoginAvatar')
+			let r_name = sessionStorage.getItem('chatLoginName')
+			this.chatLoginAvatar = sessionStorage.getItem('chatLoginAvatar') || ''
 			let websockLink = sessionStorage.getItem('websocketLink')
 			if (r_name && websockLink === '1') {
 				// 保存登录名

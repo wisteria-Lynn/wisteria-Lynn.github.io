@@ -151,6 +151,32 @@ module.exports = {
 			})
 		})
 	},
+	// 上传用户头像
+	chatUploadAvatar(req, res, next){
+		let qr = req.body
+		if(qr.avatar === ''){
+			res.json({
+				code: 1,
+				message: '头像不可为空'
+			})
+		} else {
+			DB.connectDB(res,'UPDATE chatuser SET avatar=? WHERE chatname=?',(result)=>{
+				if (result.length !== 0) {
+					res.json({
+						code: 0,
+						data: {
+							avatar:qr.avatar
+						}
+					})
+				} else {
+					res.json({
+						code: 1,
+						message: '不存在用户'
+					})
+				}
+			},[qr.avatar,qr.username])
+		}
+	},
 	// 聊天室 - 注册
 	chatRegist(req, res, next) {
 		let qr = req.body
@@ -179,37 +205,6 @@ module.exports = {
 				}
 			})
 		})
-		// console.log(qr.name)
-		// pool.getConnection((err, connection) => {
-		// 	let sql_query = 'SELECT * FROM chatuser WHERE chatname=?'
-		// 	let sql = 'INSERT INTO chatuser(chatname) VALUES ("' + qr.name + '")'
-		// 	try {
-		// 		connection.query(sql_query,[qr.name],(err, result) => {
-		// 			// console.log(result)
-		// 			if (result.length !== 0) {
-		// 				res.json({code: 10002, message:'name exit'})
-		// 				connection.release()
-		// 			} else {
-		// 				try {
-		// 					connection.query(sql,(err, result) => {
-		// 						if(result){
-		// 							res.json({code: 0, data: {name:qr.name,}})
-		// 						} else {
-		// 							res.json({code: 20001, message:'database error'})
-		// 						}
-		// 						connection.release()
-		// 					})
-		// 				} catch (e) {
-		// 					console.log('操作异常', e)
-		// 					res.json({code: 20000, message:'error'})
-		// 				}
-		// 			}
-		// 		})
-		// 	} catch (e) {
-		// 		console.log('操作异常', e)
-		// 		res.json({code: 20000, message:'error'})
-		// 	}
-		// })
 	},
 	// 天气预报 - 获取城市
 	// getWeatherCity(req, res, next) {

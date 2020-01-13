@@ -5,53 +5,55 @@ let resultUser = [] // 所有用户
 
 // 广播
 const broadcast = (server, info) => {
-	server.connections.forEach(function(conn) {
+	server.connections.forEach(function (conn) {
 		conn.sendText(info)
 	})
 }
 
 // 获取该在线用户的index
-getUserIndex = (username) =>{
-	return user.findIndex((val, index ,arr)=> {
+getUserIndex = (username) => {
+	return user.findIndex((val, index, arr) => {
 		return val.username === username
 	})
 }
 
 // 查询用户的好友
-const chatGetFriendList = (type)=>{
-	user.forEach((account)=>{
-		DB.connectChat('SELECT * FROM chatuser WHERE chatname=?',(result)=>{
-			if(!!account.conn){
+const chatGetFriendList = (type) => {
+	DB.connectChat('SELECT * FROM chatuser', (result) => {
+		if (result.length !== 0) {
+			user.forEach((account) => {
 				let friendList = []
-				// 用户好友列表是否存在
-				if(result.length !== 0){
+				if (!!account.conn) {
+					let RES = result.filter((val) => {
+						return val.chatname === account.username
+					})
 					// 拉取用户好友列表
-					friendList =JSON.parse(result[0].friendList).map((val)=>{
+					friendList = JSON.parse(RES[0].friendList).map((val) => {
 						let userIndex = getUserIndex(val.username);
-						return Object.assign(val,{ready:userIndex > -1 ? user[userIndex].ready : false})
+						return Object.assign(val, {ready: userIndex > -1 ? user[userIndex].ready : false})
 					})
 
 					// 是否推送
-					if(type === 'login' || !account.friendList || (account.friendList !== JSON.stringify(friendList))){
+					if (type === 'login' || !account.friendList || (account.friendList !== JSON.stringify(friendList))) {
 						let userIndex = getUserIndex(account.username)
 						user[userIndex].friendList = JSON.stringify(friendList)
 						account.conn.sendText(JSON.stringify({
-							type:'friendList',
-							message:friendList
+							type: 'friendList',
+							message: friendList
 						}))
 					}
 				}
-			}
-		},[account.username])
+			})
+		}
 	})
 }
 
-if(process.env.NODE_ENV === 'development' || true){
+if (process.env.NODE_ENV === 'development' || true) {
 	console.log("开始建立连接...")
 	const ws = require("nodejs-websocket") // socket对象
 	const wsServer = ws.createServer((conn) => {
 		// 连接消息
-		conn.on('text',(m) => {
+		conn.on('text', (m) => {
 			// 消息
 			let message = JSON.parse(m)
 			// 登录消息
@@ -59,13 +61,13 @@ if(process.env.NODE_ENV === 'development' || true){
 				let userIndex = getUserIndex(message.username)
 				if (userIndex < 0) {
 					user.push({
-						ready:true,
-						conn:conn,
-						username:message.username
+						ready: true,
+						conn: conn,
+						username: message.username
 					})
 					resultUser.push({
-						ready:true,
-						username:message.username
+						ready: true,
+						username: message.username
 					})
 				} else {
 					user[userIndex].conn = conn
@@ -76,12 +78,12 @@ if(process.env.NODE_ENV === 'development' || true){
 				chatGetFriendList('login')
 
 				// 广播登录的系统消息
-				broadcast(wsServer,JSON.stringify({
-					type:'system',
-					message:{
-						username:message.username,
-						way:'登录',
-						time:new Date()
+				broadcast(wsServer, JSON.stringify({
+					type: 'system',
+					message: {
+						username: message.username,
+						way: '登录',
+						time: new Date()
 					}
 				}))
 			}
@@ -92,13 +94,13 @@ if(process.env.NODE_ENV === 'development' || true){
 
 				// console.log(sendIndex,reciveIndex,user)
 
-				if(user[sendIndex].ready&&user[reciveIndex].ready){
+				if (user[sendIndex].ready && user[reciveIndex].ready) {
 					let msgItem = {
-						type:'message',
-						sendName:message.sendName,
-						reciveName:message.reciveName,
-						time:new Date(),
-						message:message.message
+						type: 'message',
+						sendName: message.sendName,
+						reciveName: message.reciveName,
+						time: new Date(),
+						message: message.message
 					}
 					user[sendIndex].conn.sendText(JSON.stringify(msgItem))
 					user[reciveIndex].conn.sendText(JSON.stringify(msgItem))
@@ -112,12 +114,12 @@ if(process.env.NODE_ENV === 'development' || true){
 					user[userIndex].ready = false
 					resultUser[userIndex].ready = false
 				}
-				broadcast(wsServer,JSON.stringify({
-					type:'system',
-					message:{
-						username:message.username,
-						way:'离线',
-						time:new Date()
+				broadcast(wsServer, JSON.stringify({
+					type: 'system',
+					message: {
+						username: message.username,
+						way: '离线',
+						time: new Date()
 					}
 				}))
 
@@ -128,23 +130,23 @@ if(process.env.NODE_ENV === 'development' || true){
 			// console.log(user)
 		})
 		// 开启连接
-		conn.on('connect',(code) => {
-			console.log('开启连接',code)
+		conn.on('connect', (code) => {
+			console.log('开启连接', code)
 		})
 		// 关闭连接
-		conn.on('close',(code) => {
-			console.log('关闭连接',code)
+		conn.on('close', (code) => {
+			console.log('关闭连接', code)
 		})
 		// 连接错误
-		conn.on('error',(code) => {
+		conn.on('error', (code) => {
 			// 某些情况如果客户端多次触发连接关闭，会导致connection.close()出现异常，这里try/catch一下
 			try {
 				conn.close()
 			} catch (error) {
 				console.log('close异常', error)
 			}
-			console.log('异常关闭',code)
-			console.log(resultUser)
+			console.log('异常关闭', code)
+			// console.log(resultUser)
 		})
 	})
 	wsServer.listen(3001)
