@@ -78,7 +78,7 @@ module.exports = {
 				// 发送方用户信息
 				result_1 =result1[0]
 				// 发送方朋友列表
-				let fList_1 = JSON.parse(result_1.friendList)
+				let fList_1 = !!result_1.friendList ? JSON.parse(result_1.friendList) : []
 				let openId_1 = result_1.openID
 				if(fList_1.length >= 30){
 					res.json({code: 20022, message:'最多只能添加30位好友'})
@@ -89,7 +89,7 @@ module.exports = {
 								// 接收方用户信息
 								result_2 = result2[0]
 								// 接收方朋友列表
-								let fList_2 = JSON.parse(result_2.friendList)
+								let fList_2 =  !!result_2.friendList ? JSON.parse(result_2.friendList) : []
 								let openId_2 = result_2.openID
 								// 发送方&&接收方 用户存在
 								if (result_1.length !== 0 && result_2.length !== 0) {
@@ -177,10 +177,33 @@ module.exports = {
 			},[qr.avatar,qr.username])
 		}
 	},
+	chatSearch(req, res, next){
+		let qr = req.body
+		if(qr.keyword === ''){
+			res.json({
+				code: 1,
+				message: '搜索字段不可为空'
+			})
+		} else {
+			DB.connectDB(res,"select chatname from chatuser where chatname like '%"+qr.keyword+"%'",(result)=>{
+				if (result.length !== 0) {
+					res.json({
+						code: 0,
+						data: result
+					})
+				} else {
+					res.json({
+						code: 1,
+						message: '不存在用户'
+					})
+				}
+			},[qr.avatar,qr.username])
+		}
+	},
 	// 聊天室 - 注册
 	chatRegist(req, res, next) {
 		let qr = req.body
-		DB.connection(res,(connection)=>{
+		DB.connection(res,(err,connection)=>{
 			let sql_query = 'SELECT * FROM chatuser WHERE chatname=?'
 			let sql = 'INSERT INTO chatuser(chatname) VALUES ("' + qr.name + '")'
 			connection.query(sql_query,[qr.name],(err, result) => {
@@ -189,19 +212,13 @@ module.exports = {
 					res.json({code: 10002, message:'name exit'})
 					connection.release()
 				} else {
-					try {
-						connection.query(sql,(err, result) => {
-							if(result){
-								res.json({code: 0, data: {name:qr.name,}})
-							} else {
-								res.json({code: 20001, message:'database error'})
-							}
-							connection.release()
-						})
-					} catch (e) {
-						console.log('操作异常', e)
-						res.json({code: 20000, message:'error'})
-					}
+					connection.query(sql,(err, result) => {
+						if(result){
+							res.json({code: 0, data: {name:qr.name}})
+						} else {
+							res.json({code: 20001, message:'database error'})
+						}
+					})
 				}
 			})
 		})

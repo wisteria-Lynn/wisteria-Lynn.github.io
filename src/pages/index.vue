@@ -54,7 +54,6 @@
 </template>
 
 <script>
-	// import { throttle, Scroll } from '@/util/handleDOM'
 	import { demoList } from "../common/demoList"
 
 	export default {

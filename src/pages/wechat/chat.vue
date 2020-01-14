@@ -68,22 +68,24 @@
 					<!--好友列表-->
 					<div class="fram-side-list" v-show="activePanel === 'friend'">
 						<div class="f-s-scroll scroll-style">
-							<div v-for="(item,index) in chatList" @click="chatClick(item,index)" :key="index"
-								 :class="[item.username === curChatFriendName?'active':'']" class="f-l-item">
-								<!--<div v-for="item in chatList" @click="chatClick(item)" class="f-l-item">-->
-								<span class="f-l-name">{{item.username}}</span>
-								<div v-if="item.type === 2" style="float:right;">
-									<span class="message-num chat-ms-num" v-if="getMessNum(item) > 0">{{getMessNum(item)}}</span>
-								</div>
-								<span class="f-l-isready">{{item.ready ? '在线':'离线'}}</span>
-								<div v-if="item.type === 0" style="float:right;">
-									<span class="btn btn-error chat-btn-reject">待通过</span>
-								</div>
-								<div v-if="item.type === 1" style="float:right;">
+							<template v-if="chatList.length > 0">
+								<div v-for="(item,index) in chatList" @click="chatClick(item,index)" :key="index"
+									 :class="[item.username === curChatFriendName?'active':'']" class="f-l-item">
+									<!--<div v-for="item in chatList" @click="chatClick(item)" class="f-l-item">-->
+									<span class="f-l-name">{{item.username}}</span>
+									<div v-if="item.type === 2" style="float:right;">
+										<span class="message-num chat-ms-num" v-if="getMessNum(item) > 0">{{getMessNum(item)}}</span>
+									</div>
+									<span class="f-l-isready">{{item.ready ? '在线':'离线'}}</span>
+									<div v-if="item.type === 0" style="float:right;">
+										<span class="btn btn-error chat-btn-reject">待通过</span>
+									</div>
+									<div v-if="item.type === 1" style="float:right;">
 									<span class="btn btn-success chat-btn-agree"
-										  @click="getChatAddFriend(item,'recive')">接受</span>
+										  @click.stop="getChatAddFriend(item,'recive')">接受</span>
+									</div>
 								</div>
-							</div>
+							</template>
 						</div>
 					</div>
 					<!--群聊列表-->
@@ -168,13 +170,16 @@
 							</div>
 						</div>
 					</template>
-					<div v-else class="yl-flex-center" style="height:80%;">
-						<img v-show="animals%3 === 1" class="animal-1" src="../../assets/img/wechat/animals1.png"
-							 alt="">
-						<img v-show="animals%3 === 2" class="animal-2" src="../../assets/img/wechat/animals2.png"
-							 alt="">
-						<img v-show="animals%3 === 0" class="animal-3" src="../../assets/img/wechat/animals3.png"
-							 alt="">
+					<div v-else class="yl-flex-center" style="height:90%;">
+						<div>
+							<img v-show="animals%3 === 1" class="animal-1" src="../../assets/img/wechat/animals1.png"
+								 alt="">
+							<img v-show="animals%3 === 2" class="animal-2" src="../../assets/img/wechat/animals2.png"
+								 alt="">
+							<img v-show="animals%3 === 0" class="animal-3" src="../../assets/img/wechat/animals3.png"
+								 alt="">
+							<p class="tc mt20" v-if="chatList.length < 1">你还没有好友哦，赶快去搜索添加吧</p>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -208,11 +213,21 @@
 		</div>
 		<!-- 搜索弹窗 -->
 		<el-dialog title="搜索结果" :visible.sync="searchPanelDialog">
+			<div class="fram-side-search pr">
+				<el-input
+					size="mini"
+					placeholder="请输入昵称/群聊"
+					v-model="searchName">
+				</el-input>
+				<i @click="searchUserName" class="el-icon-search pa cp"
+				   style="right:10px;top:8px;color:#aaa;"></i>
+			</div>
 			<el-tabs v-model="tabActiveName">
 				<el-tab-pane label="用户" name="first">
 					<div style="min-height:300px;">
-						<p v-for="item in 10" :key="item" style="border-bottom:1px solid #ddd;" class="p10">
-							{{item}}<span @click="getChatAddFriend(item,'add')"
+						<p v-for="(item,index) in searchResultList" :key="index" style="border-bottom:1px solid #ddd;" class="p10">
+							{{item.username}}<span v-if="item.isFriend" class="ml10 f12">已添加</span>
+							<span v-else @click="getChatAddFriend(item,'add')"
 										  class="btn btn-success chat-btn-addf cp">加为好友</span>
 						</p>
 					</div>
@@ -228,7 +243,7 @@
 </template>
 
 <script>
-	import {chatUploadAvatar, chatAddFriend} from '../../api/user'
+	import {chatUploadAvatar, chatAddFriend,chatSearch} from '../../api/user'
 	export default {
 		name: "chat",
 		data() {
@@ -256,6 +271,7 @@
 				tabActiveName: 'first', // 搜索面板中当前应用tab
 				msgDownMenu: false,// 下拉菜单
 				websocketTime:0,// 连接次数
+				searchResultList:[]
 			}
 		},
 		methods: {
@@ -274,11 +290,11 @@
 				this.websock.onclose = this.websocketclose
 				// 前端代码监听页面关闭或者刷新
 				window.onunload = () => {
-					this.close()
+					this.websocketclose()
 				}
 				//监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
 				window.onbeforeunload = function () {
-					this.close()
+					this.websocketclose()
 				}
 			},
 			websocketonopen() {
@@ -382,32 +398,36 @@
 					localStorage.setItem('messageList', JSON.stringify(this.localMessage))
 				}
 			},
-			close() {
+			closeSend() {
 				if (this.chatLoginName) {
-					this.websock.send(JSON.stringify({
+					this.sendMes({
 						type: 'close',
 						username: this.chatLoginName
-					}))
+					})
 				}
-				this.websocketclose()
+			},
+			// 错误
+			errorBack(){
+				this.isChatLogin = false
+				this.isErrMes = true
+				if(this.websocketTime >= 3){
+					sessionStorage.removeItem('websocketLink')
+				}
+				if(sessionStorage.getItem('websocketLink') && this.websocketTime < 3){
+					this.websocketTime++
+					this.initWebSocket()
+				}
 			},
 			websocketclose() {
-				this.isChatLogin = false
-				this.isErrMes = true
-				this.errorMessage = 'websocket服务器已关闭，请稍后连接'
 				console.log("服务器关闭")
-				if(sessionStorage.getItem('websocketLink') && this.websocketTime < 3){
-					this.initWebSocket()
-				}
+				this.errorMessage = 'websocket服务器已关闭，请稍后连接'
+				this.closeSend() //发送关闭消息
+				this.errorBack()
 			},
 			websocketonerror() {
-				this.isChatLogin = false
-				this.isErrMes = true
-				this.errorMessage = 'websocket连接出错，请重新连接'
 				console.log("连接出错")
-				if(sessionStorage.getItem('websocketLink') && this.websocketTime < 3){
-					this.initWebSocket()
-				}
+				this.errorMessage = 'websocket连接出错，请重新连接'
+				this.errorBack()
 			},
 			// 发送
 			send(e) {
@@ -434,13 +454,12 @@
 					this.layer.msg('消息不能为空')
 					return false;
 				}
-				let msg = {
+				this.sendMes({
 					type: 'message',
 					sendName: this.chatLoginName,// 发送方昵称
 					reciveName: this.curChatFriendName,// 接收方昵称
 					message: this.message // 消息
-				}
-				this.sendMes(msg)
+				})
 			},
 			// 发送
 			sendMes(item) {
@@ -506,14 +525,20 @@
 					if (res.code !== 0) {
 						this.layer.msg(res.message)
 					} else {
-						this.getFrendList()
+						this.sendMes({
+							type: 'friendList'
+						})
 						if (type === 'recive') {
-							this.sendMes({
-								type: 'message',
-								sendName: this.chatLoginName,// 发送方昵称
-								reciveName: item.username,// 接收方昵称
-								message: '我们已经是好友了，赶紧来聊天吧'// 消息
-							})
+							if(item.ready){
+								this.sendMes({
+									type: 'message',
+									sendName: this.chatLoginName,// 发送方昵称
+									reciveName: item.username,// 接收方昵称
+									message: '我们已经是好友了，赶紧来聊天吧'// 消息
+								})
+							} else {
+								this.layer.msg('已给对方发送添加好友的通知！')
+							}
 						} else {
 							this.layer.msg('已给对方发送添加好友的通知！')
 						}
@@ -525,7 +550,7 @@
 				sessionStorage.removeItem('chatLoginName')
 				sessionStorage.removeItem('websocketLink')
 				sessionStorage.removeItem('chatLoginAvatar')
-				this.close()
+				this.websocketclose()
 				this.$router.push({name: 'chatLogin'})
 			},
 			// 修改皮肤
@@ -540,7 +565,24 @@
 			// 搜索
 			searchUserName() {
 				if (!!this.searchName.replace(/\s/g, "")) {
-					this.searchPanelDialog = true
+					chatSearch({
+						keyword:this.searchName
+					}).then((res)=>{
+						if(res.code === 0){
+							this.searchPanelDialog = true
+							this.searchResultList = res.data.map((val)=>{
+								let isHaveFri = this.chatList.filter((val2)=>{
+									return val.chatname === val2.username
+								})
+								return {
+									username:val.chatname,
+									isFriend:isHaveFri.length > 0 || val.chatname === this.chatLoginName
+								}
+							})
+						} else {
+							this.layer.msg(res.message)
+						}
+					})
 				} else {
 					this.layer.msg('请输入搜索关键词')
 				}
@@ -583,7 +625,7 @@
 				let str = null
 				let time1 = new Date(item.time)
 				let timeMonth = time1.getMonth() + 1
-				let timeDay = time1.getDay()
+				let timeDay = time1.getDate()
 				let timeHours = time1.getHours()
 				let timeMinutes = time1.getMinutes()
 				let hours = timeHours<10?'0':''

@@ -28,10 +28,12 @@ const chatGetFriendList = (type) => {
 						return val.chatname === account.username
 					})
 					// 拉取用户好友列表
-					friendList = JSON.parse(RES[0].friendList).map((val) => {
-						let userIndex = getUserIndex(val.username);
-						return Object.assign(val, {ready: userIndex > -1 ? user[userIndex].ready : false})
-					})
+					if(!!RES[0].friendList && JSON.parse(RES[0].friendList).length > 0){
+						friendList = JSON.parse(RES[0].friendList).map((val) => {
+							let userIndex = getUserIndex(val.username);
+							return Object.assign(val, {ready: userIndex > -1 ? user[userIndex].ready : false})
+						})
+					}
 
 					// 是否推送
 					if (type === 'login' || !account.friendList || (account.friendList !== JSON.stringify(friendList))) {
@@ -105,6 +107,10 @@ if (process.env.NODE_ENV === 'development' || true) {
 					user[sendIndex].conn.sendText(JSON.stringify(msgItem))
 					user[reciveIndex].conn.sendText(JSON.stringify(msgItem))
 				}
+			}
+			if (message.type === 'friendList'){
+				// 给登录的用户发送好友列表
+				chatGetFriendList('login')
 			}
 			// 关闭
 			if (message.type === 'close') {

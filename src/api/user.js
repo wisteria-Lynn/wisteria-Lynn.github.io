@@ -26,6 +26,7 @@ export const chatRegist = p => post('/nodeApi/chatRegist', p)
 export const chatFriendList = p => get('/nodeApi/chatFriendList', p)
 export const chatAddFriend = p => post('/nodeApi/chatAddFriend', p)
 export const chatUploadAvatar = p => post('/nodeApi/chatUploadAvatar', p)
+export const chatSearch = p => post('/nodeApi/chatSearch', p)
 // export const chatReciveFriend = p => post('/nodeApi/chatFriendList', p)
 
 

@@ -71,6 +71,14 @@
 				})
 			},
 			registerChat() {
+				if(!this.registName){
+					this.layer.msg('请输入注册名')
+					return
+				}
+				if(this.registName.length > 15){
+					this.layer.msg('注册名最多为15个字符')
+					return
+				}
 				chatRegist({
 					name:this.registName
 				}).then((res) => {

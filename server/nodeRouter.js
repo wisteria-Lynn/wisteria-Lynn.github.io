@@ -40,6 +40,9 @@ Router.post('/chatAddFriend',(req, res, next) => {
 Router.post('/chatUploadAvatar',(req, res, next) => {
 	nodeApi.chatUploadAvatar(req, res, next)
 })
+Router.post('/chatSearch',(req, res, next) => {
+	nodeApi.chatSearch(req, res, next)
+})
 //
 // Router.get('/weather',(req, res, next) => {
 // 	otherApi.getWeather(req.query.code,(data)=>{
