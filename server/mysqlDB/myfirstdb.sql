@@ -11,11 +11,72 @@
  Target Server Version : 80015
  File Encoding         : 65001
 
- Date: 15/04/2019 17:55:55
+ Date: 15/01/2020 16:50:30
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for bloglist
+-- ----------------------------
+DROP TABLE IF EXISTS `bloglist`;
+CREATE TABLE `bloglist`  (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `title` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `timestamp` timestamp(6) NOT NULL ON UPDATE CURRENT_TIMESTAMP(6),
+  `remark` int(8) NOT NULL,
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of bloglist
+-- ----------------------------
+INSERT INTO `bloglist` VALUES (1, '第一篇文章', '2019-06-04 10:05:47.000000', 0, '哈哈哈哈哈');
+INSERT INTO `bloglist` VALUES (2, '第二篇文', '2019-06-04 10:06:30.000000', 1, '哦哦哦哦哦哦哦哦');
+INSERT INTO `bloglist` VALUES (3, '第三篇', '2019-06-04 10:07:20.000000', 2, '等等等等等等等等');
+
+-- ----------------------------
+-- Table structure for blogremarklist
+-- ----------------------------
+DROP TABLE IF EXISTS `blogremarklist`;
+CREATE TABLE `blogremarklist`  (
+  `blogtitleid` int(8) NOT NULL,
+  `remarkname` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `remarktext` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `timestamp` timestamp(0) NOT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+  PRIMARY KEY (`blogtitleid`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of blogremarklist
+-- ----------------------------
+INSERT INTO `blogremarklist` VALUES (1, '熊二', '我是熊二', '2019-06-04 10:09:45');
+INSERT INTO `blogremarklist` VALUES (2, '兴达', '我是兴达', '2019-06-04 10:10:04');
+INSERT INTO `blogremarklist` VALUES (3, '张艺兴', '我是小绵羊', '2019-06-04 10:10:19');
+
+-- ----------------------------
+-- Table structure for chatuser
+-- ----------------------------
+DROP TABLE IF EXISTS `chatuser`;
+CREATE TABLE `chatuser`  (
+  `chatname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `openID` int(4) NOT NULL AUTO_INCREMENT,
+  `friendList` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
+  `avatar` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`openID`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of chatuser
+-- ----------------------------
+INSERT INTO `chatuser` VALUES ('yang', 2, '[{\"openID\":\"2\",\"username\":\"yang\",\"type\":2},{\"openID\":\"9\",\"username\":\"小阳\",\"type\":2},{\"openID\":\"12\",\"username\":\"杨\",\"type\":2},{\"username\":\"wisteria\",\"type\":0},{\"openID\":14,\"username\":\"lynn\",\"type\":2}]', 'https://dss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2292095202,1784829557&fm=58');
+INSERT INTO `chatuser` VALUES ('wisteria', 3, '[{\"openID\":\"3\",\"username\":\"wisteria\",\"type\":2},{\"openID\":\"9\",\"username\":\"小阳\",\"type\":2},{\"username\":\"yang\",\"type\":1},{\"openID\":12,\"username\":\"杨\",\"type\":0},{\"openID\":16,\"username\":\"哈哈\",\"type\":2}]', NULL);
+INSERT INTO `chatuser` VALUES ('小阳', 9, '[{\"openID\":\"9\",\"username\":\"小阳\",\"type\":2},{\"openID\":\"2\",\"username\":\"yang\",\"type\":2},{\"openID\":\"12\",\"username\":\"杨\",\"type\":2},{\"openID\":\"3\",\"username\":\"wisteria\",\"type\":2},{\"openID\":16,\"username\":\"哈哈\",\"type\":2}]', NULL);
+INSERT INTO `chatuser` VALUES ('杨', 12, '[{\"openID\":\"12\",\"username\":\"杨\",\"type\":2},{\"openID\":\"9\",\"username\":\"小阳\",\"type\":2},{\"openID\":\"2\",\"username\":\"yang\",\"type\":2},{\"openID\":14,\"username\":\"lynn\",\"type\":2},{\"openID\":3,\"username\":\"wisteria\",\"type\":1}]', NULL);
+INSERT INTO `chatuser` VALUES ('lynn', 14, '[{\"openID\":\"14\",\"username\":\"lynn\",\"type\":2},{\"openID\":2,\"username\":\"yang\",\"type\":2},{\"openID\":12,\"username\":\"杨\",\"type\":2}]', NULL);
+INSERT INTO `chatuser` VALUES ('哈哈', 16, '[{\"openID\":16,\"username\":\"哈哈\",\"type\":2},{\"openID\":3,\"username\":\"wisteria\",\"type\":2},{\"openID\":9,\"username\":\"小阳\",\"type\":2}]', NULL);
 
 -- ----------------------------
 -- Table structure for pj_mon_areainfo
@@ -3556,5 +3617,467 @@ CREATE TABLE `userinfo`  (
 INSERT INTO `userinfo` VALUES ('我是你跌', '222');
 INSERT INTO `userinfo` VALUES ('我是尼玛', '333');
 INSERT INTO `userinfo` VALUES ('没有', 'null');
+
+-- ----------------------------
+-- Table structure for weathercode
+-- ----------------------------
+DROP TABLE IF EXISTS `weathercode`;
+CREATE TABLE `weathercode`  (
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 448 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of weathercode
+-- ----------------------------
+INSERT INTO `weathercode` VALUES ('北京', '101010100', 1);
+INSERT INTO `weathercode` VALUES ('朝阳', '101010300', 2);
+INSERT INTO `weathercode` VALUES ('顺义', '101010400', 3);
+INSERT INTO `weathercode` VALUES ('怀柔', '101010500', 4);
+INSERT INTO `weathercode` VALUES ('通州', '101010600', 5);
+INSERT INTO `weathercode` VALUES ('昌平', '101010700', 6);
+INSERT INTO `weathercode` VALUES ('延庆', '101010800', 7);
+INSERT INTO `weathercode` VALUES ('丰台', '101010900', 8);
+INSERT INTO `weathercode` VALUES ('石景山', '101011000', 9);
+INSERT INTO `weathercode` VALUES ('大兴', '101011100', 10);
+INSERT INTO `weathercode` VALUES ('房山', '101011200', 11);
+INSERT INTO `weathercode` VALUES ('密云', '101011300', 12);
+INSERT INTO `weathercode` VALUES ('门头沟', '101011400', 13);
+INSERT INTO `weathercode` VALUES ('平谷', '101011500', 14);
+INSERT INTO `weathercode` VALUES ('八达岭', '101011600', 15);
+INSERT INTO `weathercode` VALUES ('佛爷顶', '101011700', 16);
+INSERT INTO `weathercode` VALUES ('汤河口', '101011800', 17);
+INSERT INTO `weathercode` VALUES ('密云上甸子', '101011900', 18);
+INSERT INTO `weathercode` VALUES ('斋堂', '101012000', 19);
+INSERT INTO `weathercode` VALUES ('霞云岭', '101012100', 20);
+INSERT INTO `weathercode` VALUES ('北京城区', '101012200', 21);
+INSERT INTO `weathercode` VALUES ('海淀', '101010200', 22);
+INSERT INTO `weathercode` VALUES ('天津', '101030100', 23);
+INSERT INTO `weathercode` VALUES ('宝坻', '101030300', 24);
+INSERT INTO `weathercode` VALUES ('东丽', '101030400', 25);
+INSERT INTO `weathercode` VALUES ('西青', '101030500', 26);
+INSERT INTO `weathercode` VALUES ('北辰', '101030600', 27);
+INSERT INTO `weathercode` VALUES ('蓟县', '101031400', 28);
+INSERT INTO `weathercode` VALUES ('汉沽', '101030800', 29);
+INSERT INTO `weathercode` VALUES ('静海', '101030900', 30);
+INSERT INTO `weathercode` VALUES ('津南', '101031000', 31);
+INSERT INTO `weathercode` VALUES ('塘沽', '101031100', 32);
+INSERT INTO `weathercode` VALUES ('大港', '101031200', 33);
+INSERT INTO `weathercode` VALUES ('武清', '101030200', 34);
+INSERT INTO `weathercode` VALUES ('宁河', '101030700', 35);
+INSERT INTO `weathercode` VALUES ('上海', '101020100', 36);
+INSERT INTO `weathercode` VALUES ('宝山', '101020300', 37);
+INSERT INTO `weathercode` VALUES ('嘉定', '101020500', 38);
+INSERT INTO `weathercode` VALUES ('南汇', '101020600', 39);
+INSERT INTO `weathercode` VALUES ('浦东', '101021300', 40);
+INSERT INTO `weathercode` VALUES ('青浦', '101020800', 41);
+INSERT INTO `weathercode` VALUES ('松江', '101020900', 42);
+INSERT INTO `weathercode` VALUES ('奉贤', '101021000', 43);
+INSERT INTO `weathercode` VALUES ('崇明', '101021100', 44);
+INSERT INTO `weathercode` VALUES ('徐家汇', '101021200', 45);
+INSERT INTO `weathercode` VALUES ('闵行', '101020200', 46);
+INSERT INTO `weathercode` VALUES ('金山', '101020700', 47);
+INSERT INTO `weathercode` VALUES ('石家庄', '101090101', 48);
+INSERT INTO `weathercode` VALUES ('张家口', '101090301', 49);
+INSERT INTO `weathercode` VALUES ('承德', '101090402', 50);
+INSERT INTO `weathercode` VALUES ('唐山', '101090501', 51);
+INSERT INTO `weathercode` VALUES ('秦皇岛', '101091101', 52);
+INSERT INTO `weathercode` VALUES ('沧州', '101090701', 53);
+INSERT INTO `weathercode` VALUES ('衡水', '101090801', 54);
+INSERT INTO `weathercode` VALUES ('邢台', '101090901', 55);
+INSERT INTO `weathercode` VALUES ('邯郸', '101091001', 56);
+INSERT INTO `weathercode` VALUES ('保定', '101090201', 57);
+INSERT INTO `weathercode` VALUES ('廊坊', '101090601', 58);
+INSERT INTO `weathercode` VALUES ('郑州', '101180101', 59);
+INSERT INTO `weathercode` VALUES ('新乡', '101180301', 60);
+INSERT INTO `weathercode` VALUES ('许昌', '101180401', 61);
+INSERT INTO `weathercode` VALUES ('平顶山', '101180501', 62);
+INSERT INTO `weathercode` VALUES ('信阳', '101180601', 63);
+INSERT INTO `weathercode` VALUES ('南阳', '101180701', 64);
+INSERT INTO `weathercode` VALUES ('开封', '101180801', 65);
+INSERT INTO `weathercode` VALUES ('洛阳', '101180901', 66);
+INSERT INTO `weathercode` VALUES ('商丘', '101181001', 67);
+INSERT INTO `weathercode` VALUES ('焦作', '101181101', 68);
+INSERT INTO `weathercode` VALUES ('鹤壁', '101181201', 69);
+INSERT INTO `weathercode` VALUES ('濮阳', '101181301', 70);
+INSERT INTO `weathercode` VALUES ('周口', '101181401', 71);
+INSERT INTO `weathercode` VALUES ('漯河', '101181501', 72);
+INSERT INTO `weathercode` VALUES ('驻马店', '101181601', 73);
+INSERT INTO `weathercode` VALUES ('三门峡', '101181701', 74);
+INSERT INTO `weathercode` VALUES ('济源', '101181801', 75);
+INSERT INTO `weathercode` VALUES ('安阳', '101180201', 76);
+INSERT INTO `weathercode` VALUES ('合肥', '101220101', 77);
+INSERT INTO `weathercode` VALUES ('芜湖', '101220301', 78);
+INSERT INTO `weathercode` VALUES ('淮南', '101220401', 79);
+INSERT INTO `weathercode` VALUES ('马鞍山', '101220501', 80);
+INSERT INTO `weathercode` VALUES ('安庆', '101220601', 81);
+INSERT INTO `weathercode` VALUES ('宿州', '101220701', 82);
+INSERT INTO `weathercode` VALUES ('阜阳', '101220801', 83);
+INSERT INTO `weathercode` VALUES ('亳州', '101220901', 84);
+INSERT INTO `weathercode` VALUES ('黄山', '101221001', 85);
+INSERT INTO `weathercode` VALUES ('滁州', '101221101', 86);
+INSERT INTO `weathercode` VALUES ('淮北', '101221201', 87);
+INSERT INTO `weathercode` VALUES ('铜陵', '101221301', 88);
+INSERT INTO `weathercode` VALUES ('宣城', '101221401', 89);
+INSERT INTO `weathercode` VALUES ('六安', '101221501', 90);
+INSERT INTO `weathercode` VALUES ('巢湖', '101221601', 91);
+INSERT INTO `weathercode` VALUES ('池州', '101221701', 92);
+INSERT INTO `weathercode` VALUES ('蚌埠', '101220201', 93);
+INSERT INTO `weathercode` VALUES ('杭州', '101210101', 94);
+INSERT INTO `weathercode` VALUES ('舟山', '101211101', 95);
+INSERT INTO `weathercode` VALUES ('湖州', '101210201', 96);
+INSERT INTO `weathercode` VALUES ('嘉兴', '101210301', 97);
+INSERT INTO `weathercode` VALUES ('金华', '101210901', 98);
+INSERT INTO `weathercode` VALUES ('绍兴', '101210501', 99);
+INSERT INTO `weathercode` VALUES ('台州', '101210601', 100);
+INSERT INTO `weathercode` VALUES ('温州', '101210701', 101);
+INSERT INTO `weathercode` VALUES ('丽水', '101210801', 102);
+INSERT INTO `weathercode` VALUES ('衢州', '101211001', 103);
+INSERT INTO `weathercode` VALUES ('宁波', '101210401', 104);
+INSERT INTO `weathercode` VALUES ('重庆', '101040100', 105);
+INSERT INTO `weathercode` VALUES ('合川', '101040300', 106);
+INSERT INTO `weathercode` VALUES ('南川', '101040400', 107);
+INSERT INTO `weathercode` VALUES ('江津', '101040500', 108);
+INSERT INTO `weathercode` VALUES ('万盛', '101040600', 109);
+INSERT INTO `weathercode` VALUES ('渝北', '101040700', 110);
+INSERT INTO `weathercode` VALUES ('北碚', '101040800', 111);
+INSERT INTO `weathercode` VALUES ('巴南', '101040900', 112);
+INSERT INTO `weathercode` VALUES ('长寿', '101041000', 113);
+INSERT INTO `weathercode` VALUES ('黔江', '101041100', 114);
+INSERT INTO `weathercode` VALUES ('万州天城', '101041200', 115);
+INSERT INTO `weathercode` VALUES ('万州龙宝', '101041300', 116);
+INSERT INTO `weathercode` VALUES ('涪陵', '101041400', 117);
+INSERT INTO `weathercode` VALUES ('开县', '101041500', 118);
+INSERT INTO `weathercode` VALUES ('城口', '101041600', 119);
+INSERT INTO `weathercode` VALUES ('云阳', '101041700', 120);
+INSERT INTO `weathercode` VALUES ('巫溪', '101041800', 121);
+INSERT INTO `weathercode` VALUES ('奉节', '101041900', 122);
+INSERT INTO `weathercode` VALUES ('巫山', '101042000', 123);
+INSERT INTO `weathercode` VALUES ('潼南', '101042100', 124);
+INSERT INTO `weathercode` VALUES ('垫江', '101042200', 125);
+INSERT INTO `weathercode` VALUES ('梁平', '101042300', 126);
+INSERT INTO `weathercode` VALUES ('忠县', '101042400', 127);
+INSERT INTO `weathercode` VALUES ('石柱', '101042500', 128);
+INSERT INTO `weathercode` VALUES ('大足', '101042600', 129);
+INSERT INTO `weathercode` VALUES ('荣昌', '101042700', 130);
+INSERT INTO `weathercode` VALUES ('铜梁', '101042800', 131);
+INSERT INTO `weathercode` VALUES ('璧山', '101042900', 132);
+INSERT INTO `weathercode` VALUES ('丰都', '101043000', 133);
+INSERT INTO `weathercode` VALUES ('武隆', '101043100', 134);
+INSERT INTO `weathercode` VALUES ('彭水', '101043200', 135);
+INSERT INTO `weathercode` VALUES ('綦江', '101043300', 136);
+INSERT INTO `weathercode` VALUES ('酉阳', '101043400', 137);
+INSERT INTO `weathercode` VALUES ('秀山', '101043600', 138);
+INSERT INTO `weathercode` VALUES ('沙坪坝', '101043700', 139);
+INSERT INTO `weathercode` VALUES ('永川', '101040200', 140);
+INSERT INTO `weathercode` VALUES ('福州', '101230101', 141);
+INSERT INTO `weathercode` VALUES ('泉州', '101230501', 142);
+INSERT INTO `weathercode` VALUES ('漳州', '101230601', 143);
+INSERT INTO `weathercode` VALUES ('龙岩', '101230701', 144);
+INSERT INTO `weathercode` VALUES ('晋江', '101230509', 145);
+INSERT INTO `weathercode` VALUES ('南平', '101230901', 146);
+INSERT INTO `weathercode` VALUES ('厦门', '101230201', 147);
+INSERT INTO `weathercode` VALUES ('宁德', '101230301', 148);
+INSERT INTO `weathercode` VALUES ('莆田', '101230401', 149);
+INSERT INTO `weathercode` VALUES ('三明', '101230801', 150);
+INSERT INTO `weathercode` VALUES ('兰州', '101160101', 151);
+INSERT INTO `weathercode` VALUES ('平凉', '101160301', 152);
+INSERT INTO `weathercode` VALUES ('庆阳', '101160401', 153);
+INSERT INTO `weathercode` VALUES ('武威', '101160501', 154);
+INSERT INTO `weathercode` VALUES ('金昌', '101160601', 155);
+INSERT INTO `weathercode` VALUES ('嘉峪关', '101161401', 156);
+INSERT INTO `weathercode` VALUES ('酒泉', '101160801', 157);
+INSERT INTO `weathercode` VALUES ('天水', '101160901', 158);
+INSERT INTO `weathercode` VALUES ('武都', '101161001', 159);
+INSERT INTO `weathercode` VALUES ('临夏', '101161101', 160);
+INSERT INTO `weathercode` VALUES ('合作', '101161201', 161);
+INSERT INTO `weathercode` VALUES ('白银', '101161301', 162);
+INSERT INTO `weathercode` VALUES ('定西', '101160201', 163);
+INSERT INTO `weathercode` VALUES ('张掖', '101160701', 164);
+INSERT INTO `weathercode` VALUES ('广州', '101280101', 165);
+INSERT INTO `weathercode` VALUES ('惠州', '101280301', 166);
+INSERT INTO `weathercode` VALUES ('梅州', '101280401', 167);
+INSERT INTO `weathercode` VALUES ('汕头', '101280501', 168);
+INSERT INTO `weathercode` VALUES ('深圳', '101280601', 169);
+INSERT INTO `weathercode` VALUES ('珠海', '101280701', 170);
+INSERT INTO `weathercode` VALUES ('佛山', '101280800', 171);
+INSERT INTO `weathercode` VALUES ('肇庆', '101280901', 172);
+INSERT INTO `weathercode` VALUES ('湛江', '101281001', 173);
+INSERT INTO `weathercode` VALUES ('江门', '101281101', 174);
+INSERT INTO `weathercode` VALUES ('河源', '101281201', 175);
+INSERT INTO `weathercode` VALUES ('清远', '101281301', 176);
+INSERT INTO `weathercode` VALUES ('云浮', '101281401', 177);
+INSERT INTO `weathercode` VALUES ('潮州', '101281501', 178);
+INSERT INTO `weathercode` VALUES ('东莞', '101281601', 179);
+INSERT INTO `weathercode` VALUES ('中山', '101281701', 180);
+INSERT INTO `weathercode` VALUES ('阳江', '101281801', 181);
+INSERT INTO `weathercode` VALUES ('揭阳', '101281901', 182);
+INSERT INTO `weathercode` VALUES ('茂名', '101282001', 183);
+INSERT INTO `weathercode` VALUES ('汕尾', '101282101', 184);
+INSERT INTO `weathercode` VALUES ('韶关', '101280201', 185);
+INSERT INTO `weathercode` VALUES ('南宁', '101300101', 186);
+INSERT INTO `weathercode` VALUES ('柳州', '101300301', 187);
+INSERT INTO `weathercode` VALUES ('来宾', '101300401', 188);
+INSERT INTO `weathercode` VALUES ('桂林', '101300501', 189);
+INSERT INTO `weathercode` VALUES ('梧州', '101300601', 190);
+INSERT INTO `weathercode` VALUES ('防城港', '101301401', 191);
+INSERT INTO `weathercode` VALUES ('贵港', '101300801', 192);
+INSERT INTO `weathercode` VALUES ('玉林', '101300901', 193);
+INSERT INTO `weathercode` VALUES ('百色', '101301001', 194);
+INSERT INTO `weathercode` VALUES ('钦州', '101301101', 195);
+INSERT INTO `weathercode` VALUES ('河池', '101301201', 196);
+INSERT INTO `weathercode` VALUES ('北海', '101301301', 197);
+INSERT INTO `weathercode` VALUES ('崇左', '101300201', 198);
+INSERT INTO `weathercode` VALUES ('贺州', '101300701', 199);
+INSERT INTO `weathercode` VALUES ('贵阳', '101260101', 200);
+INSERT INTO `weathercode` VALUES ('安顺', '101260301', 201);
+INSERT INTO `weathercode` VALUES ('都匀', '101260401', 202);
+INSERT INTO `weathercode` VALUES ('兴义', '101260906', 203);
+INSERT INTO `weathercode` VALUES ('铜仁', '101260601', 204);
+INSERT INTO `weathercode` VALUES ('毕节', '101260701', 205);
+INSERT INTO `weathercode` VALUES ('六盘水', '101260801', 206);
+INSERT INTO `weathercode` VALUES ('遵义', '101260201', 207);
+INSERT INTO `weathercode` VALUES ('凯里', '101260501', 208);
+INSERT INTO `weathercode` VALUES ('昆明', '101290101', 209);
+INSERT INTO `weathercode` VALUES ('红河', '101290301', 210);
+INSERT INTO `weathercode` VALUES ('文山', '101290601', 211);
+INSERT INTO `weathercode` VALUES ('玉溪', '101290701', 212);
+INSERT INTO `weathercode` VALUES ('楚雄', '101290801', 213);
+INSERT INTO `weathercode` VALUES ('普洱', '101290901', 214);
+INSERT INTO `weathercode` VALUES ('昭通', '101291001', 215);
+INSERT INTO `weathercode` VALUES ('临沧', '101291101', 216);
+INSERT INTO `weathercode` VALUES ('怒江', '101291201', 217);
+INSERT INTO `weathercode` VALUES ('香格里拉', '101291301', 218);
+INSERT INTO `weathercode` VALUES ('丽江', '101291401', 219);
+INSERT INTO `weathercode` VALUES ('德宏', '101291501', 220);
+INSERT INTO `weathercode` VALUES ('景洪', '101291601', 221);
+INSERT INTO `weathercode` VALUES ('大理', '101290201', 222);
+INSERT INTO `weathercode` VALUES ('曲靖', '101290401', 223);
+INSERT INTO `weathercode` VALUES ('保山', '101290501', 224);
+INSERT INTO `weathercode` VALUES ('呼和浩特', '101080101', 225);
+INSERT INTO `weathercode` VALUES ('乌海', '101080301', 226);
+INSERT INTO `weathercode` VALUES ('集宁', '101080401', 227);
+INSERT INTO `weathercode` VALUES ('通辽', '101080501', 228);
+INSERT INTO `weathercode` VALUES ('阿拉善左旗', '101081201', 229);
+INSERT INTO `weathercode` VALUES ('鄂尔多斯', '101080701', 230);
+INSERT INTO `weathercode` VALUES ('临河', '101080801', 231);
+INSERT INTO `weathercode` VALUES ('锡林浩特', '101080901', 232);
+INSERT INTO `weathercode` VALUES ('呼伦贝尔', '101081000', 233);
+INSERT INTO `weathercode` VALUES ('乌兰浩特', '101081101', 234);
+INSERT INTO `weathercode` VALUES ('包头', '101080201', 235);
+INSERT INTO `weathercode` VALUES ('赤峰', '101080601', 236);
+INSERT INTO `weathercode` VALUES ('南昌', '101240101', 237);
+INSERT INTO `weathercode` VALUES ('上饶', '101240301', 238);
+INSERT INTO `weathercode` VALUES ('抚州', '101240401', 239);
+INSERT INTO `weathercode` VALUES ('宜春', '101240501', 240);
+INSERT INTO `weathercode` VALUES ('鹰潭', '101241101', 241);
+INSERT INTO `weathercode` VALUES ('赣州', '101240701', 242);
+INSERT INTO `weathercode` VALUES ('景德镇', '101240801', 243);
+INSERT INTO `weathercode` VALUES ('萍乡', '101240901', 244);
+INSERT INTO `weathercode` VALUES ('新余', '101241001', 245);
+INSERT INTO `weathercode` VALUES ('九江', '101240201', 246);
+INSERT INTO `weathercode` VALUES ('吉安', '101240601', 247);
+INSERT INTO `weathercode` VALUES ('武汉', '101200101', 248);
+INSERT INTO `weathercode` VALUES ('黄冈', '101200501', 249);
+INSERT INTO `weathercode` VALUES ('荆州', '101200801', 250);
+INSERT INTO `weathercode` VALUES ('宜昌', '101200901', 251);
+INSERT INTO `weathercode` VALUES ('恩施', '101201001', 252);
+INSERT INTO `weathercode` VALUES ('十堰', '101201101', 253);
+INSERT INTO `weathercode` VALUES ('神农架', '101201201', 254);
+INSERT INTO `weathercode` VALUES ('随州', '101201301', 255);
+INSERT INTO `weathercode` VALUES ('荆门', '101201401', 256);
+INSERT INTO `weathercode` VALUES ('天门', '101201501', 257);
+INSERT INTO `weathercode` VALUES ('仙桃', '101201601', 258);
+INSERT INTO `weathercode` VALUES ('潜江', '101201701', 259);
+INSERT INTO `weathercode` VALUES ('襄樊', '101200201', 260);
+INSERT INTO `weathercode` VALUES ('鄂州', '101200301', 261);
+INSERT INTO `weathercode` VALUES ('孝感', '101200401', 262);
+INSERT INTO `weathercode` VALUES ('黄石', '101200601', 263);
+INSERT INTO `weathercode` VALUES ('咸宁', '101200701', 264);
+INSERT INTO `weathercode` VALUES ('成都', '101270101', 265);
+INSERT INTO `weathercode` VALUES ('自贡', '101270301', 266);
+INSERT INTO `weathercode` VALUES ('绵阳', '101270401', 267);
+INSERT INTO `weathercode` VALUES ('南充', '101270501', 268);
+INSERT INTO `weathercode` VALUES ('达州', '101270601', 269);
+INSERT INTO `weathercode` VALUES ('遂宁', '101270701', 270);
+INSERT INTO `weathercode` VALUES ('广安', '101270801', 271);
+INSERT INTO `weathercode` VALUES ('巴中', '101270901', 272);
+INSERT INTO `weathercode` VALUES ('泸州', '101271001', 273);
+INSERT INTO `weathercode` VALUES ('宜宾', '101271101', 274);
+INSERT INTO `weathercode` VALUES ('内江', '101271201', 275);
+INSERT INTO `weathercode` VALUES ('资阳', '101271301', 276);
+INSERT INTO `weathercode` VALUES ('乐山', '101271401', 277);
+INSERT INTO `weathercode` VALUES ('眉山', '101271501', 278);
+INSERT INTO `weathercode` VALUES ('凉山', '101271601', 279);
+INSERT INTO `weathercode` VALUES ('雅安', '101271701', 280);
+INSERT INTO `weathercode` VALUES ('甘孜', '101271801', 281);
+INSERT INTO `weathercode` VALUES ('阿坝', '101271901', 282);
+INSERT INTO `weathercode` VALUES ('德阳', '101272001', 283);
+INSERT INTO `weathercode` VALUES ('广元', '101272101', 284);
+INSERT INTO `weathercode` VALUES ('攀枝花', '101270201', 285);
+INSERT INTO `weathercode` VALUES ('银川', '101170101', 286);
+INSERT INTO `weathercode` VALUES ('中卫', '101170501', 287);
+INSERT INTO `weathercode` VALUES ('固原', '101170401', 288);
+INSERT INTO `weathercode` VALUES ('石嘴山', '101170201', 289);
+INSERT INTO `weathercode` VALUES ('吴忠', '101170301', 290);
+INSERT INTO `weathercode` VALUES ('西宁', '101150101', 291);
+INSERT INTO `weathercode` VALUES ('黄南', '101150301', 292);
+INSERT INTO `weathercode` VALUES ('海北', '101150801', 293);
+INSERT INTO `weathercode` VALUES ('果洛', '101150501', 294);
+INSERT INTO `weathercode` VALUES ('玉树', '101150601', 295);
+INSERT INTO `weathercode` VALUES ('海西', '101150701', 296);
+INSERT INTO `weathercode` VALUES ('海东', '101150201', 297);
+INSERT INTO `weathercode` VALUES ('海南', '101150401', 298);
+INSERT INTO `weathercode` VALUES ('济南', '101120101', 299);
+INSERT INTO `weathercode` VALUES ('潍坊', '101120601', 300);
+INSERT INTO `weathercode` VALUES ('临沂', '101120901', 301);
+INSERT INTO `weathercode` VALUES ('菏泽', '101121001', 302);
+INSERT INTO `weathercode` VALUES ('滨州', '101121101', 303);
+INSERT INTO `weathercode` VALUES ('东营', '101121201', 304);
+INSERT INTO `weathercode` VALUES ('威海', '101121301', 305);
+INSERT INTO `weathercode` VALUES ('枣庄', '101121401', 306);
+INSERT INTO `weathercode` VALUES ('日照', '101121501', 307);
+INSERT INTO `weathercode` VALUES ('莱芜', '101121601', 308);
+INSERT INTO `weathercode` VALUES ('聊城', '101121701', 309);
+INSERT INTO `weathercode` VALUES ('青岛', '101120201', 310);
+INSERT INTO `weathercode` VALUES ('淄博', '101120301', 311);
+INSERT INTO `weathercode` VALUES ('德州', '101120401', 312);
+INSERT INTO `weathercode` VALUES ('烟台', '101120501', 313);
+INSERT INTO `weathercode` VALUES ('济宁', '101120701', 314);
+INSERT INTO `weathercode` VALUES ('泰安', '101120801', 315);
+INSERT INTO `weathercode` VALUES ('西安', '101110101', 316);
+INSERT INTO `weathercode` VALUES ('延安', '101110300', 317);
+INSERT INTO `weathercode` VALUES ('榆林', '101110401', 318);
+INSERT INTO `weathercode` VALUES ('铜川', '101111001', 319);
+INSERT INTO `weathercode` VALUES ('商洛', '101110601', 320);
+INSERT INTO `weathercode` VALUES ('安康', '101110701', 321);
+INSERT INTO `weathercode` VALUES ('汉中', '101110801', 322);
+INSERT INTO `weathercode` VALUES ('宝鸡', '101110901', 323);
+INSERT INTO `weathercode` VALUES ('咸阳', '101110200', 324);
+INSERT INTO `weathercode` VALUES ('渭南', '101110501', 325);
+INSERT INTO `weathercode` VALUES ('太原', '101100101', 326);
+INSERT INTO `weathercode` VALUES ('临汾', '101100701', 327);
+INSERT INTO `weathercode` VALUES ('运城', '101100801', 328);
+INSERT INTO `weathercode` VALUES ('朔州', '101100901', 329);
+INSERT INTO `weathercode` VALUES ('忻州', '101101001', 330);
+INSERT INTO `weathercode` VALUES ('长治', '101100501', 331);
+INSERT INTO `weathercode` VALUES ('大同', '101100201', 332);
+INSERT INTO `weathercode` VALUES ('阳泉', '101100301', 333);
+INSERT INTO `weathercode` VALUES ('晋中', '101100401', 334);
+INSERT INTO `weathercode` VALUES ('晋城', '101100601', 335);
+INSERT INTO `weathercode` VALUES ('吕梁', '101101100', 336);
+INSERT INTO `weathercode` VALUES ('乌鲁木齐', '101130101', 337);
+INSERT INTO `weathercode` VALUES ('石河子', '101130301', 338);
+INSERT INTO `weathercode` VALUES ('昌吉', '101130401', 339);
+INSERT INTO `weathercode` VALUES ('吐鲁番', '101130501', 340);
+INSERT INTO `weathercode` VALUES ('库尔勒', '101130601', 341);
+INSERT INTO `weathercode` VALUES ('阿拉尔', '101130701', 342);
+INSERT INTO `weathercode` VALUES ('阿克苏', '101130801', 343);
+INSERT INTO `weathercode` VALUES ('喀什', '101130901', 344);
+INSERT INTO `weathercode` VALUES ('伊宁', '101131001', 345);
+INSERT INTO `weathercode` VALUES ('塔城', '101131101', 346);
+INSERT INTO `weathercode` VALUES ('哈密', '101131201', 347);
+INSERT INTO `weathercode` VALUES ('和田', '101131301', 348);
+INSERT INTO `weathercode` VALUES ('阿勒泰', '101131401', 349);
+INSERT INTO `weathercode` VALUES ('阿图什', '101131501', 350);
+INSERT INTO `weathercode` VALUES ('博乐', '101131601', 351);
+INSERT INTO `weathercode` VALUES ('克拉玛依', '101130201', 352);
+INSERT INTO `weathercode` VALUES ('拉萨', '101140101', 353);
+INSERT INTO `weathercode` VALUES ('山南', '101140301', 354);
+INSERT INTO `weathercode` VALUES ('阿里', '101140701', 355);
+INSERT INTO `weathercode` VALUES ('昌都', '101140501', 356);
+INSERT INTO `weathercode` VALUES ('那曲', '101140601', 357);
+INSERT INTO `weathercode` VALUES ('日喀则', '101140201', 358);
+INSERT INTO `weathercode` VALUES ('林芝', '101140401', 359);
+INSERT INTO `weathercode` VALUES ('台北县', '101340101', 360);
+INSERT INTO `weathercode` VALUES ('高雄', '101340201', 361);
+INSERT INTO `weathercode` VALUES ('台中', '101340401', 362);
+INSERT INTO `weathercode` VALUES ('海口', '101310101', 363);
+INSERT INTO `weathercode` VALUES ('三亚', '101310201', 364);
+INSERT INTO `weathercode` VALUES ('东方', '101310202', 365);
+INSERT INTO `weathercode` VALUES ('临高', '101310203', 366);
+INSERT INTO `weathercode` VALUES ('澄迈', '101310204', 367);
+INSERT INTO `weathercode` VALUES ('儋州', '101310205', 368);
+INSERT INTO `weathercode` VALUES ('昌江', '101310206', 369);
+INSERT INTO `weathercode` VALUES ('白沙', '101310207', 370);
+INSERT INTO `weathercode` VALUES ('琼中', '101310208', 371);
+INSERT INTO `weathercode` VALUES ('定安', '101310209', 372);
+INSERT INTO `weathercode` VALUES ('屯昌', '101310210', 373);
+INSERT INTO `weathercode` VALUES ('琼海', '101310211', 374);
+INSERT INTO `weathercode` VALUES ('文昌', '101310212', 375);
+INSERT INTO `weathercode` VALUES ('保亭', '101310214', 376);
+INSERT INTO `weathercode` VALUES ('万宁', '101310215', 377);
+INSERT INTO `weathercode` VALUES ('陵水', '101310216', 378);
+INSERT INTO `weathercode` VALUES ('西沙', '101310217', 379);
+INSERT INTO `weathercode` VALUES ('南沙岛', '101310220', 380);
+INSERT INTO `weathercode` VALUES ('乐东', '101310221', 381);
+INSERT INTO `weathercode` VALUES ('五指山', '101310222', 382);
+INSERT INTO `weathercode` VALUES ('琼山', '101310102', 383);
+INSERT INTO `weathercode` VALUES ('长沙', '101250101', 384);
+INSERT INTO `weathercode` VALUES ('株洲', '101250301', 385);
+INSERT INTO `weathercode` VALUES ('衡阳', '101250401', 386);
+INSERT INTO `weathercode` VALUES ('郴州', '101250501', 387);
+INSERT INTO `weathercode` VALUES ('常德', '101250601', 388);
+INSERT INTO `weathercode` VALUES ('益阳', '101250700', 389);
+INSERT INTO `weathercode` VALUES ('娄底', '101250801', 390);
+INSERT INTO `weathercode` VALUES ('邵阳', '101250901', 391);
+INSERT INTO `weathercode` VALUES ('岳阳', '101251001', 392);
+INSERT INTO `weathercode` VALUES ('张家界', '101251101', 393);
+INSERT INTO `weathercode` VALUES ('怀化', '101251201', 394);
+INSERT INTO `weathercode` VALUES ('黔阳', '101251301', 395);
+INSERT INTO `weathercode` VALUES ('永州', '101251401', 396);
+INSERT INTO `weathercode` VALUES ('吉首', '101251501', 397);
+INSERT INTO `weathercode` VALUES ('湘潭', '101250201', 398);
+INSERT INTO `weathercode` VALUES ('南京', '101190101', 399);
+INSERT INTO `weathercode` VALUES ('镇江', '101190301', 400);
+INSERT INTO `weathercode` VALUES ('苏州', '101190401', 401);
+INSERT INTO `weathercode` VALUES ('南通', '101190501', 402);
+INSERT INTO `weathercode` VALUES ('扬州', '101190601', 403);
+INSERT INTO `weathercode` VALUES ('宿迁', '101191301', 404);
+INSERT INTO `weathercode` VALUES ('徐州', '101190801', 405);
+INSERT INTO `weathercode` VALUES ('淮安', '101190901', 406);
+INSERT INTO `weathercode` VALUES ('连云港', '101191001', 407);
+INSERT INTO `weathercode` VALUES ('常州', '101191101', 408);
+INSERT INTO `weathercode` VALUES ('泰州', '101191201', 409);
+INSERT INTO `weathercode` VALUES ('无锡', '101190201', 410);
+INSERT INTO `weathercode` VALUES ('盐城', '101190701', 411);
+INSERT INTO `weathercode` VALUES ('哈尔滨', '101050101', 412);
+INSERT INTO `weathercode` VALUES ('牡丹江', '101050301', 413);
+INSERT INTO `weathercode` VALUES ('佳木斯', '101050401', 414);
+INSERT INTO `weathercode` VALUES ('绥化', '101050501', 415);
+INSERT INTO `weathercode` VALUES ('黑河', '101050601', 416);
+INSERT INTO `weathercode` VALUES ('双鸭山', '101051301', 417);
+INSERT INTO `weathercode` VALUES ('伊春', '101050801', 418);
+INSERT INTO `weathercode` VALUES ('大庆', '101050901', 419);
+INSERT INTO `weathercode` VALUES ('七台河', '101051002', 420);
+INSERT INTO `weathercode` VALUES ('鸡西', '101051101', 421);
+INSERT INTO `weathercode` VALUES ('鹤岗', '101051201', 422);
+INSERT INTO `weathercode` VALUES ('齐齐哈尔', '101050201', 423);
+INSERT INTO `weathercode` VALUES ('大兴安岭', '101050701', 424);
+INSERT INTO `weathercode` VALUES ('长春', '101060101', 425);
+INSERT INTO `weathercode` VALUES ('延吉', '101060301', 426);
+INSERT INTO `weathercode` VALUES ('四平', '101060401', 427);
+INSERT INTO `weathercode` VALUES ('白山', '101060901', 428);
+INSERT INTO `weathercode` VALUES ('白城', '101060601', 429);
+INSERT INTO `weathercode` VALUES ('辽源', '101060701', 430);
+INSERT INTO `weathercode` VALUES ('松原', '101060801', 431);
+INSERT INTO `weathercode` VALUES ('吉林', '101060201', 432);
+INSERT INTO `weathercode` VALUES ('通化', '101060501', 433);
+INSERT INTO `weathercode` VALUES ('沈阳', '101070101', 434);
+INSERT INTO `weathercode` VALUES ('鞍山', '101070301', 435);
+INSERT INTO `weathercode` VALUES ('抚顺', '101070401', 436);
+INSERT INTO `weathercode` VALUES ('本溪', '101070501', 437);
+INSERT INTO `weathercode` VALUES ('丹东', '101070601', 438);
+INSERT INTO `weathercode` VALUES ('葫芦岛', '101071401', 439);
+INSERT INTO `weathercode` VALUES ('营口', '101070801', 440);
+INSERT INTO `weathercode` VALUES ('阜新', '101070901', 441);
+INSERT INTO `weathercode` VALUES ('辽阳', '101071001', 442);
+INSERT INTO `weathercode` VALUES ('铁岭', '101071101', 443);
+INSERT INTO `weathercode` VALUES ('朝阳', '101071201', 444);
+INSERT INTO `weathercode` VALUES ('盘锦', '101071301', 445);
+INSERT INTO `weathercode` VALUES ('大连', '101070201', 446);
+INSERT INTO `weathercode` VALUES ('锦州', '101070701', 447);
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -59,10 +59,19 @@
 					if(res.code !== 0) {
 						this.layer.msg(codeText(res.code))
 					} else {
-						sessionStorage.setItem('chatLoginName',this.loginName)
-						if(res.data.avatar){
-							sessionStorage.setItem('chatLoginAvatar',res.data.avatar)
+						let chatInfo = {
+							openID:res.data.openID,
+							chatname:res.data.chatname,
+							avatar:res.data.avatar,
+							sort:res.data.sort
 						}
+
+						this.$store.dispatch('saveChatUserInfo', chatInfo)
+						sessionStorage.setItem('chatUserInfo',JSON.stringify(chatInfo))
+						// sessionStorage.setItem('chatLoginName',this.loginName)
+						// if(res.data.avatar){
+						// 	sessionStorage.setItem('chatLoginAvatar',res.data.avatar)
+						// }
 						sessionStorage.setItem('websocketLink','1')
 						this.$router.push({path:'/wechat/chat'})
 					}

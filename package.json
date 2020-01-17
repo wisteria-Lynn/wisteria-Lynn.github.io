@@ -40,6 +40,7 @@
     "less-loader": "^4.1.0",
     "mini-css-extract-plugin": "^0.5.0",
     "mockjs": "^1.0.1-beta3",
+    "node-pinyin": "^0.2.3",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "sass-resources-loader": "^2.0.0",
     "style-loader": "^0.23.1",

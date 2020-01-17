@@ -32,7 +32,7 @@
 								<span slot="reference" class="cp">主题</span>
 							</el-popover>
 						</p>
-						<img :src="chatLoginAvatar||GLOBAL.avatar" alt="" @click="uploadAvatar">
+						<img :src="userInfo.avatar||GLOBAL.avatar" alt="" @click="uploadAvatar">
 						<p class="mt10">
 							{{chatLoginName}}&nbsp;|
 							<span v-show="!isChatLogin">离线</span>
@@ -69,20 +69,27 @@
 					<div class="fram-side-list" v-show="activePanel === 'friend'">
 						<div class="f-s-scroll scroll-style">
 							<template v-if="chatList.length > 0">
-								<div v-for="(item,index) in chatList" @click="chatClick(item,index)" :key="index"
-									 :class="[item.username === curChatFriendName?'active':'']" class="f-l-item">
-									<!--<div v-for="item in chatList" @click="chatClick(item)" class="f-l-item">-->
-									<span class="f-l-name">{{item.username}}</span>
-									<div v-if="item.type === 2" style="float:right;">
-										<span class="message-num chat-ms-num" v-if="getMessNum(item) > 0">{{getMessNum(item)}}</span>
-									</div>
-									<span class="f-l-isready">{{item.ready ? '在线':'离线'}}</span>
-									<div v-if="item.type === 0" style="float:right;">
-										<span class="btn btn-error chat-btn-reject">待通过</span>
-									</div>
-									<div v-if="item.type === 1" style="float:right;">
-									<span class="btn btn-success chat-btn-agree"
-										  @click.stop="getChatAddFriend(item,'recive')">接受</span>
+								<div v-for="(item,index) in chatList" :key="index" >
+									<p class="pl10 sort-bg" v-show="index === 0 || (index > 0 && chatList[index-1].sort!==item.sort)">{{item.sort}}</p>
+									<div @click="chatClick(item,index)" :class="[item.chatname === curChatFriendName?'active':'']"
+										 class="f-l-item yl-flex yl-flex-JusCon-start yl-flex-aliItem-cen p10">
+										<img :src="item.avatar||GLOBAL.avatar" alt
+											 style="width:35px;height:35px;border-radius: 4px;">
+										<div style="flex:2;" class="yl-flex yl-flex-column yl-flex-JusCon-start">
+											<span class="f-l-name ml5 f15">{{item.chatname}}</span>
+											<span class="f-l-isready ml5">{{item.ready ? '在线':'离线'}}</span>
+										</div>
+										<div class="yl-flex yl-flex-JusCon-end">
+											<div v-if="item.type === 2">
+												<span class="message-num chat-ms-num" v-if="getMessNum(item) > 0">{{getMessNum(item)}}</span>
+											</div>
+											<div v-if="item.type === 0">
+												<span class="btn btn-error chat-btn-reject">待通过</span>
+											</div>
+											<div v-if="item.type === 1">
+												<span class="btn btn-success chat-btn-agree" @click.stop="getChatAddFriend(item,'recive')">接受</span>
+											</div>
+										</div>
 									</div>
 								</div>
 							</template>
@@ -107,7 +114,10 @@
 					<template v-if="curChatFriendName">
 						<!--内容头部-->
 						<el-row class="fram-head f14">
-							<el-col :span="12" class="pl20">{{curChatFriendName}}</el-col>
+							<el-col :span="12" class="pl10 yl-flex yl-flex-JusCon-start yl-flex-aliItem-cen">
+								<img :src="chatList[curChatFriendIndex].avatar||GLOBAL.avatar" alt style="width:35px;height:35px;border-radius: 50%;">
+								<span class="ml5">{{curChatFriendName}}</span>
+							</el-col>
 							<el-col :span="12" class="tr">
 								<div class="msg-down-drop pr">
 									<i class="el-icon-more rotate90 cp mr20" @click="msgDownMenu = !msgDownMenu"></i>
@@ -132,10 +142,10 @@
 											<el-row type="flex" v-if="item.name === chatLoginName" class="message-you"
 													style="justify-content: flex-end;">
 												<span class="mr10">{{item.mess}}</span>
-												<img :src="chatLoginAvatar||GLOBAL.avatar" alt>
+												<img :src="userInfo.avatar||GLOBAL.avatar" alt>
 											</el-row>
 											<el-row v-else type="flex" class="message-he">
-												<img :src="GLOBAL.avatar" alt>
+												<img :src="chatList[curChatFriendIndex].avatar||GLOBAL.avatar" alt>
 												<span class="ml10">{{item.mess}}</span>
 											</el-row>
 										</div>
@@ -199,7 +209,7 @@
 					<h2>系统消息</h2>
 					<div class="f-r-scroll scroll-style pl10">
 						<div v-for="list in sysMessages">
-							<p class="f14">{{list.username}}<span class="btn chat-btn-addf"
+							<p class="f14">{{list.chatname}}<span class="btn chat-btn-addf"
 																  :class="[list.way === '登录' ? 'btn-success' : 'btn-error']">{{list.way}}</span>
 							</p>
 							<span class="f12 time-box">{{list.time | dateFilter}}</span></div>
@@ -226,8 +236,8 @@
 				<el-tab-pane label="用户" name="first">
 					<div style="min-height:300px;">
 						<p v-for="(item,index) in searchResultList" :key="index" style="border-bottom:1px solid #ddd;" class="p10">
-							{{item.username}}<span v-if="item.isFriend" class="ml10 f12">已添加</span>
-							<span v-else @click="getChatAddFriend(item,'add')"
+							{{item.chatname}}<span v-if="item.isFriend" class="ml10 f12">已添加</span>
+							<span v-else @click="getChatAddFriend(item,'add',index)"
 										  class="btn btn-success chat-btn-addf cp">加为好友</span>
 						</p>
 					</div>
@@ -250,7 +260,6 @@
 			return {
 				isChatLogin: false, // 当前聊天室用户是否登录成功
 				chatLoginName: '',// 当前聊天室登录用户
-				chatLoginAvatar:'',
 				searchName: '', // 搜索关键字
 				curChatFriendIndex: null,// 当前聊天好友在列表中的索引
 				curChatFriendName: '',//当前聊天好友对象昵称
@@ -271,7 +280,8 @@
 				tabActiveName: 'first', // 搜索面板中当前应用tab
 				msgDownMenu: false,// 下拉菜单
 				websocketTime:0,// 连接次数
-				searchResultList:[]
+				searchResultList:[],
+				sort:"abcdefghigklmnopqrstuvwxyz"
 			}
 		},
 		methods: {
@@ -303,10 +313,11 @@
 				this.isErrMes = false
 				this.websocketTime = 0
 				// 如果当前用户存在
-				if (this.chatLoginName) {
+				if (this.userInfo.chatname) {
 					let message = {
 						type: 'login',
-						username: this.chatLoginName
+						chatname: this.userInfo.chatname,
+						openID:this.userInfo.openID
 					}
 					this.websock.send(JSON.stringify(message))
 				}
@@ -322,7 +333,12 @@
 
 				// 用户好友列表
 				if (data.type === 'friendList') {
-					this.chatList = data.message
+					// this.chatList = data.message
+					this.chatList = data.message.sort((a,b)=>{
+						let name1 = a.sort.toLowerCase()
+						let name2 = b.sort.toLowerCase()
+						return name1 === name2 ? 0 : name1 > name2 ? 1 : -1
+					})
 				}
 
 				// 对话消息
@@ -332,11 +348,12 @@
 					// 消息条数
 					let messNum = 0
 
-
 					// 聊天时是否显示当前 发送/接收 消息的面板
 					if (levName !== this.curChatFriendName) {
-						// 消息条数加1
-						messNum++
+						if(data.reciveName === this.chatLoginName){
+							// 消息条数加1
+							messNum++
+						}
 					} else {
 						// 聊天消息置底
 						setTimeout(() => {
@@ -399,10 +416,11 @@
 				}
 			},
 			closeSend() {
-				if (this.chatLoginName) {
+				if (this.userInfo.chatname) {
 					this.sendMes({
 						type: 'close',
-						username: this.chatLoginName
+						chatname: this.userInfo.chatname,
+						openID:this.userInfo.openID
 					})
 				}
 			},
@@ -442,6 +460,11 @@
 					this.layer.msg('请选择聊天对象')
 					return false;
 				}
+				if(this.curChatFriendName === this.chatLoginName){
+					this.layer.msg('不能和自己聊天哦')
+					return false;
+				}
+				// 0 待通过 1 接受 2 已经是好友
 				if (this.chatList[this.curChatFriendIndex].type !== 2) {
 					this.layer.msg('你们还不是好友，不能聊天哦')
 					return false;
@@ -474,9 +497,14 @@
 				}).then(({ value }) => {
 					chatUploadAvatar({
 						avatar:value,
-						username:this.chatLoginName
+						openID:this.userInfo.openID
 					}).then(()=>{
-						this.chatLoginAvatar = value
+						this.$store.dispatch('updateAvatar',{
+							avatar:value
+						})
+						this.sendMes({
+							type: 'friendList'
+						})
 						this.layer.msg('更换成功')
 					})
 				}).catch(() => {});
@@ -485,7 +513,7 @@
 			chatClick(u, index) {
 				// 消息索引
 				let MsIndex = this.messageList.findIndex((val, index, arr) => {
-					return val.chatName === u.username
+					return val.chatName === u.chatname
 				})
 				if (MsIndex > -1) {
 					// 是否有未读消息
@@ -506,20 +534,21 @@
 				}, 100)
 				// 聊天对象信息
 				this.curChatFriendIndex = index
-				this.curChatFriendName = u.username
+				this.curChatFriendName = u.chatname
 			},
 			// 判断未读消息
 			getMessNum(item) {
 				let result = this.messageList.filter((val, index, arr) => {
-					return val.chatName === item.username
+					return val.chatName === item.chatname
 				})
 				return result.length === 0 ? 0 : result[0].msNum
 			},
 			// 添加/接受 好友
-			getChatAddFriend(item, type) {
+			getChatAddFriend(item, type,index) {
+				console.log(this.userInfo,item)
 				chatAddFriend({
-					sendName: type === 'add' ? this.chatLoginName : item.username,
-					reciveName: type === 'recive' ? this.chatLoginName : item.username,
+					sendName: type === 'add' ? this.userInfo.openID : item.openID,
+					reciveName: type === 'recive' ? this.userInfo.openID : item.openID,
 					type: type
 				}).then((res) => {
 					if (res.code !== 0) {
@@ -532,14 +561,15 @@
 							if(item.ready){
 								this.sendMes({
 									type: 'message',
-									sendName: this.chatLoginName,// 发送方昵称
-									reciveName: item.username,// 接收方昵称
+									sendName: this.userInfo.chatname,// 发送方昵称
+									reciveName: item.chatname,// 接收方昵称
 									message: '我们已经是好友了，赶紧来聊天吧'// 消息
 								})
 							} else {
 								this.layer.msg('已给对方发送添加好友的通知！')
 							}
 						} else {
+							this.$set(this.searchResultList[index],'isFriend',true)
 							this.layer.msg('已给对方发送添加好友的通知！')
 						}
 					}
@@ -547,9 +577,8 @@
 			},
 			// 退出
 			loginout() {
-				sessionStorage.removeItem('chatLoginName')
+				sessionStorage.removeItem('chatUserInfo')
 				sessionStorage.removeItem('websocketLink')
-				sessionStorage.removeItem('chatLoginAvatar')
 				this.websocketclose()
 				this.$router.push({name: 'chatLogin'})
 			},
@@ -572,12 +601,9 @@
 							this.searchPanelDialog = true
 							this.searchResultList = res.data.map((val)=>{
 								let isHaveFri = this.chatList.filter((val2)=>{
-									return val.chatname === val2.username
+									return val.chatname === val2.chatname
 								})
-								return {
-									username:val.chatname,
-									isFriend:isHaveFri.length > 0 || val.chatname === this.chatLoginName
-								}
+								return Object.assign(val, {isFriend:isHaveFri.length > 0 || val.chatname === this.chatLoginName})
 							})
 						} else {
 							this.layer.msg(res.message)
@@ -645,14 +671,15 @@
 				return str
 			}
 		},
+		computed:{
+			userInfo(){
+				return this.$store.state.CHATUSER;
+			}
+		},
 		created() {
-			let r_name = sessionStorage.getItem('chatLoginName')
-			this.chatLoginAvatar = sessionStorage.getItem('chatLoginAvatar') || ''
 			let websockLink = sessionStorage.getItem('websocketLink')
-			if (r_name && websockLink === '1') {
-				// 保存登录名
-				sessionStorage.setItem('chatLoginName', r_name)
-				this.chatLoginName = r_name
+			if(this.userInfo.openID && websockLink === '1'){
+				this.chatLoginName = this.userInfo.chatname
 				// 当前账户的消息索引
 				this.localIndex = this.localMessage.findIndex((val, index, arr) => {
 					return val.name === this.chatLoginName
@@ -662,7 +689,6 @@
 				// 开启长连接
 				this.initWebSocket()
 			} else {
-				sessionStorage.removeItem('chatLoginName')
 				this.$router.push({name: 'chatLogin'})
 			}
 		}
@@ -679,7 +705,7 @@
 		z-index: 9999;
 	}
 
-	.chat-com-theme(@main,@active,@hover,@tcolor,@tcshaw) {
+	.chat-com-theme(@main,@active,@hover,@tcolor,@tcshaw,@sortbg) {
 		.chat-header, .fram-side, .fram-side-head, .fram-rgiht .fram-head, .fram-rgiht-open span {
 			background: @main;
 			color: #fff !important;
@@ -721,6 +747,9 @@
 				}
 			}
 		}
+		.sort-bg{
+			background:@sortbg;
+		}
 		.chat-checkbox {
 			.el-checkbox__label {
 				color: #333;
@@ -738,31 +767,31 @@
 	}
 
 	.chat-bg-color-0 {
-		.chat-com-theme(@chatTheme0, @chatTheme0Active, @chatTheme0Hover, #fff, #bbb)
+		.chat-com-theme(@chatTheme0, @chatTheme0Active, @chatTheme0Hover, #fff, #bbb,@sort0Bg)
 	}
 
 	.chat-bg-color-1 {
-		.chat-com-theme(@chatTheme1, @chatTheme1Active, @chatTheme1Hover, #dcdcdc, #ccc)
+		.chat-com-theme(@chatTheme1, @chatTheme1Active, @chatTheme1Hover, #dcdcdc, #ccc,@sort0Bg)
 	}
 
 	.chat-bg-color-2 {
-		.chat-com-theme(@chatTheme2, @chatTheme2Active, @chatTheme2Hover, #dcdcdc, #ccc)
+		.chat-com-theme(@chatTheme2, @chatTheme2Active, @chatTheme2Hover, #dcdcdc, #ccc,@sort0Bg)
 	}
 
 	.chat-bg-color-3 {
-		.chat-com-theme(@chatTheme3, @chatTheme3Active, @chatTheme3Hover, #dcdcdc, #ccc)
+		.chat-com-theme(@chatTheme3, @chatTheme3Active, @chatTheme3Hover, #dcdcdc, #ccc,@sort0Bg)
 	}
 
 	.chat-bg-color-4 {
-		.chat-com-theme(@chatTheme4, @chatTheme4Active, @chatTheme4Hover, #dcdcdc, #ccc)
+		.chat-com-theme(@chatTheme4, @chatTheme4Active, @chatTheme4Hover, #dcdcdc, #ccc,@sort0Bg)
 	}
 
 	.chat-bg-color-5 {
-		.chat-com-theme(@chatTheme5, @chatTheme5Active, @chatTheme5Hover, #dcdcdc, #ccc)
+		.chat-com-theme(@chatTheme5, @chatTheme5Active, @chatTheme5Hover, #dcdcdc, #ccc,@sort0Bg)
 	}
 
 	.chat-bg-color-6 {
-		.chat-com-theme(@chatTheme6, @chatTheme6Active, @chatTheme6Hover, #fff, #ccc)
+		.chat-com-theme(@chatTheme6, @chatTheme6Active, @chatTheme6Hover, #fff, #ccc,@sort0Bg)
 	}
 
 	.chat-btn-agree, .chat-btn-reject {

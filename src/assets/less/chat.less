@@ -63,10 +63,16 @@
 						margin: 5px 0;
 
 						.f-l-item {
-							padding: 5px;
-							height: 30px;
-							line-height: 30px;
+							//padding: 5px;
+							//height: 30px;
+							//line-height: 30px;
 							cursor: pointer;
+							.f-l-name{
+								max-width:90px;
+								overflow: hidden;
+								text-overflow:ellipsis;
+								white-space: nowrap;
+							}
 							.f-l-isready{
 								font-size:12px;
 								color:#aaa;
@@ -145,7 +151,7 @@
 							img{
 								max-width:35px;
 								max-height:35px;
-								border-radius: 50%;
+								border-radius: 4px;
 							}
 							span{
 								display: inline-block;

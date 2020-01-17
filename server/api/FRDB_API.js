@@ -1,15 +1,7 @@
-// const mysql = require('mysql')
-// const dbConfig = require('../db')
-// const pool = mysql.createPool({
-// 	host: dbConfig.mysql.host,// 数据库地址
-// 	user: dbConfig.mysql.user,// 数据库用户名
-// 	password: dbConfig.mysql.password,// 数据库密码
-// 	database: dbConfig.mysql.database,// 数据库名称
-// 	port: dbConfig.mysql.port,// 数据库端口
-// 	multipleStatements: true // 多语句查询
-// })
+
 const Base64 = require('js-base64').Base64
 const DB = require('../db')
+const pinyin = require("node-pinyin");
 module.exports = {
 	// 城市 - 多级查询
 	getCity(req, res, next) {
@@ -67,88 +59,34 @@ module.exports = {
 	// 聊天室 - 添加朋友
 	chatAddFriend(req, res, next) {
 		let qr = req.body
-		DB.connection(res,(err,connection)=>{
-			// 查询用户列表语句
-			let sql_query = 'SELECT * FROM chatuser WHERE chatname=?'
-			// 更新用户朋友字段语句
-			let sql_update = 'UPDATE chatuser SET friendList=? WHERE chatname=?'
-			let result_1
-			let result_2
-			connection.query(sql_query,[qr.sendName] ,(err, result1) => {
-				// 发送方用户信息
-				result_1 =result1[0]
-				// 发送方朋友列表
-				let fList_1 = !!result_1.friendList ? JSON.parse(result_1.friendList) : []
-				let openId_1 = result_1.openID
-				if(fList_1.length >= 30){
-					res.json({code: 20022, message:'最多只能添加30位好友'})
-				} else {
-					try{
-						connection.query(sql_query,[qr.reciveName] ,(err, result2) => {
-							if(result2.length !== 0){
-								// 接收方用户信息
-								result_2 = result2[0]
-								// 接收方朋友列表
-								let fList_2 =  !!result_2.friendList ? JSON.parse(result_2.friendList) : []
-								let openId_2 = result_2.openID
-								// 发送方&&接收方 用户存在
-								if (result_1.length !== 0 && result_2.length !== 0) {
-									// 发送方添加朋友
-									if (qr.type === 'add'){
-										// type 0 已发送 1 待同意 2 同意已成为朋友
-										fList_1.push({
-											"openID":openId_2,
-											"username":qr.reciveName,
-											"type":0
-										})
-										fList_2.push({
-											"openID":openId_1,
-											"username":qr.sendName,
-											"type":1
-										})
-										connection.query(sql_update,[JSON.stringify(fList_1),qr.sendName] ,(err, result3) => {
-											// console.log('1',result3)
-										})
-										connection.query(sql_update,[JSON.stringify(fList_2),qr.reciveName] ,(err, result4) => {
-											// console.log('2',result4)
-											res.json({code: 0, message:'success'})
-										})
-									}
-									// 接收方 同意 成为朋友
-									if (qr.type === 'recive'){
-										// 找到接收方在发送方朋友列表中的索引
-										let fList_Index_1 = fList_1.findIndex((val, index ,arr) => {
-											return val.username === qr.reciveName
-										})
-										// 找到发送方在接收方朋友列表中的索引
-										let fList_Index_2 = fList_2.findIndex((val, index ,arr) => {
-											return val.username === qr.sendName
-										})
-										if (fList_Index_1 > -1 && fList_Index_2 > -1) {
-											// 改变 双方朋友状态 type = 2 同意
-											fList_1[fList_Index_1].type = 2
-											fList_2[fList_Index_2].type = 2
-											connection.query(sql_update,[JSON.stringify(fList_1),qr.sendName] ,(err, result) => {
-											})
-											connection.query(sql_update,[JSON.stringify(fList_2),qr.reciveName] ,(err, result) => {
-												res.json({code: 0, message:'success'})
-											})
-										}
-									}
-									connection.release()
-								} else {
-									res.json({code: 10002, message:'name exit'})
-								}
-							} else {
-								res.json({code: 10003, message:'name not exit'})
-							}
-						})
-					} catch (e) {
-						console.log('操作异常', e)
-						res.json({code: 20000, message:'error'})
+		DB.connection(res,(err,connection)=> {
+			if(qr.type === 'add'){
+				connection.query(`SELECT * FROM chatfriend WHERE UID=${qr.sendName} AND FID=${qr.reciveName}`,(err, result) => {
+					if(result.length > 0){
+						res.json({code: 1, message:'你们已经是好友了'})
+					} else {
+						res.json({code: 0, message:'success'})
 					}
-				}
-			})
+					connection.release()
+				})
+				connection.query(`INSERT INTO chatfriend(UID,FID,UIDtype,FIDtype) VALUES ("${qr.sendName}","${qr.reciveName}",0,1)`,(err, result) => {
+					res.json({code: 0, message:'success'})
+					connection.release()
+				})
+			} else {
+				connection.query(`SELECT * FROM chatfriend WHERE UID=${qr.sendName} AND FID=${qr.reciveName}`,(err, result1) => {
+					// console.log(result1)
+					if(result1.length > 0){
+						// console.log(qr.sendName,qr.reciveName)
+						connection.query(`UPDATE chatfriend SET UIDtype='2',FIDtype='2' WHERE UID=${qr.sendName} AND FID=${qr.reciveName}`,(err, result) => {
+							res.json({code: 0, message:'success'})
+							connection.release()
+						})
+					} else {
+						res.json({code: 1, message:'用户不存在'})
+					}
+				})
+			}
 		})
 	},
 	// 上传用户头像
@@ -160,7 +98,9 @@ module.exports = {
 				message: '头像不可为空'
 			})
 		} else {
-			DB.connectDB(res,'UPDATE chatuser SET avatar=? WHERE chatname=?',(result)=>{
+			// console.log(qr.avatar,qr.openID)
+			DB.connectDB(res,'UPDATE chatuser SET avatar=? WHERE openID=?',(result)=>{
+				// console.log(result)
 				if (result.length !== 0) {
 					res.json({
 						code: 0,
@@ -174,7 +114,7 @@ module.exports = {
 						message: '不存在用户'
 					})
 				}
-			},[qr.avatar,qr.username])
+			},[qr.avatar,qr.openID])
 		}
 	},
 	chatSearch(req, res, next){
@@ -185,7 +125,7 @@ module.exports = {
 				message: '搜索字段不可为空'
 			})
 		} else {
-			DB.connectDB(res,"select chatname from chatuser where chatname like '%"+qr.keyword+"%'",(result)=>{
+			DB.connectDB(res,"select * from chatuser where chatname like '%"+qr.keyword+"%'",(result)=>{
 				if (result.length !== 0) {
 					res.json({
 						code: 0,
@@ -197,24 +137,29 @@ module.exports = {
 						message: '不存在用户'
 					})
 				}
-			},[qr.avatar,qr.username])
+			})
 		}
 	},
 	// 聊天室 - 注册
 	chatRegist(req, res, next) {
 		let qr = req.body
 		DB.connection(res,(err,connection)=>{
-			let sql_query = 'SELECT * FROM chatuser WHERE chatname=?'
-			let sql = 'INSERT INTO chatuser(chatname) VALUES ("' + qr.name + '")'
-			connection.query(sql_query,[qr.name],(err, result) => {
+			connection.query('SELECT * FROM chatuser WHERE chatname=?',[qr.name],(err, result) => {
 				// console.log(result)
 				if (result.length !== 0) {
 					res.json({code: 10002, message:'name exit'})
 					connection.release()
 				} else {
-					connection.query(sql,(err, result) => {
-						if(result){
-							res.json({code: 0, data: {name:qr.name}})
+					let sort = pinyin(qr.name)[0][0][0]
+					connection.query(`INSERT INTO chatuser(chatname,sort) VALUES ("${qr.name}","${sort}")`,(err, result2) => {
+						// console.log(result2)
+						if(result2){
+							connection.query(`INSERT INTO chatfriend(UID,FID,UIDtype,FIDtype) VALUES ("${result2.insertId}","${result2.insertId}",2,2)`,(err, result3) => {
+								if(result3){
+									res.json({code: 0, data: {name:qr.name}})
+								}
+								connection.release()
+							})
 						} else {
 							res.json({code: 20001, message:'database error'})
 						}

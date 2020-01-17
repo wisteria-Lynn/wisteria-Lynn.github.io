@@ -2,7 +2,7 @@
 // import Vuex from 'vuex'
 // 用户模块
 import USER from './modules/user/user'
-import MESSAGE from './modules/chatMessage/chatMessage'
+import CHATUSER from './modules/chatMessage/chatuser'
 import THEME from './modules/theme'
 
 // Vue.use(Vuex)
@@ -13,14 +13,9 @@ import THEME from './modules/theme'
 // 	}
 // })
 const STORE = {
-	getters:{
-		getTheme:(state)=>{
-			return state.THEME
-		}
-	},
 	modules: {
 		USER: USER,
-		MESSAGE:MESSAGE,
+		CHATUSER:CHATUSER,
 		THEME:THEME
 	}
 }
