@@ -90,9 +90,9 @@
 						icon:'iconresume-line',
 						url: '/demo'
 					},{
-						title:'我的写作',
+						title:'掘金技术',
 						icon:'iconresume-line',
-						url: '/'
+						url: 'https://juejin.im/post/5eb1086ce51d453914497697'
 					},{
 						title:'我的写作',
 						icon:'iconresume-line',
