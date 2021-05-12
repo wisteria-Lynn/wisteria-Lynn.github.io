@@ -64,7 +64,7 @@
     "mysql": "^2.16.0",
     "nodejs-websocket": "^1.7.2",
     "qrcode": "^1.4.4",
-    "swiper": "^4.4.6",
+    "swiper": "^6.5.1",
     "v-viewer": "^1.4.2",
     "vue": "^2.5.21",
     "vue-awesome-swiper": "^3.1.3",
